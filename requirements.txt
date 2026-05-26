@@ -1,0 +1,7 @@
+mido
+librosa
+yt-dlp
+ffmpeg-python
+numpy
+scipy
+demucs
