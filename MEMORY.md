@@ -1,5 +1,8 @@
 # MEMORY
 
+## Versioning
+- **Version 1.0.0**: Marks the completion of the core autonomous pipeline. The system is now a self-contained, self-improving musical production unit.
+
 ## Architectural Observations
 - The project is transitioning from a manual DAW-based workflow to a programmatic "Psy-Mono" pipeline.
 - It uses a hybrid approach: TypeScript for orchestration and MIDI manipulation, and Python for advanced audio processing (librosa, demucs).

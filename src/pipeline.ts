@@ -131,7 +131,8 @@ export class PsyMonoPipeline {
 if (require.main === module) {
     const args = process.argv.slice(2);
     if (args.length < 2) {
-        console.log("Usage: ts-node src/pipeline.ts <input_midi|--continuous> <output_dir> [--vocal <vocal_path>] [--bpm <bpm>] [--genre <psytrance|house>]");
+        console.log("Usage: ts-node src/pipeline.ts <input_midi|--continuous> <output_dir> [options]");
+        console.log("Options: --vocal <path>, --bpm <bpm>, --genre <genre>, --density <1-8>, --octaves <0-4>, --variant <classic|triplet|rolling>");
         process.exit(1);
     }
 
@@ -141,6 +142,9 @@ if (require.main === module) {
     let vocalTrack: string | undefined;
     let targetBpm = 145;
     let genre: any = "psytrance";
+    let density = 5;
+    let octaves = 2;
+    let variant: any = "classic";
 
     for (let i = 2; i < args.length; i++) {
         if (args[i] === "--vocal" && args[i+1]) {
@@ -151,6 +155,15 @@ if (require.main === module) {
             i++;
         } else if (args[i] === "--genre" && args[i+1]) {
             genre = args[i+1];
+            i++;
+        } else if (args[i] === "--density" && args[i+1]) {
+            density = parseInt(args[i+1]);
+            i++;
+        } else if (args[i] === "--octaves" && args[i+1]) {
+            octaves = parseInt(args[i+1]);
+            i++;
+        } else if (args[i] === "--variant" && args[i+1]) {
+            variant = args[i+1];
             i++;
         }
     }
@@ -163,6 +176,15 @@ if (require.main === module) {
         targetBpm,
         genre,
         continuous,
+        psyConfig: {
+            targetBpm,
+            euclideanDensity: density,
+            octaveJumpBarFrequency: octaves,
+            gallopVariant: variant,
+            bassVelocity: 0.7,
+            leadVelocity: 0.8,
+            kickVelocity: 0.9
+        },
         aiPrompt: genre === "house" ?
             "Deep House, 124 BPM, soulful, smooth textures, professional club master" :
             "Modern Full-On Psytrance, 145 BPM, driving, psychedelic sound design, festival grade master"

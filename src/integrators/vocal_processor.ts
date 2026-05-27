@@ -131,14 +131,19 @@ except Exception as e:
     }
 
     private getSemitones(fromKey: string, toKey: string): number {
-        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const fromBase = fromKey.replace('min', '').replace('maj', '').trim();
-        const toBase = toKey.replace('min', '').replace('maj', '').trim();
+        const noteMap: { [key: string]: number } = {
+            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
+        };
+        // music21 often uses '-' for flats (e.g. 'B-')
+        const normalize = (k: string) => k.replace('min', '').replace('maj', '').replace('-', 'b').trim();
 
-        const fromIndex = notes.indexOf(fromBase);
-        const toIndex = notes.indexOf(toBase);
+        const fromBase = normalize(fromKey);
+        const toBase = normalize(toKey);
 
-        if (fromIndex === -1 || toIndex === -1) return 0;
+        const fromIndex = noteMap[fromBase];
+        const toIndex = noteMap[toBase];
+
+        if (fromIndex === undefined || toIndex === undefined) return 0;
 
         let diff = toIndex - fromIndex;
         if (diff > 6) diff -= 12;

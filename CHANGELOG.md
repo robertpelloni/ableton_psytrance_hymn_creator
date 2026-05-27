@@ -1,17 +1,21 @@
 # CHANGELOG
 
+## [1.0.0] - 2026-05-27
+- **V1.0.0 Milestone Release: The Autonomous Production Engine.**
+- Fully integrated 145 BPM Psytrance and 124 BPM Deep House algorithmic generators.
+- Advanced harmonic analysis using `music21` for chord-aware composition.
+- Neural stem separation and harmonic grid-locking for hip-hop vocal remixes.
+- Multi-stage audio pipeline with FluidSynth rendering and Pedalboard DSP enhancement.
+- Automated publishing registry with ID3 tagging and manifest tracking.
+- Interactive Dark-Mode Web UI with live GitHub Actions monitoring.
+- Enterprise-grade CI/CD for scheduled daily autonomous production.
+
 ## [0.9.0] - 2026-05-27
 ### Added
 - Automated technical metadata extraction using `audio-metadata`.
 - Versioned registry and archive system for long-term track management.
 - Detailed JSON sidecars for all published assets.
 - UI enhancements to display technical audio properties.
-
-## [0.8.0] - 2026-05-27
-### Added
-- Continuous music generation trigger using GitHub Actions `schedule`.
-- Automated random MIDI selection for continuous production.
-- UI enhancements for continuous mode control.
 
 ## [0.8.0] - 2026-05-27
 ### Added

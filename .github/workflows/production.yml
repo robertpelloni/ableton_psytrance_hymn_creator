@@ -23,6 +23,18 @@ on:
         type: boolean
         required: false
         default: false
+      density:
+        description: 'Euclidean Density (1-8)'
+        required: false
+        default: '5'
+      octaves:
+        description: 'Octave Jump Frequency (0-4)'
+        required: false
+        default: '2'
+      variant:
+        description: 'Gallop Variant (classic, triplet, rolling)'
+        required: false
+        default: 'classic'
 
 jobs:
   produce_and_deploy:
@@ -63,6 +75,9 @@ jobs:
           INPUT_MIDI="${{ github.event.inputs.input_midi }}"
           GENRE="${{ github.event.inputs.genre || 'psytrance' }}"
           CONTINUOUS="${{ github.event.inputs.continuous || (github.event_name == 'schedule' && 'true' || 'false') }}"
+          DENSITY="${{ github.event.inputs.density || '5' }}"
+          OCTAVES="${{ github.event.inputs.octaves || '2' }}"
+          VARIANT="${{ github.event.inputs.variant || 'classic' }}"
 
           ARGS=""
           if [ "$CONTINUOUS" = "true" ]; then
@@ -78,7 +93,7 @@ jobs:
             VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
           fi
 
-          npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE"
+          npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE" --density "$DENSITY" --octaves "$OCTAVES" --variant "$VARIANT"
 
       - name: Commit and Push Generated Assets
         run: |

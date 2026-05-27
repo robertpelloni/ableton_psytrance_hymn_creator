@@ -4,7 +4,10 @@
 - [x] Symbolic MIDI extraction logic.
 - [x] Psytrance & House algorithmic sequencers.
 - [x] Vocal isolation and harmonic alignment.
-- [x] Master Pipeline orchestration and Web UI.
+- [x] Advanced harmonic analysis using `music21`.
+- [x] Multi-stage audio pipeline (FluidSynth + Pedalboard).
+- [x] Automated publishing registry and manifest management.
+- [x] Master Pipeline orchestration and Web UI with live monitoring.
 
 ## Phase 2: Neural Overhaul (2023-2024 Season) - ACTIVE
 - [ ] **Suno Studio v5.5 / Udio Pro CDP Automation** (Headless Sound Design).

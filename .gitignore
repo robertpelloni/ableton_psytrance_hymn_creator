@@ -9,4 +9,6 @@ coverage/
 *.log
 pipeline/output/
 !pipeline/output/latest/
+published/
+registry/
 hymnmania_src/
