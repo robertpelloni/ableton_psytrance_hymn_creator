@@ -11,16 +11,19 @@ export interface TrackMetadata {
     bpm: number;
     key: string;
     version: string;
+    technical?: any;
 }
 
 export class TrackManager {
     private publishedDir: string;
+    private registryDir: string;
 
-    constructor(publishedDir: string = "published") {
+    constructor(publishedDir: string = "published", registryDir: string = "registry") {
         this.publishedDir = publishedDir;
-        if (!fs.existsSync(this.publishedDir)) {
-            fs.mkdirSync(this.publishedDir, { recursive: true });
-        }
+        this.registryDir = registryDir;
+        [this.publishedDir, this.registryDir].forEach(d => {
+            if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+        });
     }
 
     /**
@@ -49,7 +52,26 @@ export class TrackManager {
         fs.copyFileSync(sourcePath, destinationPath);
         console.log(`Published track to: ${destinationPath}`);
 
-        // 3. Update manifest
+        // 3. Extract final verified metadata
+        const extractorPath = path.join(__dirname, "metadata_extractor.py");
+        const extResult = spawnSync("python3", [extractorPath, destinationPath]);
+        if (extResult.status === 0) {
+            const extData = JSON.parse(extResult.stdout.toString());
+            if (extData.success) {
+                metadata.technical = extData.technical;
+            }
+        }
+
+        // 4. Archive to Registry with sidecar
+        const archiveName = `Archive-${metadata.title.replace(/\s+/g, "_")}-${metadata.version}-${timestamp}`;
+        const archivePath = path.join(this.registryDir, archiveName + path.extname(sourcePath));
+        const sidecarPath = path.join(this.registryDir, archiveName + ".json");
+
+        fs.copyFileSync(destinationPath, archivePath);
+        fs.writeFileSync(sidecarPath, JSON.stringify({ ...metadata, originalFileName: fileName }, null, 2));
+        console.log(`Archived to registry: ${archivePath}`);
+
+        // 5. Update manifest
         this.updateManifest(metadata, fileName);
 
         return destinationPath;

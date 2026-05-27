@@ -106,10 +106,12 @@
                 tracks.reverse().forEach(track => {
                     const div = document.createElement('div');
                     div.className = 'track';
+                    const tech = track.technical ?
+                        ` | ${Math.round(track.technical.duration)}s | ${track.technical.format}` : '';
                     div.innerHTML = `
                         <div>
                             <strong>${track.title}</strong> (${track.genre})<br>
-                            <small>${track.bpm} BPM | ${track.key} | v${track.version}</small>
+                            <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small>
                         </div>
                         <a href="published/${track.fileName}" target="_blank">⬇️ Download</a>
                     `;

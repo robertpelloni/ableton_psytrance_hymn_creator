@@ -118,7 +118,7 @@ export class PsyMonoPipeline {
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: "0.7.0",
+            version: "0.9.0",
             artist: "Hymnmania AI",
             album: "Omni-Archive"
         });

@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [0.9.0] - 2026-05-27
+### Added
+- Automated technical metadata extraction using `audio-metadata`.
+- Versioned registry and archive system for long-term track management.
+- Detailed JSON sidecars for all published assets.
+- UI enhancements to display technical audio properties.
+
+## [0.8.0] - 2026-05-27
+### Added
+- Continuous music generation trigger using GitHub Actions `schedule`.
+- Automated random MIDI selection for continuous production.
+- UI enhancements for continuous mode control.
+
 ## [0.8.0] - 2026-05-27
 ### Added
 - Continuous music generation trigger using GitHub Actions `schedule`.

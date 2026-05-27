@@ -2,27 +2,27 @@
 
 ## Session Summary
 - **Foundation Establishment**: Developed algorithmic sequencers for House (124 BPM) and Psytrance (145 BPM).
-- **Advanced Analysis**: Integrated `music21` for sophisticated chord progression detection.
+- **Advanced Analysis**: Integrated `music21` for chord progression detection and `audio-metadata` for technical extraction.
 - **Audio Production**: Integrated FluidSynth and Pedalboard for high-fidelity rendering and DSP enhancement.
-- **Vocal Remix Pipeline**: Robust integration of Demucs and harmonic grid-locking.
-- **Autonomous Lifecycle**: Built a GitHub Actions CD workflow for daily automated production and UI deployment.
-- **Publishing Suite**: Implemented automated metadata tagging (ID3) and versioned manifest management.
+- **Publishing & Registry**: Implemented a professional publishing lifecycle with metadata tagging (`mutagen`), versioned archives (`registry/`), and manifest tracking.
+- **Vocal Remix Pipeline**: Robust integration of Demucs stem separation and harmonic grid-locking.
+- **Autonomous Lifecycle**: Built a GitHub Actions workflow for scheduled daily production and UI deployment.
 - **Control Layer**: Developed a modern web UI with real-time job monitoring and continuous mode toggles.
-- **Governance**: Established a comprehensive documentation suite (v0.1.0 - v0.8.0).
+- **Governance**: Established a comprehensive documentation suite (v0.1.0 - v0.9.0).
 
 ## Major Structural Shifts
-- Unified House and Psytrance engines into a single orchestration layer with genre routing.
-- Transitioned to an "Autonomous Label" model with scheduled daily track generation.
-- Implemented `[skip ci]` logic and path-based exclusion to maintain repository health.
+- Evolved from basic root-note detection to full chord progression analysis using `music21`.
+- Transitioned to an "Autonomous Label" model with a centralized `registry/` and technical metadata sidecars.
+- Implemented `[skip ci]` logic and path-based exclusion to prevent recursive workflow triggers.
 
 ## Critical Technical Details
+- **audio-metadata**: Used to verify technical properties (bitrate, duration) of published tracks.
+- **mutagen**: Ensures generated audio is professionally tagged with ID3/Vorbis metadata.
 - **FluidSynth & Soundfonts**: Essential for autonomous high-quality rendering in headless environments.
-- **pedalboard Integration**: provides professional DSP polishing for rendered stems.
-- **Continuous Mode**: utilizes `glob` for random file selection from the symbolic corpus.
-- **GitHub API Integration**: enables real-time production feedback in the UI.
+- **Absolute Timeline Quantization**: Maintains rhythmic stability across complex MIDI transformations.
 
 ## Successor Instructions
 1. **Neural Overhaul**: Implement the real CDP (Chrome DevTools Protocol) browser hooks for Suno/Udio in `src/integrators/ai_bridge.ts`.
-2. **MusicGen Inference**: Add a local inference layer for Meta's MusicGen for offline sound design.
+2. **MusicGen Inference**: Integrate Meta's MusicGen for high-speed offline sound design.
 3. **Neural Mastering**: Integrate Matchering to hit professional -7 LUFS standards.
-4. **Storage Strategy**: Transition from Git-based asset storage to S3 or Git LFS for scalable discovery.
+4. **UI Evolution**: Connect the frontend to S3 or Git LFS for scalable asset discovery.

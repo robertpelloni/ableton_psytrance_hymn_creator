@@ -62,7 +62,12 @@ class HouseStructuralQuantizer:
 
             # Track notes for potential bass extraction (lowest channel/notes or specific tracks)
             # For robustness, we search for low register pitches (< 50) to treat as the bass elements
-            is_bass_track = "bass" in track.name.lower() if hasattr(track, 'name') else False
+            is_bass_track = False
+            for msg in track:
+                if msg.is_meta and msg.type == 'track_name':
+                    if 'bass' in msg.name.lower():
+                        is_bass_track = True
+                        break
 
             for msg in track:
                 abs_time += msg.time

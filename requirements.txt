@@ -8,3 +8,4 @@ demucs
 music21
 mutagen
 pedalboard
+audio-metadata
