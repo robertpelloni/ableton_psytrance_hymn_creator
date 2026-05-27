@@ -187,8 +187,8 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="feedback-btns">
-                            <button onclick="sendFeedback('${track.fileName}', 'up')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👍</button>
-                            <button onclick="sendFeedback('${track.fileName}', 'down')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👎</button>
+                            <button onclick="openFeedbackModal('${track.fileName}', 'up')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👍</button>
+                            <button onclick="openFeedbackModal('${track.fileName}', 'down')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👎</button>
                         </div>
                         <a href="published/${track.fileName}" target="_blank" style="white-space: nowrap;">⬇️ Download</a>
                     </div>
@@ -201,7 +201,13 @@
         document.getElementById('genreFilter').onchange = renderTracks;
         document.getElementById('sortBy').onchange = renderTracks;
 
-        async function sendFeedback(fileName, rating) {
+        async function openFeedbackModal(fileName, rating) {
+            const comment = prompt(`Explain your ${rating} vote (optional):`);
+            const tags = prompt(`Add tags separated by commas (e.g., "fast, groovy, thin"):`);
+            sendFeedback(fileName, rating, comment, tags);
+        }
+
+        async function sendFeedback(fileName, rating, comment = "", tags = "") {
             const owner = document.getElementById('ghOwner').value;
             const repo = document.getElementById('ghRepo').value;
             const token = document.getElementById('ghToken').value;
@@ -222,7 +228,9 @@
                         ref: 'main',
                         inputs: {
                             file_name: fileName,
-                            rating: rating
+                            rating: rating,
+                            comment: comment,
+                            tags: tags
                         }
                     })
                 });

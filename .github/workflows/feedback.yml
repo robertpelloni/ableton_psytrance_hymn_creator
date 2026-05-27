@@ -9,6 +9,12 @@ on:
       rating:
         description: 'User rating (up or down)'
         required: true
+      comment:
+        description: 'User comment'
+        required: false
+      tags:
+        description: 'User tags'
+        required: false
 
 jobs:
   record_feedback:
@@ -19,18 +25,27 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Update Feedback JSON
+        env:
+          FILE_NAME: ${{ github.event.inputs.file_name }}
+          RATING: ${{ github.event.inputs.rating }}
+          COMMENT: ${{ github.event.inputs.comment }}
+          TAGS: ${{ github.event.inputs.tags }}
         run: |
           FEEDBACK_FILE="public/feedback.json"
           if [ ! -f "$FEEDBACK_FILE" ]; then
             echo "[]" > "$FEEDBACK_FILE"
           fi
 
-          FILE_NAME="${{ github.event.inputs.file_name }}"
-          RATING="${{ github.event.inputs.rating }}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          # Use jq to append feedback
-          jq ". += [{\"fileName\": \"$FILE_NAME\", \"rating\": \"$RATING\", \"timestamp\": \"$TIMESTAMP\"}]" "$FEEDBACK_FILE" > "$FEEDBACK_FILE.tmp" && mv "$FEEDBACK_FILE.tmp" "$FEEDBACK_FILE"
+          # Use jq --arg to safely inject variables and prevent command injection
+          jq --arg fname "$FILE_NAME" \
+             --arg rate "$RATING" \
+             --arg comment "$COMMENT" \
+             --arg tags "$TAGS" \
+             --arg ts "$TIMESTAMP" \
+             '. += [{"fileName": $fname, "rating": $rate, "comment": $comment, "tags": $tags, "timestamp": $ts}]' \
+             "$FEEDBACK_FILE" > "$FEEDBACK_FILE.tmp" && mv "$FEEDBACK_FILE.tmp" "$FEEDBACK_FILE"
 
       - name: Commit Feedback
         run: |

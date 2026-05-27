@@ -73,7 +73,19 @@ export class PsyMonoPipeline {
             if (!fs.existsSync(quantizerPath)) {
                 quantizerPath = path.join(process.cwd(), "pipeline/processing/house_quantizer.py");
             }
-            const result = spawnSync("python3", [quantizerPath, inputMidi]);
+
+            // Check for swing recommendation from feedback
+            let swing = 0.0;
+            const insightsPath = "public/published/insights.json";
+            if (fs.existsSync(insightsPath)) {
+                const insights = JSON.parse(fs.readFileSync(insightsPath, "utf-8"));
+                if (insights.recommendations?.includes("apply_swing")) {
+                    console.log("Applying feedback-derived swing (0.1)...");
+                    swing = 0.1;
+                }
+            }
+
+            const result = spawnSync("python3", [quantizerPath, inputMidi, swing.toString()]);
             if (result.status !== 0) {
                 throw new Error(`House quantizer failed: ${result.stderr.toString()}`);
             }

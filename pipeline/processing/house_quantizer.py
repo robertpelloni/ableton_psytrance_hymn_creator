@@ -19,7 +19,7 @@ class HouseStructuralQuantizer:
         """
         return round(ticks / quantum) * quantum
 
-    def process(self, target_bpm: int = 124, output_dir: str = "pipeline/output/house_skeletons/") -> str:
+    def process(self, target_bpm: int = 124, output_dir: str = "pipeline/output/house_skeletons/", swing: float = 0.0) -> str:
         """
         Executes the structural house shift pipeline:
         1. Forces strict house tempo metadata.
@@ -153,8 +153,12 @@ class HouseStructuralQuantizer:
                 current_abs = event['abs_time']
                 remainder = current_abs % self.ticks_per_beat
 
+                # Apply swing if requested (shifts off-beats forward)
+                # swing 0.0 to 1.0 (0.1 is subtle, 0.5 is heavy)
+                swing_ticks = round(eighth_quantum * swing * 0.33)
+
                 # Force placement directly onto the syncopated 8th note interval
-                forced_abs = (current_abs - remainder) + eighth_quantum
+                forced_abs = (current_abs - remainder) + eighth_quantum + swing_ticks
                 if remainder > eighth_quantum:
                     forced_abs += self.ticks_per_beat
 
@@ -189,9 +193,10 @@ if __name__ == "__main__":
     import sys
     # Point this to an actual hymn MIDI path during automation pipeline execution
     test_file = sys.argv[1] if len(sys.argv) > 1 else "hymnmania_src/test_input/Emmanuel.mid"
+    swing_val = float(sys.argv[2]) if len(sys.argv) > 2 else 0.0
     if os.path.exists(test_file):
         quantizer = HouseStructuralQuantizer(test_file)
-        saved_file = quantizer.process(target_bpm=124)
+        saved_file = quantizer.process(target_bpm=124, swing=swing_val)
         print(f"Successfully rendered structural house skeleton to: {saved_file}")
     else:
         print(f"Test file not found: {test_file}")
