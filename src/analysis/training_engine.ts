@@ -23,7 +23,7 @@ export class TrainingEngine {
 
 if (require.main === module) {
     const corpus = "hymnmania_src";
-    const output = "models/hymn_style_v1.json";
-    if (!fs.existsSync("models")) fs.mkdirSync("models");
+    const output = "public/models/hymn_style_v1.json";
+    if (!fs.existsSync("public/models")) fs.mkdirSync("public/models", { recursive: true });
     TrainingEngine.train(corpus, output);
 }

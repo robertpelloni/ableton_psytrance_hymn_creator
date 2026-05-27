@@ -4,6 +4,8 @@ import { VocalProcessor } from "./integrators/vocal_processor";
 import { AIBridge } from "./integrators/ai_bridge";
 import { TrackManager } from "./integrators/track_manager";
 import { RenderingModule } from "./rendering/renderer";
+import { VideoGenerator } from "./rendering/video_generator";
+import { StreamingPublisher } from "./integrators/streaming_publisher";
 import * as fs from "fs";
 import * as path from "path";
 import * as glob from "glob";
@@ -37,7 +39,7 @@ export class PsyMonoPipeline {
         let { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance", continuous = false } = options;
 
         // Load style model if available
-        const modelPath = "models/hymn_style_v1.json";
+        const modelPath = "public/models/hymn_style_v1.json";
         if (fs.existsSync(modelPath)) {
             try {
                 const model = JSON.parse(fs.readFileSync(modelPath, "utf-8"));
@@ -131,15 +133,35 @@ export class PsyMonoPipeline {
         // 5. Automated Metadata Tagging & Publishing
         console.log(`Step 5: Tagging and Publishing...`);
         const trackManager = new TrackManager();
-        await trackManager.publish(aiAudioPath, {
+        const metadata = {
             title: dna.title,
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
             version: "1.0.0",
             artist: "Hymnmania AI",
-            album: "Omni-Archive"
-        });
+            album: "Omni-Archive",
+            streamingUrls: {} as { [key: string]: string }
+        };
+
+        const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata);
+
+        // 6. Video Generation & Streaming Upload
+        console.log(`Step 6: Video Generation & Streaming Upload...`);
+        try {
+            const videoPath = path.join(outputDir, "video.mp4");
+            const coverPath = path.join("public/assets", "default_cover.png");
+            VideoGenerator.generate(publishedAudioPath, coverPath, videoPath);
+
+            const ytResult = await StreamingPublisher.publishToYouTube(videoPath, metadata);
+            if (ytResult.success && ytResult.externalUrl) {
+                metadata.streamingUrls["YouTube"] = ytResult.externalUrl;
+                // Update manifest with new metadata (including streaming URLs)
+                await trackManager.publish(publishedAudioPath, metadata);
+            }
+        } catch (e) {
+            console.error("Video/Streaming pipeline failed:", e);
+        }
 
         console.log(`--- [Psy-Mono Pipeline] Finished ---`);
     }

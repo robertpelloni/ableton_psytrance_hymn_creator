@@ -9,6 +9,8 @@ coverage/
 *.log
 pipeline/output/
 !pipeline/output/latest/
-published/
-registry/
+public/published/*.wav
+public/published/*.mp4
+public/registry/*.wav
+public/registry/*.mp4
 hymnmania_src/

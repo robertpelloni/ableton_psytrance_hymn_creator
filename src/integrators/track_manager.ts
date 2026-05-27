@@ -12,13 +12,14 @@ export interface TrackMetadata {
     key: string;
     version: string;
     technical?: any;
+    streamingUrls?: { [key: string]: string };
 }
 
 export class TrackManager {
     private publishedDir: string;
     private registryDir: string;
 
-    constructor(publishedDir: string = "published", registryDir: string = "registry") {
+    constructor(publishedDir: string = "public/published", registryDir: string = "public/registry") {
         this.publishedDir = publishedDir;
         this.registryDir = registryDir;
         [this.publishedDir, this.registryDir].forEach(d => {
@@ -91,11 +92,20 @@ export class TrackManager {
             manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
         }
 
-        manifest.push({
+        // Check if track already exists (update instead of push)
+        const existingIndex = manifest.findIndex(t => t.fileName === fileName);
+        const entry = {
             ...metadata,
             fileName,
-            publishedAt: new Date().toISOString()
-        });
+            publishedAt: existingIndex >= 0 ? manifest[existingIndex].publishedAt : new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        if (existingIndex >= 0) {
+            manifest[existingIndex] = entry;
+        } else {
+            manifest.push(entry);
+        }
 
         fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
     }
