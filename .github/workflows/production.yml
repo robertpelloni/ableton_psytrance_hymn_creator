@@ -60,8 +60,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add pipeline/output/latest
-          git commit -m "Auto-publish: New track generation [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
+          git add pipeline/output/latest published/
+          git commit -m "Auto-publish: New track generation [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Upload Pages Artifact

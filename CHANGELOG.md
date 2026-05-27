@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.5.0] - 2026-05-27
+### Added
+- Automated metadata tagging system using `mutagen`.
+- Track versioning and publishing system with `manifest.json`.
+- UI updates to display and download published tracks.
+- CI/CD workflow optimizations to prevent infinite loops and track published assets.
+
 ## [0.4.0] - 2026-05-27
 ### Added
 - Advanced Harmonic Analysis using `music21` in `src/analysis/harmonic_analyzer.py`.

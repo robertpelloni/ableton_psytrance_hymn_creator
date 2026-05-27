@@ -2,6 +2,7 @@ import { MidiParser } from "./analysis/midi_parser";
 import { PsyGenerator, PsyConfig, DEFAULT_PSY_CONFIG } from "./sequencer/psy_generator";
 import { VocalProcessor } from "./integrators/vocal_processor";
 import { AIBridge } from "./integrators/ai_bridge";
+import { TrackManager } from "./integrators/track_manager";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -49,12 +50,26 @@ export class PsyMonoPipeline {
         }
 
         // 4. Optional AI Overhaul
+        let finalAudioPath = finalMidiPath.replace('.mid', '.wav');
         if (aiPrompt) {
             console.log(`Step 4: Orchestrating AI Sound Design Overhaul...`);
             const aiBridge = new AIBridge({});
-            const aiResult = await aiBridge.remakeWithAI(finalMidiPath.replace('.mid', '.wav'), aiPrompt);
-            console.log(`AI Overhaul complete: ${aiResult}`);
+            finalAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
+            console.log(`AI Overhaul complete: ${finalAudioPath}`);
         }
+
+        // 5. Automated Metadata Tagging & Publishing
+        console.log(`Step 5: Tagging and Publishing...`);
+        const trackManager = new TrackManager();
+        await trackManager.publish(finalAudioPath, {
+            title: dna.title,
+            genre: aiPrompt?.includes("Psytrance") ? "Psytrance" : "House",
+            bpm: targetBpm,
+            key: dna.key,
+            version: "0.5.0",
+            artist: "Hymnmania AI",
+            album: "Omni-Archive"
+        });
 
         console.log(`--- [Psy-Mono Pipeline] Finished ---`);
     }
