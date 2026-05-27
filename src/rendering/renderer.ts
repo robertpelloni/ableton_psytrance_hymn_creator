@@ -43,7 +43,8 @@ export class RenderingModule {
         const result = spawnSync(this.fluidsynthBin, args);
 
         if (result.status !== 0) {
-            console.error(`FluidSynth failed: ${result.stderr.toString()}`);
+            const stderr = result.stderr ? result.stderr.toString() : "Unknown error";
+            console.error(`FluidSynth failed: ${stderr}`);
             return false;
         }
 

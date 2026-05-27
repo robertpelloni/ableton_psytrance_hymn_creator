@@ -20,6 +20,7 @@ export interface PipelineOptions {
     aiPrompt?: string;
     genre?: "psytrance" | "house";
     continuous?: boolean;
+    useAi?: boolean;
 }
 
 export class PsyMonoPipeline {
@@ -138,7 +139,7 @@ export class PsyMonoPipeline {
         if (aiPrompt) {
             console.log(`Step 4: Orchestrating AI Sound Design Overhaul...`);
             const aiBridge = new AIBridge({});
-            aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
+            aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt, options.useAi);
             console.log(`AI Overhaul complete: ${aiAudioPath}`);
         }
 
@@ -224,7 +225,7 @@ if (require.main === module) {
     const args = process.argv.slice(2);
     if (args.length < 2) {
         console.log("Usage: ts-node src/pipeline.ts <input_midi|--continuous> <output_dir> [options]");
-        console.log("Options: --vocal <path>, --bpm <bpm>, --genre <genre>, --density <1-8>, --octaves <0-4>, --variant <classic|triplet|rolling>");
+        console.log("Options: --vocal <path>, --bpm <bpm>, --genre <genre>, --density <1-8>, --octaves <0-4>, --variant <classic|triplet|rolling>, --use-ai");
         process.exit(1);
     }
 
@@ -237,6 +238,7 @@ if (require.main === module) {
     let density = 5;
     let octaves = 2;
     let variant: any = "classic";
+    let useAi = false;
 
     for (let i = 2; i < args.length; i++) {
         if (args[i] === "--vocal" && args[i+1]) {
@@ -257,6 +259,8 @@ if (require.main === module) {
         } else if (args[i] === "--variant" && args[i+1]) {
             variant = args[i+1];
             i++;
+        } else if (args[i] === "--use-ai") {
+            useAi = true;
         }
     }
 
@@ -268,6 +272,7 @@ if (require.main === module) {
         targetBpm,
         genre,
         continuous,
+        useAi,
         psyConfig: {
             targetBpm,
             euclideanDensity: density,
