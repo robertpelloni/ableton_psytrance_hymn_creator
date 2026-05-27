@@ -1,0 +1,41 @@
+name: Record User Feedback
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_name:
+        description: 'Target track file name'
+        required: true
+      rating:
+        description: 'User rating (up or down)'
+        required: true
+
+jobs:
+  record_feedback:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update Feedback JSON
+        run: |
+          FEEDBACK_FILE="public/feedback.json"
+          if [ ! -f "$FEEDBACK_FILE" ]; then
+            echo "[]" > "$FEEDBACK_FILE"
+          fi
+
+          FILE_NAME="${{ github.event.inputs.file_name }}"
+          RATING="${{ github.event.inputs.rating }}"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          # Use jq to append feedback
+          jq ". += [{\"fileName\": \"$FILE_NAME\", \"rating\": \"$RATING\", \"timestamp\": \"$TIMESTAMP\"}]" "$FEEDBACK_FILE" > "$FEEDBACK_FILE.tmp" && mv "$FEEDBACK_FILE.tmp" "$FEEDBACK_FILE"
+
+      - name: Commit Feedback
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/feedback.json
+          git commit -m "Feedback: Recorded rating for ${{ github.event.inputs.file_name }} [skip ci]" || echo "No changes to commit"
+          git push

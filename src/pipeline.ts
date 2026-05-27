@@ -141,7 +141,9 @@ export class PsyMonoPipeline {
             version: "1.0.0",
             artist: "Hymnmania AI",
             album: "Omni-Archive",
-            streamingUrls: {} as { [key: string]: string }
+            streamingUrls: {} as { [key: string]: string },
+            inputMidi: path.basename(inputMidi),
+            styleModelVersion: psyConfig.styleModel?.version || "1.0.0"
         };
 
         const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata);

@@ -13,6 +13,8 @@ export interface TrackMetadata {
     version: string;
     technical?: any;
     streamingUrls?: { [key: string]: string };
+    inputMidi?: string;
+    styleModelVersion?: string;
 }
 
 export class TrackManager {
