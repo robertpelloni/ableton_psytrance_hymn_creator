@@ -6,3 +6,4 @@ numpy
 scipy
 demucs
 music21
+mutagen

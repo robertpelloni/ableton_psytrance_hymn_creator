@@ -12,6 +12,10 @@ on:
       vocal_track:
         description: 'URL or Path to vocal track'
         required: false
+      genre:
+        description: 'Target genre (psytrance or house)'
+        required: true
+        default: 'psytrance'
 
 jobs:
   produce_and_deploy:
@@ -50,11 +54,12 @@ jobs:
       - name: Run Production Pipeline
         run: |
           INPUT_MIDI="${{ github.event.inputs.input_midi || 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid' }}"
+          GENRE="${{ github.event.inputs.genre || 'psytrance' }}"
           VOCAL_ARG=""
           if [ ! -z "${{ github.event.inputs.vocal_track }}" ]; then
             VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
           fi
-          npx ts-node src/pipeline.ts "$INPUT_MIDI" pipeline/output/latest $VOCAL_ARG
+          npx ts-node src/pipeline.ts "$INPUT_MIDI" pipeline/output/latest $VOCAL_ARG --genre "$GENRE"
 
       - name: Commit and Push Generated Assets
         run: |

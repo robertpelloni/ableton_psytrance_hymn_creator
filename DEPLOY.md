@@ -20,3 +20,11 @@ pip install -r requirements.txt
 ```bash
 ts-node src/pipeline.ts <input_midi> <output_dir>
 ```
+
+## UI Real-Time Integration
+To enable triggering production jobs directly from the web UI:
+1. Open the UI (hosted on GitHub Pages or locally via `public/index.html`).
+2. Scroll to **GitHub Integration Settings**.
+3. Enter your GitHub **Owner** (username) and **Repo** name.
+4. Generate a **GitHub Personal Access Token (classic)** with `workflow` and `repo` scopes.
+5. Save the settings. The UI will now use the GitHub API to dispatch and monitor jobs.

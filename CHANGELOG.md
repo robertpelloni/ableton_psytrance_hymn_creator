@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.6.0] - 2026-05-27
+### Added
+- Real-time job triggering and monitoring in the Web UI via GitHub API.
+- Integration of `HouseStructuralQuantizer` into the main TypeScript pipeline.
+- GitHub Action support for target genre selection.
+- Refined genre-specific AI prompting logic.
+
 ## [0.5.0] - 2026-05-27
 ### Added
 - Automated metadata tagging system using `mutagen`.

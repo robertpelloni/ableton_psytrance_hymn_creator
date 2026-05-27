@@ -13,7 +13,14 @@
         input, select { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: #fff; box-sizing: border-box; }
         button { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; transition: opacity 0.2s; }
         button:hover { opacity: 0.9; }
+        .config-section { margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; border: 1px solid #444; }
+        .config-section h3 { margin-top: 0; font-size: 14px; color: #aaa; }
         .status { margin-top: 20px; padding: 15px; border-radius: 6px; background: #333; border-left: 4px solid #00d2ff; }
+        .job-monitor { margin-top: 20px; padding: 15px; border-radius: 6px; background: #222; border: 1px solid #444; }
+        .job-status { font-weight: bold; }
+        .status-completed { color: #4caf50; }
+        .status-in_progress { color: #ff9800; }
+        .status-queued { color: #2196f3; }
         .output { margin-top: 20px; display: none; }
         .track { background: #383838; padding: 15px; margin-bottom: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
         .track a { color: #00d2ff; text-decoration: none; }
@@ -38,7 +45,15 @@
         </div>
 
         <div class="form-group">
-            <label for="bpm">Target BPM</label>
+            <label for="genreSelect">Target Genre</label>
+            <select id="genreSelect">
+                <option value="psytrance">Full-On Psytrance (145 BPM)</option>
+                <option value="house">Deep House (124 BPM)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="bpm">Target BPM (Override)</label>
             <input type="number" id="bpm" value="145" min="80" max="180">
         </div>
 
@@ -46,6 +61,28 @@
 
         <div id="status" class="status" style="display:none;">
             Pipeline active. Check GitHub Actions for progress.
+        </div>
+
+        <div class="job-monitor" id="jobMonitor" style="display:none;">
+            <h3>Live Job Monitor</h3>
+            <div id="jobDetails">
+                Status: <span id="jobStatus" class="job-status">Idle</span><br>
+                <small id="jobId"></small>
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h3>GitHub Integration Settings</h3>
+            <div class="form-group">
+                <input type="text" id="ghOwner" placeholder="GitHub Owner (e.g., robertpelloni)">
+            </div>
+            <div class="form-group">
+                <input type="text" id="ghRepo" placeholder="GitHub Repo (e.g., hymnmania)">
+            </div>
+            <div class="form-group">
+                <input type="password" id="ghToken" placeholder="GitHub Personal Access Token (classic)">
+            </div>
+            <button id="saveConfigBtn" style="background: #444; font-size: 12px; padding: 8px;">Save Settings</button>
         </div>
 
         <div class="output" id="outputSection" style="display:block;">
@@ -82,23 +119,95 @@
             }
         }
 
-        window.onload = loadManifest;
+        window.onload = () => {
+            loadManifest();
+            // Load saved config
+            document.getElementById('ghOwner').value = localStorage.getItem('ghOwner') || '';
+            document.getElementById('ghRepo').value = localStorage.getItem('ghRepo') || '';
+            document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
+        };
+
+        document.getElementById('saveConfigBtn').onclick = () => {
+            localStorage.setItem('ghOwner', document.getElementById('ghOwner').value);
+            localStorage.setItem('ghRepo', document.getElementById('ghRepo').value);
+            localStorage.setItem('ghToken', document.getElementById('ghToken').value);
+            alert('Settings saved!');
+        };
+
+        async function monitorJob(owner, repo, token) {
+            document.getElementById('jobMonitor').style.display = 'block';
+            const statusEl = document.getElementById('jobStatus');
+
+            const poll = async () => {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?event=workflow_dispatch&per_page=1`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    const data = await res.json();
+                    const latest = data.workflow_runs[0];
+
+                    if (latest) {
+                        statusEl.innerText = latest.status;
+                        statusEl.className = `job-status status-${latest.status}`;
+                        document.getElementById('jobId').innerText = `Run ID: ${latest.id} (${latest.conclusion || 'running'})`;
+
+                        if (latest.status === 'completed') {
+                            loadManifest();
+                            return; // Stop polling
+                        }
+                    }
+                } catch (e) { console.error('Monitor error:', e); }
+                setTimeout(poll, 5000);
+            };
+            poll();
+        }
 
         document.getElementById('generateBtn').onclick = async () => {
+            const owner = document.getElementById('ghOwner').value;
+            const repo = document.getElementById('ghRepo').value;
+            const token = document.getElementById('ghToken').value;
+
+            if (!owner || !repo || !token) {
+                alert('Please configure GitHub settings first.');
+                return;
+            }
+
             const midi = document.getElementById('midiSelect').value;
             const vocal = document.getElementById('vocalUrl').value;
             const bpm = document.getElementById('bpm').value;
+            const genre = document.getElementById('genreSelect').value;
 
-            document.getElementById('status').style.display = 'block';
-            document.getElementById('status').innerText = `Triggering generation for ${midi} at ${bpm} BPM...`;
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.innerText = "Dispatching workflow...";
 
-            // Note: In a real environment, this would call an API or trigger a GitHub Action
-            console.log('Generating...', { midi, vocal, bpm });
+            try {
+                const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/production.yml/dispatches`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        ref: 'main',
+                        inputs: {
+                            input_midi: midi,
+                            vocal_track: vocal,
+                            genre: genre
+                        }
+                    })
+                });
 
-            // Mock success
-            setTimeout(() => {
-                document.getElementById('status').innerText = "Generation request sent to GitHub Actions!";
-            }, 1000);
+                if (res.status === 204) {
+                    status.innerText = "Successfully triggered! Monitoring job...";
+                    monitorJob(owner, repo, token);
+                } else {
+                    const error = await res.json();
+                    status.innerText = `Error: ${error.message}`;
+                }
+            } catch (e) {
+                status.innerText = `Error: ${e.message}`;
+            }
         };
     </script>
 </body>
