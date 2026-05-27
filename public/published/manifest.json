@@ -15,7 +15,9 @@
       "format": "WAVE"
     },
     "fileName": "Published-Untitled-0.9.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T05:29:38.495Z"
+    "publishedAt": "2026-05-27T05:29:38.495Z",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-0.9.0-2026-05-27.wav",
+    "updatedAt": "2026-05-27T07:51:05.704Z"
   },
   {
     "title": "Untitled",
@@ -39,6 +41,7 @@
     },
     "fileName": "Published-Untitled-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T05:54:26.220Z",
-    "updatedAt": "2026-05-27T07:23:00.534Z"
+    "updatedAt": "2026-05-27T07:51:06.207Z",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-1.0.0-2026-05-27.wav"
   }
 ]

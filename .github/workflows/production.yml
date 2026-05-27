@@ -105,6 +105,9 @@ jobs:
           # This command now includes the Quality Gate internally
           npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE" --density "$DENSITY" --octaves "$OCTAVES" --variant "$VARIANT"
 
+      - name: Sync to Remote Storage
+        run: npx ts-node scripts/sync_remote.ts
+
       - name: Deploy & Remote Publish
         run: npx ts-node scripts/publish_remote.ts
 

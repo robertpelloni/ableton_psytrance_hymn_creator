@@ -13,6 +13,7 @@ export interface TrackMetadata {
     version: string;
     technical?: any;
     streamingUrls?: { [key: string]: string };
+    remoteUrl?: string;
     inputMidi?: string;
     styleModelVersion?: string;
 }
@@ -84,6 +85,23 @@ export class TrackManager {
         this.updateManifest(metadata, fileName);
 
         return destinationPath;
+    }
+
+    /**
+     * Updates an existing entry in the manifest with new metadata (like remoteUrl).
+     */
+    async updateMetadata(fileName: string, metadataUpdates: Partial<TrackMetadata>): Promise<void> {
+        const manifestPath = path.join(this.publishedDir, "manifest.json");
+        if (!fs.existsSync(manifestPath)) return;
+
+        let manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+        const index = manifest.findIndex((t: any) => t.fileName === fileName);
+
+        if (index >= 0) {
+            manifest[index] = { ...manifest[index], ...metadataUpdates, updatedAt: new Date().toISOString() };
+            fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+            console.log(`Updated manifest for ${fileName}`);
+        }
     }
 
     private updateManifest(metadata: TrackMetadata, fileName: string) {

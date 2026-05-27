@@ -179,9 +179,12 @@
                     ` | ${Math.round(track.technical.duration)}s | ${track.technical.format}` : '';
                 const streaming = track.streamingUrls ?
                     Object.entries(track.streamingUrls).map(([p, url]) => `<a href="${url}" target="_blank" style="margin-left: 10px; font-size: 12px; color: #ff0000;">📺 ${p}</a>`).join('') : '';
+                const cloudBadge = track.remoteUrl ? `<span style="margin-left: 10px; font-size: 10px; background: #4caf50; color: white; padding: 2px 5px; border-radius: 4px;">☁️ Cloud</span>` : '';
+                const downloadUrl = track.remoteUrl || `published/${track.fileName}`;
+
                 div.innerHTML = `
                     <div style="flex: 1;">
-                        <strong>${track.title}</strong> (${track.genre})<br>
+                        <strong>${track.title}</strong> (${track.genre}) ${cloudBadge}<br>
                         <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small>
                         ${streaming}
                     </div>
@@ -190,7 +193,7 @@
                             <button onclick="openFeedbackModal('${track.fileName}', 'up')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👍</button>
                             <button onclick="openFeedbackModal('${track.fileName}', 'down')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👎</button>
                         </div>
-                        <a href="published/${track.fileName}" target="_blank" style="white-space: nowrap;">⬇️ Download</a>
+                        <a href="${downloadUrl}" target="_blank" style="white-space: nowrap;">⬇️ Download</a>
                     </div>
                 `;
                 list.appendChild(div);
