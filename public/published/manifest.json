@@ -43,5 +43,29 @@
     "publishedAt": "2026-05-27T05:54:26.220Z",
     "updatedAt": "2026-05-27T07:51:06.207Z",
     "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-1.0.0-2026-05-27.wav"
+  },
+  {
+    "title": "publish_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 125.6867120181406,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip"
+    },
+    "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T12:02:15.604Z",
+    "updatedAt": "2026-05-27T12:02:15.604Z"
   }
 ]

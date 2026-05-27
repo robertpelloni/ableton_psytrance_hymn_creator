@@ -182,18 +182,25 @@
                 const cloudBadge = track.remoteUrl ? `<span style="margin-left: 10px; font-size: 10px; background: #4caf50; color: white; padding: 2px 5px; border-radius: 4px;">☁️ Cloud</span>` : '';
                 const downloadUrl = track.remoteUrl || `published/${track.fileName}`;
 
+                let artifactLinks = '';
+                if (track.artifacts) {
+                    if (track.artifacts.midi) artifactLinks += `<a href="registry/${track.artifacts.midi}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎹 MIDI</a>`;
+                    if (track.artifacts.video) artifactLinks += `<a href="registry/${track.artifacts.video}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎬 Video</a>`;
+                    if (track.artifacts.stems) artifactLinks += `<span style="margin-left: 10px; font-size: 11px; color: #aaa;">📦 Stems</span>`;
+                }
+
                 div.innerHTML = `
                     <div style="flex: 1;">
                         <strong>${track.title}</strong> (${track.genre}) ${cloudBadge}<br>
-                        <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small>
-                        ${streaming}
+                        <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small><br>
+                        ${streaming} ${artifactLinks}
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="feedback-btns">
                             <button onclick="openFeedbackModal('${track.fileName}', 'up')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👍</button>
                             <button onclick="openFeedbackModal('${track.fileName}', 'down')" style="padding: 5px 10px; font-size: 14px; background: #444; width: auto;">👎</button>
                         </div>
-                        <a href="${downloadUrl}" target="_blank" style="white-space: nowrap;">⬇️ Download</a>
+                        <a href="${downloadUrl}" target="_blank" style="white-space: nowrap; background: #00d2ff; color: #1a1a1a; padding: 5px 10px; border-radius: 4px; font-weight: bold;">⬇️ Download</a>
                     </div>
                 `;
                 list.appendChild(div);

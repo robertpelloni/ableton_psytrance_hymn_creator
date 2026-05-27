@@ -178,23 +178,41 @@ export class PsyMonoPipeline {
             styleModelVersion: psyConfig.styleModel?.version || "1.0.0"
         };
 
-        const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata);
-
-        // 6. Video Generation & Streaming Upload
-        console.log(`Step 6: Video Generation & Streaming Upload...`);
+        // 6. Video Generation
+        console.log(`Step 6: Video Generation...`);
+        let videoPath: string | undefined;
+        let coverPath: string | undefined = path.join("public/assets", "default_cover.png");
         try {
-            const videoPath = path.join(outputDir, "video.mp4");
-            const coverPath = path.join("public/assets", "default_cover.png");
-            VideoGenerator.generate(publishedAudioPath, coverPath, videoPath);
+            videoPath = path.join(outputDir, "video.mp4");
+            VideoGenerator.generate(aiAudioPath, coverPath, videoPath);
+        } catch (e) {
+            console.error("Video generation failed:", e);
+            videoPath = undefined;
+        }
 
-            const ytResult = await StreamingPublisher.publishToYouTube(videoPath, metadata);
-            if (ytResult.success && ytResult.externalUrl) {
-                metadata.streamingUrls["YouTube"] = ytResult.externalUrl;
-                // Update manifest with new metadata (including streaming URLs)
-                await trackManager.publish(publishedAudioPath, metadata);
+        // 7. Publishing & Archiving
+        console.log(`Step 7: Publishing & Archiving artifacts...`);
+        const artifacts = {
+            midi: finalMidiPath,
+            video: videoPath,
+            cover: coverPath,
+            stemsDir: path.join(outputDir, "stems")
+        };
+        const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata, artifacts);
+
+        // 8. Streaming Upload
+        console.log(`Step 8: Streaming Upload...`);
+        try {
+            if (videoPath) {
+                const ytResult = await StreamingPublisher.publishToYouTube(videoPath, metadata);
+                if (ytResult.success && ytResult.externalUrl) {
+                    metadata.streamingUrls["YouTube"] = ytResult.externalUrl;
+                    // Update manifest with new metadata (including streaming URLs)
+                    await trackManager.updateMetadata(path.basename(publishedAudioPath), { streamingUrls: metadata.streamingUrls });
+                }
             }
         } catch (e) {
-            console.error("Video/Streaming pipeline failed:", e);
+            console.error("Streaming upload failed:", e);
         }
 
         console.log(`--- [Psy-Mono Pipeline] Finished ---`);
