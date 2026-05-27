@@ -79,7 +79,7 @@ jobs:
         if: github.event.inputs.run_training == 'true' || github.event_name == 'schedule'
         run: npx ts-node src/analysis/training_engine.ts
 
-      - name: Run Production Pipeline
+      - name: Build & Run Production Pipeline
         run: |
           INPUT_MIDI="${{ github.event.inputs.input_midi }}"
           GENRE="${{ github.event.inputs.genre || 'psytrance' }}"
@@ -102,7 +102,11 @@ jobs:
             VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
           fi
 
+          # This command now includes the Quality Gate internally
           npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE" --density "$DENSITY" --octaves "$OCTAVES" --variant "$VARIANT"
+
+      - name: Deploy & Remote Publish
+        run: npx ts-node scripts/publish_remote.ts
 
       - name: Commit and Push Generated Assets
         run: |

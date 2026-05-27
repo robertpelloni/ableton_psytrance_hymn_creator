@@ -35,7 +35,7 @@ export class PsyMonoPipeline {
         return files[Math.floor(Math.random() * files.length)];
     }
 
-    async run(options: PipelineOptions) {
+    async run(options: PipelineOptions): Promise<void> {
         let { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance", continuous = false } = options;
 
         // Load style model if available
@@ -128,6 +128,26 @@ export class PsyMonoPipeline {
             const aiBridge = new AIBridge({});
             aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
             console.log(`AI Overhaul complete: ${aiAudioPath}`);
+        }
+
+        // 4b. Quality Gate
+        console.log(`Step 4b: Running Quality Gate...`);
+        let qualityCheckerPath = path.join(__dirname, "analysis/quality_checker.py");
+        if (!fs.existsSync(qualityCheckerPath)) {
+            qualityCheckerPath = path.join(process.cwd(), "src/analysis/quality_checker.py");
+        }
+        const qualityResult = spawnSync("python3", [qualityCheckerPath, aiAudioPath]);
+        if (qualityResult.status === 0) {
+            const report = JSON.parse(qualityResult.stdout.toString());
+            console.log(`Quality Report:`, JSON.stringify(report, null, 2));
+            if (!report.success) {
+                console.error(`Quality Gate Failed:`, report.errors);
+                if (continuous) {
+                    console.warn(`Continuous mode: Retrying with different seed...`);
+                    return this.run(options); // Recursive retry
+                }
+                throw new Error(`Quality Gate Failed: ${report.errors.join(", ")}`);
+            }
         }
 
         // 5. Automated Metadata Tagging & Publishing

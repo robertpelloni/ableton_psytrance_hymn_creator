@@ -21,15 +21,17 @@
     "title": "Untitled",
     "genre": "Psytrance",
     "bpm": 145,
-    "key": "C",
+    "key": "C major",
     "version": "1.0.0",
     "artist": "Hymnmania AI",
     "album": "Omni-Archive",
     "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_ru6vpk"
+      "YouTube": "https://youtube.com/watch?v=mock_eyaytx"
     },
+    "inputMidi": "Do You Know My Jesus.mid",
+    "styleModelVersion": "1.0.0",
     "technical": {
-      "duration": 62.78965986394558,
+      "duration": 194.85315192743764,
       "bitrate": 1411200,
       "sample_rate": 44100,
       "channels": 2,
@@ -37,6 +39,6 @@
     },
     "fileName": "Published-Untitled-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T05:54:26.220Z",
-    "updatedAt": "2026-05-27T06:01:49.242Z"
+    "updatedAt": "2026-05-27T06:46:13.225Z"
   }
 ]
