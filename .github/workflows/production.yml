@@ -1,0 +1,74 @@
+name: Autonomous Music Production & Deployment
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      input_midi:
+        description: 'Path to input MIDI file'
+        required: true
+        default: 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid'
+      vocal_track:
+        description: 'URL or Path to vocal track'
+        required: false
+
+jobs:
+  produce_and_deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg librubberband-dev
+
+      - name: Install Node Dependencies
+        run: npm install
+
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt demucs torchcodec
+
+      - name: Run Production Pipeline
+        run: |
+          INPUT_MIDI="${{ github.event.inputs.input_midi || 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid' }}"
+          VOCAL_ARG=""
+          if [ ! -z "${{ github.event.inputs.vocal_track }}" ]; then
+            VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
+          fi
+          npx ts-node src/pipeline.ts "$INPUT_MIDI" pipeline/output/latest $VOCAL_ARG
+
+      - name: Commit and Push Generated Assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add pipeline/output/latest
+          git commit -m "Auto-publish: New track generation [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
+          git push
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

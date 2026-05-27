@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hymnmania Pipeline Control</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #eee; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #2a2a2a; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        h1 { color: #00d2ff; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: #fff; box-sizing: border-box; }
+        button { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        .status { margin-top: 20px; padding: 15px; border-radius: 6px; background: #333; border-left: 4px solid #00d2ff; }
+        .output { margin-top: 20px; display: none; }
+        .track { background: #383838; padding: 15px; margin-bottom: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .track a { color: #00d2ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hymnmania Pipeline</h1>
+        <p>Transform traditional hymns into Modern Psytrance and House.</p>
+
+        <div class="form-group">
+            <label for="midiSelect">Select Hymn MIDI</label>
+            <select id="midiSelect">
+                <option value="hymnmania_src/hymn_remaker/test_input/Emmanuel.mid">Emmanuel.mid</option>
+                <option value="hymnmania_src/hymn_remaker/test_input/God Is So Good.mid">God Is So Good.mid</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="vocalUrl">Vocal Track URL (Optional)</label>
+            <input type="text" id="vocalUrl" placeholder="https://youtube.com/watch?v=...">
+        </div>
+
+        <div class="form-group">
+            <label for="bpm">Target BPM</label>
+            <input type="number" id="bpm" value="145" min="80" max="180">
+        </div>
+
+        <button id="generateBtn">🚀 Generate Track</button>
+
+        <div id="status" class="status" style="display:none;">
+            Pipeline active. Check GitHub Actions for progress.
+        </div>
+
+        <div class="output" id="outputSection">
+            <h3>Recent Generations</h3>
+            <div id="tracksList">
+                <!-- Tracks will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generateBtn').onclick = async () => {
+            const midi = document.getElementById('midiSelect').value;
+            const vocal = document.getElementById('vocalUrl').value;
+            const bpm = document.getElementById('bpm').value;
+
+            document.getElementById('status').style.display = 'block';
+            document.getElementById('status').innerText = `Triggering generation for ${midi} at ${bpm} BPM...`;
+
+            // Note: In a real environment, this would call an API or trigger a GitHub Action
+            console.log('Generating...', { midi, vocal, bpm });
+
+            // Mock success
+            setTimeout(() => {
+                document.getElementById('status').innerText = "Generation request sent to GitHub Actions!";
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
