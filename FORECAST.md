@@ -18,4 +18,4 @@ Transition from structural MIDI generation to high-fidelity "Neural Texture Mapp
 
 ## Milestone 4: Architectural Scaling (Q4)
 - **Multi-Genre Presets**: Expansion to Melodic Techno, Uplifting Trance, and Hardstyle.
-- **Music21 Migration**: Deep harmonic analysis for better counterpoint preservation.
+- **Style Evolution**: Implementation of Deep Learning style models (RNN/Transformer) to replace current Markov chains.

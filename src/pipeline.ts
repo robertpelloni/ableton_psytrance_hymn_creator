@@ -36,6 +36,18 @@ export class PsyMonoPipeline {
     async run(options: PipelineOptions) {
         let { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance", continuous = false } = options;
 
+        // Load style model if available
+        const modelPath = "models/hymn_style_v1.json";
+        if (fs.existsSync(modelPath)) {
+            try {
+                const model = JSON.parse(fs.readFileSync(modelPath, "utf-8"));
+                psyConfig.styleModel = model;
+                console.log("Loaded style model for generation.");
+            } catch (e) {
+                console.warn("Failed to load style model:", e);
+            }
+        }
+
         if (continuous || !inputMidi) {
             console.log("Continuous mode active. Selecting random MIDI...");
             inputMidi = this.getRandomMidi();
@@ -55,7 +67,10 @@ export class PsyMonoPipeline {
         let finalMidiPath = path.join(outputDir, "structure.mid");
         if (genre === "house") {
             console.log(`Step 2: Generating procedural ${targetBpm} BPM House skeleton...`);
-            const quantizerPath = path.join(__dirname, "../pipeline/processing/house_quantizer.py");
+            let quantizerPath = path.join(__dirname, "../pipeline/processing/house_quantizer.py");
+            if (!fs.existsSync(quantizerPath)) {
+                quantizerPath = path.join(process.cwd(), "pipeline/processing/house_quantizer.py");
+            }
             const result = spawnSync("python3", [quantizerPath, inputMidi]);
             if (result.status !== 0) {
                 throw new Error(`House quantizer failed: ${result.stderr.toString()}`);
@@ -82,7 +97,10 @@ export class PsyMonoPipeline {
 
         // 2d. Sonic Vacuum Enhancement
         console.log(`Step 2d: Applying Sonic Vacuum enhancement...`);
-        const vacuumPath = path.join(__dirname, "../pipeline/processing/sonic_vacuum.py");
+        let vacuumPath = path.join(__dirname, "../pipeline/processing/sonic_vacuum.py");
+        if (!fs.existsSync(vacuumPath)) {
+            vacuumPath = path.join(process.cwd(), "pipeline/processing/sonic_vacuum.py");
+        }
         const vacuumResult = spawnSync("python3", [vacuumPath, rawAudioPath, finalAudioPath]);
         if (vacuumResult.status !== 0) {
             console.warn(`Sonic Vacuum failed: ${vacuumResult.stderr.toString()}. Using raw audio.`);
@@ -118,7 +136,7 @@ export class PsyMonoPipeline {
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: "0.9.0",
+            version: "1.0.0",
             artist: "Hymnmania AI",
             album: "Omni-Archive"
         });

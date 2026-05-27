@@ -35,7 +35,10 @@ export class TrackManager {
         }
 
         // 1. Tag the file
-        const taggerPath = path.join(__dirname, "metadata_tagger.py");
+        let taggerPath = path.join(__dirname, "metadata_tagger.py");
+        if (!fs.existsSync(taggerPath)) {
+            taggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
+        }
         const result = spawnSync("python3", [taggerPath, sourcePath, JSON.stringify(metadata)]);
 
         if (result.status !== 0) {
@@ -53,7 +56,10 @@ export class TrackManager {
         console.log(`Published track to: ${destinationPath}`);
 
         // 3. Extract final verified metadata
-        const extractorPath = path.join(__dirname, "metadata_extractor.py");
+        let extractorPath = path.join(__dirname, "metadata_extractor.py");
+        if (!fs.existsSync(extractorPath)) {
+            extractorPath = path.join(process.cwd(), "src/integrators/metadata_extractor.py");
+        }
         const extResult = spawnSync("python3", [extractorPath, destinationPath]);
         if (extResult.status === 0) {
             const extData = JSON.parse(extResult.stdout.toString());

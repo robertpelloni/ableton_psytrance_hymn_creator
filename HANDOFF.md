@@ -8,7 +8,10 @@
 - **Vocal Remix Pipeline**: Robust integration of Demucs stem separation and harmonic grid-locking.
 - **Autonomous Lifecycle**: Built a GitHub Actions workflow for scheduled daily production and UI deployment.
 - **Control Layer**: Developed a modern web UI with real-time job monitoring and continuous mode toggles.
-- **Governance**: Established a comprehensive documentation suite (v0.1.0 - v0.9.0).
+- **Governance**: Established a comprehensive documentation suite (v1.0.0).
+- **Style Modeling**: Implemented a MIDI Training Engine that builds style models from input corpora.
+- **Style-Aware Generation**: Upgraded PsyGenerator to utilize learned style models for melodic variations.
+- **Advanced Retrieval UI**: Enhanced the Web UI with search, filtering, and multi-criteria sorting for published tracks.
 
 ## Major Structural Shifts
 - Evolved from basic root-note detection to full chord progression analysis using `music21`.
@@ -25,4 +28,5 @@
 1. **Neural Overhaul**: Implement the real CDP (Chrome DevTools Protocol) browser hooks for Suno/Udio in `src/integrators/ai_bridge.ts`.
 2. **MusicGen Inference**: Integrate Meta's MusicGen for high-speed offline sound design.
 3. **Neural Mastering**: Integrate Matchering to hit professional -7 LUFS standards.
-4. **UI Evolution**: Connect the frontend to S3 or Git LFS for scalable asset discovery.
+4. **Style Refinement**: Scale the style training corpus to include more diverse genres.
+5. **UI Evolution**: Connect the frontend to S3 or Git LFS for scalable asset discovery.

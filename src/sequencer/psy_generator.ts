@@ -2,6 +2,12 @@ import { Midi } from "@tonejs/midi";
 import { HymnDNA } from "../analysis/midi_parser";
 import * as fs from "fs";
 
+export interface StyleModel {
+    melody: { [key: string]: { [key: string]: number } };
+    rhythm: { [key: string]: { [key: string]: number } };
+    version: string;
+}
+
 export interface PsyConfig {
     targetBpm: number;
     euclideanDensity: number; // 1 to 8
@@ -10,6 +16,7 @@ export interface PsyConfig {
     leadVelocity: number;
     kickVelocity: number;
     gallopVariant: "classic" | "triplet" | "rolling";
+    styleModel?: StyleModel;
 }
 
 export const DEFAULT_PSY_CONFIG: PsyConfig = {
@@ -23,8 +30,18 @@ export const DEFAULT_PSY_CONFIG: PsyConfig = {
 };
 
 export class PsyGenerator {
+    private static weightedRandom(probabilities: { [key: string]: number }): string | null {
+        const r = Math.random();
+        let cumulative = 0;
+        for (const [key, prob] of Object.entries(probabilities)) {
+            cumulative += prob;
+            if (r <= cumulative) return key;
+        }
+        return null;
+    }
+
     static generate(dna: HymnDNA, config: PsyConfig = DEFAULT_PSY_CONFIG): Midi {
-        const { targetBpm, euclideanDensity, octaveJumpBarFrequency, bassVelocity, leadVelocity, kickVelocity, gallopVariant } = config;
+        const { targetBpm, euclideanDensity, octaveJumpBarFrequency, bassVelocity, leadVelocity, kickVelocity, gallopVariant, styleModel } = config;
 
         const midi = new Midi();
         midi.header.setTempo(targetBpm);
@@ -122,6 +139,7 @@ export class PsyGenerator {
 
         const euclideanPattern = getEuclideanPattern(euclideanDensity, 16);
 
+        let lastNote = 60;
         for (let i = 0; i < duration / sixteenth; i++) {
             const time = i * sixteenth;
             if (euclideanPattern[i % euclideanPattern.length] === 1) {
@@ -136,11 +154,23 @@ export class PsyGenerator {
                 if (activeMelody) {
                     let noteToPlay = activeMelody.note;
 
-                    // If we have a chord, try to 'force' the melody note into the chord tones if it's too dissonant
-                    // This is a creative choice for Psytrance leads
-                    if (activeChord && !activeChord.notes.includes(noteToPlay % 12 + Math.floor(noteToPlay / 12) * 12)) {
-                         // Simple heuristic: if not in chord, maybe shift to nearest chord tone?
-                         // For now, we keep original melody for integrity, but add chord awareness
+                    // If style model is available, inject stylistic variations
+                    if (styleModel && styleModel.melody) {
+                        const root = noteToPlay % 12;
+                        const transitions = styleModel.melody[root.toString()];
+                        if (transitions) {
+                            const intervalStr = this.weightedRandom(transitions);
+                            if (intervalStr) {
+                                const interval = parseInt(intervalStr);
+                                // Inject variation: 30% chance to use stylistic interval instead of raw melody
+                                if (Math.random() < 0.3) {
+                                    noteToPlay = lastNote + interval;
+                                    // Keep it in a reasonable range
+                                    while (noteToPlay < 48) noteToPlay += 12;
+                                    while (noteToPlay > 84) noteToPlay -= 12;
+                                }
+                            }
+                        }
                     }
 
                     leadTrack.addNote({
@@ -149,6 +179,7 @@ export class PsyGenerator {
                         duration: sixteenth * 0.5,
                         velocity: leadVelocity
                     });
+                    lastNote = noteToPlay;
                 }
             }
         }

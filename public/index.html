@@ -109,7 +109,23 @@
         </div>
 
         <div class="output" id="outputSection" style="display:block;">
-            <h3>Published Tracks</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">Published Tracks</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="searchInput" placeholder="Search tracks..." style="width: 200px; padding: 5px;">
+                    <select id="genreFilter" style="width: 120px; padding: 5px;">
+                        <option value="">All Genres</option>
+                        <option value="Psytrance">Psytrance</option>
+                        <option value="House">House</option>
+                    </select>
+                    <select id="sortBy" style="width: 120px; padding: 5px;">
+                        <option value="newest">Newest</option>
+                        <option value="bpm">BPM</option>
+                        <option value="key">Key</option>
+                        <option value="title">Title</option>
+                    </select>
+                </div>
+            </div>
             <div id="tracksList">
                 <p>Loading manifest...</p>
             </div>
@@ -117,32 +133,64 @@
     </div>
 
     <script>
+        let allTracks = [];
+
         async function loadManifest() {
             try {
                 const response = await fetch('published/manifest.json');
                 if (!response.ok) throw new Error('Manifest not found');
-                const tracks = await response.json();
-                const list = document.getElementById('tracksList');
-                list.innerHTML = '';
-
-                tracks.reverse().forEach(track => {
-                    const div = document.createElement('div');
-                    div.className = 'track';
-                    const tech = track.technical ?
-                        ` | ${Math.round(track.technical.duration)}s | ${track.technical.format}` : '';
-                    div.innerHTML = `
-                        <div>
-                            <strong>${track.title}</strong> (${track.genre})<br>
-                            <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small>
-                        </div>
-                        <a href="published/${track.fileName}" target="_blank">⬇️ Download</a>
-                    `;
-                    list.appendChild(div);
-                });
+                allTracks = await response.json();
+                renderTracks();
             } catch (e) {
                 document.getElementById('tracksList').innerHTML = '<p>No published tracks yet.</p>';
             }
         }
+
+        function renderTracks() {
+            const list = document.getElementById('tracksList');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const sortMode = document.getElementById('sortBy').value;
+
+            let filtered = allTracks.filter(t => {
+                const matchesSearch = t.title.toLowerCase().includes(searchTerm) || t.key.toLowerCase().includes(searchTerm);
+                const matchesGenre = genreFilter === "" || t.genre === genreFilter;
+                return matchesSearch && matchesGenre;
+            });
+
+            filtered.sort((a, b) => {
+                if (sortMode === 'bpm') return a.bpm - b.bpm;
+                if (sortMode === 'title') return a.title.localeCompare(b.title);
+                if (sortMode === 'key') return a.key.localeCompare(b.key);
+                if (sortMode === 'newest') return new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0);
+                return 0;
+            });
+
+            list.innerHTML = '';
+            if (filtered.length === 0) {
+                list.innerHTML = '<p>No matching tracks found.</p>';
+                return;
+            }
+
+            filtered.forEach(track => {
+                const div = document.createElement('div');
+                div.className = 'track';
+                const tech = track.technical ?
+                    ` | ${Math.round(track.technical.duration)}s | ${track.technical.format}` : '';
+                div.innerHTML = `
+                    <div>
+                        <strong>${track.title}</strong> (${track.genre})<br>
+                        <small>${track.bpm} BPM | ${track.key} | v${track.version}${tech}</small>
+                    </div>
+                    <a href="published/${track.fileName}" target="_blank">⬇️ Download</a>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        document.getElementById('searchInput').oninput = renderTracks;
+        document.getElementById('genreFilter').onchange = renderTracks;
+        document.getElementById('sortBy').onchange = renderTracks;
 
         window.onload = () => {
             loadManifest();

@@ -35,6 +35,11 @@ on:
         description: 'Gallop Variant (classic, triplet, rolling)'
         required: false
         default: 'classic'
+      run_training:
+        description: 'Run style model training before generation'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   produce_and_deploy:
@@ -70,6 +75,10 @@ jobs:
       - name: Install Python Dependencies
         run: pip install -r requirements.txt demucs torchcodec
 
+      - name: Run Style Model Training
+        if: github.event.inputs.run_training == 'true' || github.event_name == 'schedule'
+        run: npx ts-node src/analysis/training_engine.ts
+
       - name: Run Production Pipeline
         run: |
           INPUT_MIDI="${{ github.event.inputs.input_midi }}"
@@ -99,8 +108,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add pipeline/output/latest published/
-          git commit -m "Auto-publish: New track generation [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
+          git add pipeline/output/latest published/ models/
+          git commit -m "Auto-publish: New track generation & model update [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Upload Pages Artifact

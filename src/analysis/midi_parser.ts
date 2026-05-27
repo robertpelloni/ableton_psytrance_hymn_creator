@@ -73,7 +73,10 @@ export class MidiParser {
         }
 
         // Advanced Harmonic Analysis via Python music21
-        const analyzerPath = path.join(__dirname, "harmonic_analyzer.py");
+        let analyzerPath = path.join(__dirname, "harmonic_analyzer.py");
+        if (!fs.existsSync(analyzerPath)) {
+            analyzerPath = path.join(process.cwd(), "src/analysis/harmonic_analyzer.py");
+        }
         const result = spawnSync("python3", [analyzerPath, filePath]);
         if (result.status === 0) {
             try {
