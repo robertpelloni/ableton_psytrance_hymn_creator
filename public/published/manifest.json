@@ -67,5 +67,98 @@
     "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T12:02:15.604Z",
     "updatedAt": "2026-05-27T12:02:15.604Z"
+  },
+  {
+    "title": "final_verify",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 62.78965986394558,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-final_verify-1.0.0-2026-05-27.mid",
+      "video": "Archive-final_verify-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-final_verify-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip"
+    },
+    "fileName": "Published-final_verify-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T16:02:07.220Z",
+    "updatedAt": "2026-05-27T16:02:07.220Z"
+  },
+  {
+    "title": "house_feedback_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 85.51183673469387,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-house_feedback_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
+    },
+    "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T16:02:10.713Z",
+    "updatedAt": "2026-05-27T16:02:10.713Z"
+  },
+  {
+    "title": "model_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 33.82421768707483,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
+      "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip"
+    },
+    "fileName": "Published-model_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T16:02:13.914Z",
+    "updatedAt": "2026-05-27T16:02:13.914Z"
+  },
+  {
+    "title": "quality_gate_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 194.85315192743764,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-quality_gate_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-quality_gate_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip"
+    },
+    "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T16:02:17.785Z",
+    "updatedAt": "2026-05-27T16:02:17.785Z"
   }
 ]

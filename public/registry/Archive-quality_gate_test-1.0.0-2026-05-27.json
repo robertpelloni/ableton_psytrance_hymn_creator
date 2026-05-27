@@ -1,0 +1,22 @@
+{
+  "title": "quality_gate_test",
+  "genre": "Unknown",
+  "bpm": 0,
+  "key": "Unknown",
+  "version": "1.0.0",
+  "artist": "Hymnmania AI Archive",
+  "technical": {
+    "duration": 194.85315192743764,
+    "bitrate": 1411200,
+    "sample_rate": 44100,
+    "channels": 2,
+    "format": "WAVE"
+  },
+  "artifacts": {
+    "midi": "Archive-quality_gate_test-1.0.0-2026-05-27.mid",
+    "video": "Archive-quality_gate_test-1.0.0-2026-05-27.mp4",
+    "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
+    "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip"
+  },
+  "originalFileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav"
+}

@@ -1,0 +1,20 @@
+{
+  "title": "model_test",
+  "genre": "Unknown",
+  "bpm": 0,
+  "key": "Unknown",
+  "version": "1.0.0",
+  "artist": "Hymnmania AI Archive",
+  "technical": {
+    "duration": 33.82421768707483,
+    "bitrate": 1411200,
+    "sample_rate": 44100,
+    "channels": 2,
+    "format": "WAVE"
+  },
+  "artifacts": {
+    "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
+    "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip"
+  },
+  "originalFileName": "Published-model_test-1.0.0-2026-05-27.wav"
+}

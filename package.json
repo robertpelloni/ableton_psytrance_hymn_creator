@@ -19,6 +19,9 @@
   "scripts": {
     "start": "ts-node src/pipeline.ts",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "repo:sanitize": "ts-node scripts/repository_sanitizer.ts",
+    "repo:sync": "ts-node scripts/track_repository_sync.ts",
+    "sync": "npm run repo:sanitize && npm run repo:sync"
   }
 }

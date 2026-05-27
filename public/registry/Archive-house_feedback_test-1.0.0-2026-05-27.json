@@ -1,0 +1,21 @@
+{
+  "title": "house_feedback_test",
+  "genre": "Unknown",
+  "bpm": 0,
+  "key": "Unknown",
+  "version": "1.0.0",
+  "artist": "Hymnmania AI Archive",
+  "technical": {
+    "duration": 85.51183673469387,
+    "bitrate": 1411200,
+    "sample_rate": 44100,
+    "channels": 2,
+    "format": "WAVE"
+  },
+  "artifacts": {
+    "midi": "Archive-house_feedback_test-1.0.0-2026-05-27.mid",
+    "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
+    "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
+  },
+  "originalFileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav"
+}

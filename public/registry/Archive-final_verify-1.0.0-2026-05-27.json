@@ -1,0 +1,22 @@
+{
+  "title": "final_verify",
+  "genre": "Unknown",
+  "bpm": 0,
+  "key": "Unknown",
+  "version": "1.0.0",
+  "artist": "Hymnmania AI Archive",
+  "technical": {
+    "duration": 62.78965986394558,
+    "bitrate": 1411200,
+    "sample_rate": 44100,
+    "channels": 2,
+    "format": "WAVE"
+  },
+  "artifacts": {
+    "midi": "Archive-final_verify-1.0.0-2026-05-27.mid",
+    "video": "Archive-final_verify-1.0.0-2026-05-27.mp4",
+    "cover": "Archive-final_verify-1.0.0-2026-05-27-cover.png",
+    "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip"
+  },
+  "originalFileName": "Published-final_verify-1.0.0-2026-05-27.wav"
+}
