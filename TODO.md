@@ -1,10 +1,8 @@
 # TODO
 
-- [x] Implement procedural psytrance and house generators.
-- [x] Integrate vocal separation and time-stretching.
-- [x] Implement harmonic pitch-shifting for vocals.
-- [ ] Implement robust unit test suite for note-interval preservation.
-- [ ] Add support for LALAL.AI API as an alternative to local Demucs.
-- [ ] Create a web-based dashboard for pipeline monitoring.
-- [ ] Optimize the Python-TypeScript bridge for performance.
-- [ ] Implement AI Sound Design texture mapping (Suno/Udio hooks).
+- [ ] Implement CDP-based browser automation for Suno/Udio.
+- [ ] Integrate local MusicGen inference for fast prototyping.
+- [ ] Add support for Music21-based complex harmonic analysis.
+- [ ] Implement automated mastering layer to hit -7 LUFS.
+- [ ] Expand genre presets (Techno, Trance, Hardstyle).
+- [ ] Develop audio-reactive visual generation (FFmpeg/Stable Diffusion).

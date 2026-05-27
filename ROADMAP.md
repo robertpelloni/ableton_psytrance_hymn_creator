@@ -1,18 +1,18 @@
 # ROADMAP
 
-## Phase 1: Foundation (Current)
+## Phase 1: Foundation (2022-2023 Season) - COMPLETED
 - [x] Symbolic MIDI extraction logic.
-- [x] Psytrance algorithmic sequencer (145 BPM, rolling bass, Euclidean arps).
-- [x] House structural quantizer (124 BPM, 4/4 kick, syncopated bass).
-- [x] Vocal isolation and time-stretching (Demucs + FFmpeg).
-- [x] Harmonic alignment (Pitch-shifting vocals to match hymn key).
+- [x] Psytrance & House algorithmic sequencers.
+- [x] Vocal isolation and harmonic alignment.
+- [x] Master Pipeline orchestration and Web UI.
 
-## Phase 2: AI Integration
-- [ ] Suno Studio v5.5 / Udio Pro integration (Neural Texture Mapping).
-- [ ] MusicGen local inference layer for sound design.
-- [ ] Automated mastering using Mel-Roformer or similar models.
+## Phase 2: Neural Overhaul (2023-2024 Season) - ACTIVE
+- [ ] **Suno Studio v5.5 / Udio Pro CDP Automation** (Headless Sound Design).
+- [ ] **MusicGen Local Inference Layer**.
+- [ ] **Neural Mastering Engine** (Matchering/Mel-Roformer).
+- [ ] **Automated Prompt Engineering** (LLM-driven).
 
-## Phase 3: Content Delivery & Automation
-- [ ] Automated music video generation.
+## Phase 3: Content Delivery & Global Scale
+- [ ] Automated music video generation (Audio-reactive).
 - [ ] YouTube/Social Media ingestion pipeline.
 - [ ] Real-time "Psy-Hymn" radio streaming engine.
