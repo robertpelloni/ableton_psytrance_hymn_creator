@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.7.0] - 2026-05-27
+### Added
+- Local audio rendering using FluidSynth and high-quality soundfonts.
+- Multi-track stem rendering (Kick, Bass, Lead) for neural texture mapping.
+- "Sonic Vacuum" audio enhancement script using `pedalboard`.
+- Automated production workflow with system-level dependencies (FluidSynth).
+
 ## [0.6.0] - 2026-05-27
 ### Added
 - Real-time job triggering and monitoring in the Web UI via GitHub API.

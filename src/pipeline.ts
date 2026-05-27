@@ -3,6 +3,7 @@ import { PsyGenerator, PsyConfig, DEFAULT_PSY_CONFIG } from "./sequencer/psy_gen
 import { VocalProcessor } from "./integrators/vocal_processor";
 import { AIBridge } from "./integrators/ai_bridge";
 import { TrackManager } from "./integrators/track_manager";
+import { RenderingModule } from "./rendering/renderer";
 import * as fs from "fs";
 import * as path from "path";
 import { spawnSync } from "child_process";
@@ -18,6 +19,12 @@ export interface PipelineOptions {
 }
 
 export class PsyMonoPipeline {
+    private renderer: RenderingModule;
+
+    constructor() {
+        this.renderer = new RenderingModule();
+    }
+
     async run(options: PipelineOptions) {
         const { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance" } = options;
 
@@ -48,8 +55,26 @@ export class PsyMonoPipeline {
             const effectiveConfig = { ...psyConfig, targetBpm };
             const psyMidi = PsyGenerator.generate(dna, effectiveConfig);
             PsyGenerator.saveMidi(psyMidi, finalMidiPath);
+
+            console.log(`Step 2b: Rendering multi-track stems...`);
+            await this.renderer.renderStems(psyMidi, path.join(outputDir, "stems"));
         }
         console.log(`MIDI saved to ${finalMidiPath}`);
+
+        // 2c. Render preview audio
+        const rawAudioPath = finalMidiPath.replace('.mid', '_raw.wav');
+        const finalAudioPath = finalMidiPath.replace('.mid', '.wav');
+        console.log(`Step 2c: Rendering structural preview audio...`);
+        this.renderer.render(finalMidiPath, rawAudioPath);
+
+        // 2d. Sonic Vacuum Enhancement
+        console.log(`Step 2d: Applying Sonic Vacuum enhancement...`);
+        const vacuumPath = path.join(__dirname, "../pipeline/processing/sonic_vacuum.py");
+        const vacuumResult = spawnSync("python3", [vacuumPath, rawAudioPath, finalAudioPath]);
+        if (vacuumResult.status !== 0) {
+            console.warn(`Sonic Vacuum failed: ${vacuumResult.stderr.toString()}. Using raw audio.`);
+            fs.copyFileSync(rawAudioPath, finalAudioPath);
+        }
 
         // 3. Optional Vocal Processing
         if (vocalTrack) {
@@ -64,23 +89,23 @@ export class PsyMonoPipeline {
         }
 
         // 4. Optional AI Overhaul
-        let finalAudioPath = finalMidiPath.replace('.mid', '.wav');
+        let aiAudioPath = finalAudioPath;
         if (aiPrompt) {
             console.log(`Step 4: Orchestrating AI Sound Design Overhaul...`);
             const aiBridge = new AIBridge({});
-            finalAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
-            console.log(`AI Overhaul complete: ${finalAudioPath}`);
+            aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
+            console.log(`AI Overhaul complete: ${aiAudioPath}`);
         }
 
         // 5. Automated Metadata Tagging & Publishing
         console.log(`Step 5: Tagging and Publishing...`);
         const trackManager = new TrackManager();
-        await trackManager.publish(finalAudioPath, {
+        await trackManager.publish(aiAudioPath, {
             title: dna.title,
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: "0.6.0",
+            version: "0.7.0",
             artist: "Hymnmania AI",
             album: "Omni-Archive"
         });
