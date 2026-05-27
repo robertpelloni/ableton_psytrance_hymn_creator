@@ -3,6 +3,8 @@ name: Autonomous Music Production & Deployment
 on:
   push:
     branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight
   workflow_dispatch:
     inputs:
       input_midi:
@@ -16,6 +18,11 @@ on:
         description: 'Target genre (psytrance or house)'
         required: true
         default: 'psytrance'
+      continuous:
+        description: 'Enable continuous mode (random input selection)'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   produce_and_deploy:
@@ -53,13 +60,25 @@ jobs:
 
       - name: Run Production Pipeline
         run: |
-          INPUT_MIDI="${{ github.event.inputs.input_midi || 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid' }}"
+          INPUT_MIDI="${{ github.event.inputs.input_midi }}"
           GENRE="${{ github.event.inputs.genre || 'psytrance' }}"
+          CONTINUOUS="${{ github.event.inputs.continuous || (github.event_name == 'schedule' && 'true' || 'false') }}"
+
+          ARGS=""
+          if [ "$CONTINUOUS" = "true" ]; then
+            ARGS="--continuous"
+          elif [ ! -z "$INPUT_MIDI" ]; then
+            ARGS="$INPUT_MIDI"
+          else
+            ARGS="hymnmania_src/hymn_remaker/test_input/Emmanuel.mid"
+          fi
+
           VOCAL_ARG=""
           if [ ! -z "${{ github.event.inputs.vocal_track }}" ]; then
             VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
           fi
-          npx ts-node src/pipeline.ts "$INPUT_MIDI" pipeline/output/latest $VOCAL_ARG --genre "$GENRE"
+
+          npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE"
 
       - name: Commit and Push Generated Assets
         run: |

@@ -34,6 +34,7 @@
         <div class="form-group">
             <label for="midiSelect">Select Hymn MIDI</label>
             <select id="midiSelect">
+                <option value="">-- Random (Continuous Mode) --</option>
                 <option value="hymnmania_src/hymn_remaker/test_input/Emmanuel.mid">Emmanuel.mid</option>
                 <option value="hymnmania_src/hymn_remaker/test_input/God Is So Good.mid">God Is So Good.mid</option>
             </select>
@@ -176,6 +177,7 @@
             const vocal = document.getElementById('vocalUrl').value;
             const bpm = document.getElementById('bpm').value;
             const genre = document.getElementById('genreSelect').value;
+            const isContinuous = midi === "";
 
             const status = document.getElementById('status');
             status.style.display = 'block';
@@ -191,9 +193,10 @@
                     body: JSON.stringify({
                         ref: 'main',
                         inputs: {
-                            input_midi: midi,
+                            input_midi: midi || 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid',
                             vocal_track: vocal,
-                            genre: genre
+                            genre: genre,
+                            continuous: isContinuous ? "true" : "false"
                         }
                     })
                 });

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.8.0] - 2026-05-27
+### Added
+- Continuous music generation trigger using GitHub Actions `schedule`.
+- Automated random MIDI selection for continuous production.
+- UI enhancements for continuous mode control and randomized selection.
+- Refined orchestration with explicit `glob` dependency for file discovery.
+
 ## [0.7.0] - 2026-05-27
 ### Added
 - Local audio rendering using FluidSynth and high-quality soundfonts.

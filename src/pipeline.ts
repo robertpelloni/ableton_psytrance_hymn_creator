@@ -6,16 +6,18 @@ import { TrackManager } from "./integrators/track_manager";
 import { RenderingModule } from "./rendering/renderer";
 import * as fs from "fs";
 import * as path from "path";
+import * as glob from "glob";
 import { spawnSync } from "child_process";
 
 export interface PipelineOptions {
-    inputMidi: string;
+    inputMidi?: string;
     outputDir: string;
     psyConfig?: PsyConfig;
     vocalTrack?: string;
     targetBpm?: number;
     aiPrompt?: string;
     genre?: "psytrance" | "house";
+    continuous?: boolean;
 }
 
 export class PsyMonoPipeline {
@@ -25,8 +27,19 @@ export class PsyMonoPipeline {
         this.renderer = new RenderingModule();
     }
 
+    private getRandomMidi(): string {
+        const files = glob.sync("hymnmania_src/**/*.mid");
+        if (files.length === 0) throw new Error("No MIDI files found in hymnmania_src");
+        return files[Math.floor(Math.random() * files.length)];
+    }
+
     async run(options: PipelineOptions) {
-        const { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance" } = options;
+        let { inputMidi, outputDir, psyConfig = DEFAULT_PSY_CONFIG, vocalTrack, targetBpm = 145, aiPrompt, genre = "psytrance", continuous = false } = options;
+
+        if (continuous || !inputMidi) {
+            console.log("Continuous mode active. Selecting random MIDI...");
+            inputMidi = this.getRandomMidi();
+        }
 
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
@@ -118,11 +131,12 @@ export class PsyMonoPipeline {
 if (require.main === module) {
     const args = process.argv.slice(2);
     if (args.length < 2) {
-        console.log("Usage: ts-node src/pipeline.ts <input_midi> <output_dir> [--vocal <vocal_path>] [--bpm <bpm>] [--genre <psytrance|house>]");
+        console.log("Usage: ts-node src/pipeline.ts <input_midi|--continuous> <output_dir> [--vocal <vocal_path>] [--bpm <bpm>] [--genre <psytrance|house>]");
         process.exit(1);
     }
 
-    const inputMidi = args[0];
+    let inputMidi: string | undefined = args[0] === "--continuous" ? undefined : args[0];
+    let continuous = args[0] === "--continuous";
     const outputDir = args[1];
     let vocalTrack: string | undefined;
     let targetBpm = 145;
@@ -148,6 +162,7 @@ if (require.main === module) {
         vocalTrack,
         targetBpm,
         genre,
+        continuous,
         aiPrompt: genre === "house" ?
             "Deep House, 124 BPM, soulful, smooth textures, professional club master" :
             "Modern Full-On Psytrance, 145 BPM, driving, psychedelic sound design, festival grade master"
