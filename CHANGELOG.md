@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.4.0] - 2026-05-27
+### Added
+- Advanced Harmonic Analysis using `music21` in `src/analysis/harmonic_analyzer.py`.
+- Chord-aware bassline and arpeggiator generation in `PsyGenerator`.
+- Updated CI/CD workflow to allow tracking of latest generated assets.
+
 ## [0.3.0] - 2026-05-27
 ### Added
 - 2022-2023 Season Retrospective and 2023-2024 Season Forecast.

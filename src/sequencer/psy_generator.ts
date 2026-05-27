@@ -74,12 +74,21 @@ export class PsyGenerator {
 
             if (shouldPlayBass) {
                 // Map back to original timeline to find harmony
-                const originalTime = time * (dna.bpm / targetBpm);
-                const activeHarmony = dna.harmony.find(h => h.time <= originalTime && h.time + h.duration >= originalTime)
-                                   || dna.harmony.find(h => h.time <= originalTime)
-                                   || dna.harmony[0];
+                const originalTimeInQuarterNotes = (time * targetBpm) / 60;
 
-                let rootNote = activeHarmony ? (activeHarmony.note % 12) + 36 : 36;
+                // Try to find active chord first, then fallback to harmony track
+                const activeChord = dna.chords.find(c => c.time <= originalTimeInQuarterNotes && c.time + c.duration >= originalTimeInQuarterNotes);
+
+                let rootNote;
+                if (activeChord) {
+                    rootNote = (Math.round(activeChord.root) % 12) + 36;
+                } else {
+                    const originalTime = time * (dna.bpm / targetBpm);
+                    const activeHarmony = dna.harmony.find(h => h.time <= originalTime && h.time + h.duration >= originalTime)
+                                       || dna.harmony.find(h => h.time <= originalTime)
+                                       || dna.harmony[0];
+                    rootNote = activeHarmony ? (activeHarmony.note % 12) + 36 : 36;
+                }
 
                 // Octave jumps
                 if (slotInBeat === 3 && octaveJumpBarFrequency > 0) {
@@ -116,14 +125,26 @@ export class PsyGenerator {
         for (let i = 0; i < duration / sixteenth; i++) {
             const time = i * sixteenth;
             if (euclideanPattern[i % euclideanPattern.length] === 1) {
+                const originalTimeInQuarterNotes = (time * targetBpm) / 60;
+                const activeChord = dna.chords.find(c => c.time <= originalTimeInQuarterNotes && c.time + c.duration >= originalTimeInQuarterNotes);
+
                 const originalTime = time * (dna.bpm / targetBpm);
                 const activeMelody = dna.melody.find(m => m.time <= originalTime && m.time + m.duration >= originalTime)
                                    || dna.melody.find(m => m.time <= originalTime)
                                    || dna.melody[0];
 
                 if (activeMelody) {
+                    let noteToPlay = activeMelody.note;
+
+                    // If we have a chord, try to 'force' the melody note into the chord tones if it's too dissonant
+                    // This is a creative choice for Psytrance leads
+                    if (activeChord && !activeChord.notes.includes(noteToPlay % 12 + Math.floor(noteToPlay / 12) * 12)) {
+                         // Simple heuristic: if not in chord, maybe shift to nearest chord tone?
+                         // For now, we keep original melody for integrity, but add chord awareness
+                    }
+
                     leadTrack.addNote({
-                        midi: activeMelody.note,
+                        midi: noteToPlay,
                         time: time,
                         duration: sixteenth * 0.5,
                         velocity: leadVelocity

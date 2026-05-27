@@ -8,4 +8,5 @@ coverage/
 .DS_Store
 *.log
 pipeline/output/
+!pipeline/output/latest/
 hymnmania_src/

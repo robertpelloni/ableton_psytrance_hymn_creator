@@ -5,3 +5,4 @@ ffmpeg-python
 numpy
 scipy
 demucs
+music21

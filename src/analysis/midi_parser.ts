@@ -1,5 +1,15 @@
 import { Midi } from "@tonejs/midi";
 import * as fs from "fs";
+import { spawnSync } from "child_process";
+import * as path from "path";
+
+export interface ChordDNA {
+    time: number;
+    duration: number;
+    notes: number[];
+    root: number;
+    common_name: string;
+}
 
 export interface HymnDNA {
     title: string;
@@ -17,6 +27,7 @@ export interface HymnDNA {
         note: number;
         velocity: number;
     }[];
+    chords: ChordDNA[];
 }
 
 export class MidiParser {
@@ -29,7 +40,8 @@ export class MidiParser {
             bpm: midi.header.tempos[0]?.bpm || 120,
             key: midi.header.keySignatures[0]?.key || "C",
             melody: [],
-            harmony: []
+            harmony: [],
+            chords: []
         };
 
         const tracksWithNotes = midi.tracks.filter(t => t.notes.length > 0);
@@ -58,6 +70,26 @@ export class MidiParser {
                 note: n.midi,
                 velocity: n.velocity
             }));
+        }
+
+        // Advanced Harmonic Analysis via Python music21
+        const analyzerPath = path.join(__dirname, "harmonic_analyzer.py");
+        const result = spawnSync("python3", [analyzerPath, filePath]);
+        if (result.status === 0) {
+            try {
+                const analysis = JSON.parse(result.stdout.toString());
+                if (!analysis.error) {
+                    dna.chords = analysis.chords;
+                    dna.key = analysis.key;
+                    if (analysis.metadata && analysis.metadata.title) {
+                        dna.title = analysis.metadata.title;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to parse harmonic analysis result:", e);
+            }
+        } else {
+            console.error("Harmonic analyzer failed:", result.stderr.toString());
         }
 
         return dna;
