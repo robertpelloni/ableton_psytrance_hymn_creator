@@ -24,6 +24,7 @@ export interface TrackMetadata {
     publishedAt?: string;
     updatedAt?: string;
     inputMidi?: string;
+    mood?: string;
     styleModelVersion?: string;
     artifacts?: {
         midi?: string;
@@ -56,7 +57,7 @@ export class TrackManager {
         const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
         const safeTitle = metadata.title.replace(/\s+/g, "_");
 
-        // 1. Tag the file
+        // 1. Tag the audio file
         let taggerPath = path.join(__dirname, "metadata_tagger.py");
         if (!fs.existsSync(taggerPath)) {
             taggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
@@ -66,17 +67,17 @@ export class TrackManager {
         if (result.status !== 0) {
             console.error(`Tagger failed: ${result.stderr.toString()}`);
         } else {
-            console.log(`Tagged: ${sourcePath}`);
+            console.log(`Tagged Audio: ${sourcePath}`);
         }
 
-        // 2. Versioned Move
+        // 2. Versioned Move for published audio
         const fileName = `Published-${safeTitle}-${metadata.version}-${timestamp}${path.extname(sourcePath)}`;
         const destinationPath = path.join(this.publishedDir, fileName);
 
         fs.copyFileSync(sourcePath, destinationPath);
         console.log(`Published track to: ${destinationPath}`);
 
-        // 3. Extract final verified metadata
+        // 3. Extract final verified metadata for manifest
         let extractorPath = path.join(__dirname, "metadata_extractor.py");
         if (!fs.existsSync(extractorPath)) {
             extractorPath = path.join(process.cwd(), "src/integrators/metadata_extractor.py");
@@ -110,35 +111,36 @@ export class TrackManager {
             }
             if (artifacts.video && fs.existsSync(artifacts.video)) {
                 const videoName = `${archiveBase}.mp4`;
-                fs.copyFileSync(artifacts.video, path.join(finalRegistryDir, videoName));
+                const registryVideoPath = path.join(finalRegistryDir, videoName);
+
+                // Tag Video using FFmpeg
+                console.log(`Tagging Video: ${artifacts.video}`);
+                const tagResult = spawnSync("ffmpeg", [
+                    "-y",
+                    "-i", artifacts.video,
+                    "-metadata", `title=${metadata.title}`,
+                    "-metadata", `artist=${metadata.artist || 'Hymnmania AI'}`,
+                    "-metadata", `album=${metadata.album || 'Psy-Mono Collection'}`,
+                    "-metadata", `genre=${metadata.genre}`,
+                    "-metadata", `year=${metadata.year || new Date().getFullYear()}`,
+                    "-metadata", `comment=Version: ${metadata.version}, Key: ${metadata.key}, Mood: ${metadata.mood || 'None'}`,
+                    "-codec", "copy",
+                    registryVideoPath
+                ]);
+
+                if (tagResult.status !== 0) {
+                    console.warn(`Video tagging failed: ${tagResult.stderr.toString()}. Copying untagged.`);
+                    fs.copyFileSync(artifacts.video, registryVideoPath);
+                } else {
+                    console.log(`Tagged Video saved to: ${registryVideoPath}`);
+                }
+
                 metadata.artifacts.video = path.join(datePath, videoName);
             }
             if (artifacts.cover && fs.existsSync(artifacts.cover)) {
                 const coverName = `${archiveBase}-cover${path.extname(artifacts.cover)}`;
                 fs.copyFileSync(artifacts.cover, path.join(finalRegistryDir, coverName));
                 metadata.artifacts.cover = path.join(datePath, coverName);
-            }
-            if (artifacts.stemsDir && fs.existsSync(artifacts.stemsDir)) {
-                const stemsName = `${archiveBase}-stems.zip`;
-
-                // Tag individual stems before tracking
-                let localTaggerPath = path.join(__dirname, "metadata_tagger.py");
-                if (!fs.existsSync(localTaggerPath)) {
-                    localTaggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
-                }
-
-                const stems = fs.readdirSync(artifacts.stemsDir).filter(f => f.endsWith(".wav"));
-                for (const stem of stems) {
-                    const stemPath = path.join(artifacts.stemsDir, stem);
-                    const stemMetadata = { ...metadata, title: `${metadata.title} - ${stem.replace(".wav", "")} (Stem)` };
-                    spawnSync("python3", [localTaggerPath, stemPath, JSON.stringify(stemMetadata)]);
-                }
-
-                // Simple zip simulation for now, or just move the dir if we want
-                // For simplicity in this env, we'll just track that stems existed
-                // In production, we'd use 'archiver' or 'adm-zip'
-                console.log(`Artifact stemsDir found at ${artifacts.stemsDir} - tagged ${stems.length} stems.`);
-                metadata.artifacts.stems = stemsName;
             }
         }
 
@@ -148,7 +150,6 @@ export class TrackManager {
 
         fs.copyFileSync(destinationPath, archivePath);
 
-        // Enhance metadata for sidecar to preserve lineage and timestamps
         const sidecarMetadata = {
             ...metadata,
             originalFileName: fileName,
@@ -157,7 +158,7 @@ export class TrackManager {
         };
 
         fs.writeFileSync(sidecarPath, JSON.stringify(sidecarMetadata, null, 2));
-        console.log(`Archived to registry: ${archivePath}`);
+        console.log(`Archived to registry with sidecar: ${sidecarPath}`);
 
         // 6. Update manifest
         this.updateManifest(metadata, fileName);
@@ -190,7 +191,6 @@ export class TrackManager {
             manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
         }
 
-        // Check if track already exists (update instead of push)
         const existingIndex = manifest.findIndex(t => t.fileName === fileName);
         const entry = {
             ...(existingIndex >= 0 ? manifest[existingIndex] : {}),

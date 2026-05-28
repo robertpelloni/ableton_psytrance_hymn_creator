@@ -1,5 +1,176 @@
 [
   {
+    "title": "Untitled (Psytrance Remix)",
+    "genre": "Psytrance",
+    "bpm": 150,
+    "key": "F major",
+    "version": "1.4.2",
+    "mood": "energetic",
+    "artist": "Hymnmania AI",
+    "album": "Omni-Archive",
+    "streamingUrls": {},
+    "inputMidi": "Emmanuel.mid",
+    "styleModelVersion": "1.0.0",
+    "technical": {
+      "duration": 18.083990929705216,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
+      "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4",
+      "stems": "Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4"
+    },
+    "originalFileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
+    "publishedAt": "2026-05-28T10:32:09.152Z",
+    "updatedAt": "2026-05-28T16:29:15.543Z",
+    "fileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
+    "searchTokens": "untitled (psytrance remix) psytrance energetic f major 1.4.2 hymnmania ai emmanuel.mid",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav"
+  },
+  {
+    "title": "canary",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 18.083990929705216,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mid",
+      "video": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mp4",
+      "cover": "2026/05/28/Archive-canary-1.0.0-2026-05-28-cover.png",
+      "stems": "Archive-canary-1.0.0-2026-05-28-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28.mp4",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28-cover.png"
+    },
+    "originalFileName": "Published-canary-1.0.0-2026-05-28.wav",
+    "publishedAt": "2026-05-28T09:41:39.664Z",
+    "updatedAt": "2026-05-28T16:29:16.350Z",
+    "fileName": "Published-canary-1.0.0-2026-05-28.wav",
+    "searchTokens": "canary unknown unknown 1.0.0 hymnmania ai archive",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-canary-1.0.0-2026-05-28.wav"
+  },
+  {
+    "title": "house_feedback_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 85.51183673469387,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-house_feedback_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-house_feedback_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
+    },
+    "originalFileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-28T16:29:16.754Z",
+    "searchTokens": "house_feedback_test unknown unknown 1.0.0 hymnmania ai archive"
+  },
+  {
+    "title": "model_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 33.82421768707483,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
+      "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-model_test-1.0.0-2026-05-27.mid"
+    },
+    "originalFileName": "Published-model_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-model_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-28T16:29:16.955Z",
+    "searchTokens": "model_test unknown unknown 1.0.0 hymnmania ai archive"
+  },
+  {
+    "title": "publish_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 125.6867120181406,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-publish_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-publish_test-1.0.0-2026-05-27-cover.png"
+    },
+    "originalFileName": "Published-publish_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-28T16:29:17.358Z",
+    "searchTokens": "publish_test unknown unknown 1.0.0 hymnmania ai archive"
+  },
+  {
+    "title": "quality_gate_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 194.85315192743764,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-quality_gate_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-quality_gate_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-quality_gate_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-quality_gate_test-1.0.0-2026-05-27-cover.png"
+    },
+    "originalFileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-28T16:29:17.762Z",
+    "searchTokens": "quality_gate_test unknown unknown 1.0.0 hymnmania ai archive"
+  },
+  {
     "title": "Untitled",
     "genre": "Psytrance",
     "bpm": 145,
@@ -14,10 +185,11 @@
       "channels": 2,
       "format": "WAVE"
     },
+    "originalFileName": "Published-Untitled-0.9.0-2026-05-27.wav",
     "fileName": "Published-Untitled-0.9.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T05:29:38.495Z",
-    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-0.9.0-2026-05-27.wav",
-    "updatedAt": "2026-05-27T07:51:05.704Z"
+    "publishedAt": "2026-05-27T21:49:13.722Z",
+    "updatedAt": "2026-05-27T21:49:13.722Z",
+    "searchTokens": "untitled psytrance g major 0.9.0 hymnmania ai"
   },
   {
     "title": "Untitled",
@@ -39,34 +211,11 @@
       "channels": 2,
       "format": "WAVE"
     },
+    "originalFileName": "Published-Untitled-1.0.0-2026-05-27.wav",
     "fileName": "Published-Untitled-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T05:54:26.220Z",
-    "updatedAt": "2026-05-27T07:51:06.207Z",
-    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-1.0.0-2026-05-27.wav"
-  },
-  {
-    "title": "publish_test",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 125.6867120181406,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
-      "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
-      "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip"
-    },
-    "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T12:02:15.604Z",
-    "updatedAt": "2026-05-27T12:02:15.604Z"
+    "publishedAt": "2026-05-27T21:49:13.722Z",
+    "updatedAt": "2026-05-27T21:49:13.722Z",
+    "searchTokens": "untitled house c major 1.0.0 hymnmania ai kumbayah.mid"
   },
   {
     "title": "final_verify",
@@ -86,134 +235,124 @@
       "midi": "Archive-final_verify-1.0.0-2026-05-27.mid",
       "video": "Archive-final_verify-1.0.0-2026-05-27.mp4",
       "cover": "Archive-final_verify-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip"
+      "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-final_verify-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-final_verify-1.0.0-2026-05-27-cover.png"
     },
+    "originalFileName": "Published-final_verify-1.0.0-2026-05-27.wav",
     "fileName": "Published-final_verify-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:07.220Z",
-    "updatedAt": "2026-05-27T16:02:07.220Z"
-  },
-  {
-    "title": "house_feedback_test",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 85.51183673469387,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "Archive-house_feedback_test-1.0.0-2026-05-27.mid",
-      "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
-      "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
-    },
-    "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:10.713Z",
-    "updatedAt": "2026-05-27T16:02:10.713Z"
-  },
-  {
-    "title": "model_test",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 33.82421768707483,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
-      "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip"
-    },
-    "fileName": "Published-model_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:13.914Z",
-    "updatedAt": "2026-05-27T16:02:13.914Z"
-  },
-  {
-    "title": "quality_gate_test",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 194.85315192743764,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "Archive-quality_gate_test-1.0.0-2026-05-27.mid",
-      "video": "Archive-quality_gate_test-1.0.0-2026-05-27.mp4",
-      "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip"
-    },
-    "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:17.785Z",
-    "updatedAt": "2026-05-27T16:02:17.785Z"
-  },
-  {
-    "title": "canary",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 18.083990929705216,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mid",
-      "video": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mp4",
-      "cover": "2026/05/28/Archive-canary-1.0.0-2026-05-28-cover.png",
-      "stems": "Archive-canary-1.0.0-2026-05-28-stems.zip"
-    },
-    "fileName": "Published-canary-1.0.0-2026-05-28.wav",
-    "publishedAt": "2026-05-28T09:41:39.665Z",
-    "updatedAt": "2026-05-28T09:41:39.665Z"
+    "publishedAt": "2026-05-27T21:49:13.722Z",
+    "updatedAt": "2026-05-28T16:29:18.165Z",
+    "searchTokens": "final_verify unknown unknown 1.0.0 hymnmania ai archive"
   },
   {
     "title": "Untitled (Psytrance Remix)",
     "genre": "Psytrance",
-    "bpm": 150,
+    "bpm": 145,
     "key": "F major",
-    "version": "1.4.2",
-    "mood": "energetic",
+    "version": "1.5.1",
     "artist": "Hymnmania AI",
     "album": "Omni-Archive",
     "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_y3i3w",
-      "Soundcloud": "https://soundcloud.com/hymnmania/mock_o4fj3"
+      "YouTube": "https://youtube.com/watch?v=mock_s9lkjk",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_ckwnya"
     },
     "inputMidi": "Emmanuel.mid",
     "styleModelVersion": "1.0.0",
     "technical": {
-      "duration": 18.083990929705216,
+      "duration": 64.85913832199546,
       "bitrate": 1411200,
       "sample_rate": 44100,
       "channels": 2,
       "format": "WAVE"
     },
     "artifacts": {
-      "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
-      "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4",
-      "stems": "Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28-stems.zip"
+      "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.mid",
+      "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.mp4",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.mp4"
     },
-    "fileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
-    "publishedAt": "2026-05-28T10:32:09.153Z",
-    "updatedAt": "2026-05-28T10:32:10.958Z"
+    "fileName": "Published-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.wav",
+    "publishedAt": "2026-05-28T16:16:07.804Z",
+    "updatedAt": "2026-05-28T16:29:18.769Z",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled_(Psytrance_Remix)-1.5.1-2026-05-28.wav"
+  },
+  {
+    "title": "Untitled (Psytrance Remix)",
+    "genre": "Psytrance",
+    "bpm": 145,
+    "key": "F major",
+    "version": "1.5.2",
+    "artist": "Hymnmania AI",
+    "album": "Omni-Archive",
+    "streamingUrls": {
+      "YouTube": "https://youtube.com/watch?v=mock_qnsdd8",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_2y92hg"
+    },
+    "inputMidi": "Emmanuel.mid",
+    "styleModelVersion": "1.0.0",
+    "technical": {
+      "duration": 64.85913832199546,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.mid",
+      "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.mp4",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.mp4"
+    },
+    "fileName": "Published-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.wav",
+    "publishedAt": "2026-05-28T16:38:53.647Z",
+    "updatedAt": "2026-05-28T16:38:58.522Z",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled_(Psytrance_Remix)-1.5.2-2026-05-28.wav"
+  },
+  {
+    "title": "latest",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 64.85913832199546,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-latest-1.0.0-2026-05-28.mid",
+      "video": "2026/05/28/Archive-latest-1.0.0-2026-05-28.mp4",
+      "cover": "2026/05/28/Archive-latest-1.0.0-2026-05-28-cover.png"
+    },
+    "fileName": "Published-latest-1.0.0-2026-05-28.wav",
+    "publishedAt": "2026-05-28T16:39:12.209Z",
+    "updatedAt": "2026-05-28T16:39:12.209Z"
+  },
+  {
+    "title": "tag_verify",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 64.85913832199546,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-tag_verify-1.0.0-2026-05-28.mid",
+      "video": "2026/05/28/Archive-tag_verify-1.0.0-2026-05-28.mp4",
+      "cover": "2026/05/28/Archive-tag_verify-1.0.0-2026-05-28-cover.png"
+    },
+    "fileName": "Published-tag_verify-1.0.0-2026-05-28.wav",
+    "publishedAt": "2026-05-28T16:39:19.138Z",
+    "updatedAt": "2026-05-28T16:39:19.138Z"
   }
 ]

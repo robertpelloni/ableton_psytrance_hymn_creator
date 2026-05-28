@@ -1,11 +1,11 @@
 {
-  "lastUpdate": "2026-05-28T09:41:42.006Z",
-  "totalTracks": 8,
-  "totalDurationSeconds": 640.0856235827665,
-  "averageBpm": 33.625,
+  "lastUpdate": "2026-05-28T16:39:24.326Z",
+  "totalTracks": 13,
+  "totalDurationSeconds": 917.6061678004536,
+  "averageBpm": 54.53846153846154,
   "registryStats": {
-    "midiCount": 6,
-    "videoCount": 5,
-    "syncedCount": 2
+    "midiCount": 11,
+    "videoCount": 10,
+    "syncedCount": 4
   }
 }
