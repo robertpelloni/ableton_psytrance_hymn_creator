@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.4.0] - 2026-05-28
+- **Mood-Based Generation & Neural Overhaul UI.**
+- Implemented `MoodMapper` to adjust algorithmic density, velocity, and BPM based on 5 user moods.
+- Exposed "Use AI Sound Design" toggle in the Web UI and GitHub Actions.
+- Refined AI Prompt logic to ensure mood-specific sound design is always applied.
+- Updated repository sanitization to include recursive submodule maintenance.
+- Cleaned up production pipeline artifacts for a stable 1.4.0 release.
+
 ## [1.0.0] - 2026-05-27
 - **V1.0.0 Milestone Release: The Autonomous Production Engine.**
 - Fully integrated 145 BPM Psytrance and 124 BPM Deep House algorithmic generators.

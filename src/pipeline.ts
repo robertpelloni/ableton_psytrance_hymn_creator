@@ -1,5 +1,6 @@
 import { MidiParser } from "./analysis/midi_parser";
 import { PsyGenerator, PsyConfig, DEFAULT_PSY_CONFIG } from "./sequencer/psy_generator";
+import { MoodMapper, Mood } from "./sequencer/mood_mapper";
 import { VocalProcessor } from "./integrators/vocal_processor";
 import { AIBridge } from "./integrators/ai_bridge";
 import { TrackManager } from "./integrators/track_manager";
@@ -20,6 +21,8 @@ export interface PipelineOptions {
     aiPrompt?: string;
     genre?: "psytrance" | "house";
     continuous?: boolean;
+    useAi?: boolean;
+    mood?: Mood;
 }
 
 export class PsyMonoPipeline {
@@ -53,6 +56,20 @@ export class PsyMonoPipeline {
         if (continuous || !inputMidi) {
             console.log("Continuous mode active. Selecting random MIDI...");
             inputMidi = this.getRandomMidi();
+        }
+
+        // Apply Mood modifications if provided
+        if (options.mood) {
+            console.log(`Applying mood profile: ${options.mood}`);
+            psyConfig = MoodMapper.applyMood(psyConfig, options.mood);
+            targetBpm = psyConfig.targetBpm;
+
+            const addon = MoodMapper.getPromptAddon(options.mood);
+            if (aiPrompt) {
+                aiPrompt += `, ${addon}`;
+            } else {
+                aiPrompt = addon;
+            }
         }
 
         if (!fs.existsSync(outputDir)) {
@@ -138,7 +155,7 @@ export class PsyMonoPipeline {
         if (aiPrompt) {
             console.log(`Step 4: Orchestrating AI Sound Design Overhaul...`);
             const aiBridge = new AIBridge({});
-            aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt);
+            aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt, options.useAi);
             console.log(`AI Overhaul complete: ${aiAudioPath}`);
         }
 
@@ -171,6 +188,7 @@ export class PsyMonoPipeline {
             bpm: targetBpm,
             key: dna.key,
             version: "1.0.0",
+            mood: options.mood,
             artist: "Hymnmania AI",
             album: "Omni-Archive",
             streamingUrls: {} as { [key: string]: string },
@@ -224,7 +242,7 @@ if (require.main === module) {
     const args = process.argv.slice(2);
     if (args.length < 2) {
         console.log("Usage: ts-node src/pipeline.ts <input_midi|--continuous> <output_dir> [options]");
-        console.log("Options: --vocal <path>, --bpm <bpm>, --genre <genre>, --density <1-8>, --octaves <0-4>, --variant <classic|triplet|rolling>");
+        console.log("Options: --vocal <path>, --bpm <bpm>, --genre <genre>, --density <1-8>, --octaves <0-4>, --variant <classic|triplet|rolling>, --use-ai, --mood <mood>");
         process.exit(1);
     }
 
@@ -237,6 +255,8 @@ if (require.main === module) {
     let density = 5;
     let octaves = 2;
     let variant: any = "classic";
+    let useAi = false;
+    let mood: any = undefined;
 
     for (let i = 2; i < args.length; i++) {
         if (args[i] === "--vocal" && args[i+1]) {
@@ -257,6 +277,11 @@ if (require.main === module) {
         } else if (args[i] === "--variant" && args[i+1]) {
             variant = args[i+1];
             i++;
+        } else if (args[i] === "--use-ai") {
+            useAi = true;
+        } else if (args[i] === "--mood" && args[i+1]) {
+            mood = args[i+1];
+            i++;
         }
     }
 
@@ -268,6 +293,8 @@ if (require.main === module) {
         targetBpm,
         genre,
         continuous,
+        useAi,
+        mood,
         psyConfig: {
             targetBpm,
             euclideanDensity: density,

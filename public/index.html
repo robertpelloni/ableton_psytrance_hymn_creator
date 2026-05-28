@@ -58,6 +58,23 @@
             <input type="number" id="bpm" value="145" min="80" max="180">
         </div>
 
+        <div class="form-group">
+            <label for="moodSelect">Select Mood</label>
+            <select id="moodSelect">
+                <option value="">-- Default --</option>
+                <option value="uplifting">Uplifting</option>
+                <option value="dark">Dark</option>
+                <option value="energetic">Energetic</option>
+                <option value="solemn">Solemn</option>
+                <option value="mystical">Mystical</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px; background: #333; padding: 10px; border-radius: 4px;">
+            <input type="checkbox" id="useAi" style="width: auto;">
+            <label for="useAi" style="margin-bottom: 0;">Use AI Sound Design (Udio/Suno Integration)</label>
+        </div>
+
         <details style="margin-bottom: 20px; cursor: pointer; color: #00d2ff;">
             <summary>Advanced Algorithmic Parameters</summary>
             <div class="config-section" style="background: #222;">
@@ -325,6 +342,8 @@
             const vocal = document.getElementById('vocalUrl').value;
             const bpm = document.getElementById('bpm').value;
             const genre = document.getElementById('genreSelect').value;
+            const mood = document.getElementById('moodSelect').value;
+            const useAi = document.getElementById('useAi').checked;
             const density = document.getElementById('density').value;
             const octaves = document.getElementById('octaves').value;
             const variant = document.getElementById('variant').value;
@@ -347,6 +366,8 @@
                             input_midi: midi || 'hymnmania_src/hymn_remaker/test_input/Emmanuel.mid',
                             vocal_track: vocal,
                             genre: genre,
+                            mood: mood,
+                            use_ai: useAi ? "true" : "false",
                             continuous: isContinuous ? "true" : "false",
                             density: density,
                             octaves: octaves,
