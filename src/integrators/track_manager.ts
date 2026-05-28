@@ -32,6 +32,7 @@ export interface TrackMetadata {
         video?: string;
         cover?: string;
     };
+    searchTokens?: string;
 }
 
 export class TrackManager {
@@ -115,7 +116,7 @@ export class TrackManager {
 
                 // Tag Video using FFmpeg
                 console.log(`Tagging Video: ${artifacts.video}`);
-                const tagResult = spawnSync("ffmpeg", [
+                spawnSync("ffmpeg", [
                     "-y",
                     "-i", artifacts.video,
                     "-metadata", `title=${metadata.title}`,
@@ -128,19 +129,26 @@ export class TrackManager {
                     registryVideoPath
                 ]);
 
-                if (tagResult.status !== 0) {
-                    console.warn(`Video tagging failed: ${tagResult.stderr.toString()}. Copying untagged.`);
-                    fs.copyFileSync(artifacts.video, registryVideoPath);
-                } else {
-                    console.log(`Tagged Video saved to: ${registryVideoPath}`);
-                }
-
                 metadata.artifacts.video = path.join(datePath, videoName);
             }
             if (artifacts.cover && fs.existsSync(artifacts.cover)) {
                 const coverName = `${archiveBase}-cover${path.extname(artifacts.cover)}`;
                 fs.copyFileSync(artifacts.cover, path.join(finalRegistryDir, coverName));
                 metadata.artifacts.cover = path.join(datePath, coverName);
+            }
+            if (artifacts.stemsDir && fs.existsSync(artifacts.stemsDir)) {
+                const stemsZipName = `${archiveBase}-stems.zip`;
+                const stemsZipPath = path.join(finalRegistryDir, stemsZipName);
+
+                console.log(`Packaging stems from ${artifacts.stemsDir} into ${stemsZipPath}...`);
+
+                // Use native zip command if available
+                const zipResult = spawnSync("zip", ["-r", "-j", stemsZipPath, artifacts.stemsDir]);
+                if (zipResult.status !== 0) {
+                    console.error("Failed to package stems ZIP.");
+                } else {
+                    metadata.artifacts.stems = path.join(datePath, stemsZipName);
+                }
             }
         }
 
@@ -149,6 +157,18 @@ export class TrackManager {
         const sidecarPath = path.join(finalRegistryDir, archiveBase + ".json");
 
         fs.copyFileSync(destinationPath, archivePath);
+
+        // Compute search tokens for sidecar and manifest
+        const tokens = [
+            metadata.title,
+            metadata.genre,
+            metadata.mood,
+            metadata.key,
+            metadata.version,
+            metadata.artist,
+            metadata.inputMidi
+        ].filter(Boolean).map(s => s!.toLowerCase());
+        metadata.searchTokens = tokens.join(" ");
 
         const sidecarMetadata = {
             ...metadata,

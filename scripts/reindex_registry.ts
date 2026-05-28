@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 async function reindexRegistry() {
-    console.log("--- Starting Registry Re-indexing (Optimized for Search) ---");
+    console.log("--- Starting Registry Re-indexing (Search Tokens Enhanced) ---");
     const registryDir = "public/registry";
     const publishedDir = "public/published";
     const manifestPath = path.join(publishedDir, "manifest.json");
@@ -34,7 +34,7 @@ async function reindexRegistry() {
                             updatedAt: data.updatedAt || new Date(fs.statSync(fullPath).mtime).toISOString()
                         };
 
-                        // Pre-compute search tokens for frontend optimization
+                        // Compute search tokens for manifest optimization
                         const tokens = [
                             track.title,
                             track.genre,
@@ -44,7 +44,6 @@ async function reindexRegistry() {
                             track.artist,
                             track.inputMidi
                         ].filter(Boolean).map(s => s.toLowerCase());
-
                         track.searchTokens = tokens.join(" ");
 
                         tracks.push(track);
@@ -59,7 +58,7 @@ async function reindexRegistry() {
 
     walk(registryDir);
 
-    // Sort by publication date (newest first)
+    // Sort by publication date
     tracks.sort((a, b) => {
         const dateA = new Date(a.publishedAt || 0).getTime();
         const dateB = new Date(b.publishedAt || 0).getTime();

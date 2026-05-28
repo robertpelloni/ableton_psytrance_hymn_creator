@@ -129,7 +129,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h3 style="margin: 0;">Published Tracks</h3>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="searchInput" placeholder="Search tracks..." style="width: 200px; padding: 5px;">
+                    <input type="text" id="searchInput" placeholder="Search title, key, mood, version..." style="width: 200px; padding: 5px;">
                     <select id="genreFilter" style="width: 120px; padding: 5px;">
                         <option value="">All Genres</option>
                         <option value="Psytrance">Psytrance</option>
@@ -170,7 +170,8 @@
             const sortMode = document.getElementById('sortBy').value;
 
             let filtered = allTracks.filter(t => {
-                const matchesSearch = t.title.toLowerCase().includes(searchTerm) || t.key.toLowerCase().includes(searchTerm);
+                const searchStr = (t.searchTokens || t.title + " " + t.key + " " + t.genre).toLowerCase();
+                const matchesSearch = searchStr.includes(searchTerm);
                 const matchesGenre = genreFilter === "" || t.genre === genreFilter;
                 return matchesSearch && matchesGenre;
             });
@@ -203,7 +204,7 @@
                 if (track.artifacts) {
                     if (track.artifacts.midi) artifactLinks += `<a href="registry/${track.artifacts.midi}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎹 MIDI</a>`;
                     if (track.artifacts.video) artifactLinks += `<a href="registry/${track.artifacts.video}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎬 Video</a>`;
-                    if (track.artifacts.stems) artifactLinks += `<span style="margin-left: 10px; font-size: 11px; color: #aaa;">📦 Stems</span>`;
+                    if (track.artifacts.stems) artifactLinks += `<a href="registry/${track.artifacts.stems}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">📦 Stems ZIP</a>`;
                 }
 
                 div.innerHTML = `
@@ -275,7 +276,6 @@
 
         window.onload = () => {
             loadManifest();
-            // Load saved config
             document.getElementById('ghOwner').value = localStorage.getItem('ghOwner') || '';
             document.getElementById('ghRepo').value = localStorage.getItem('ghRepo') || '';
             document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
@@ -305,21 +305,20 @@
                         statusEl.innerText = latest.status;
                         statusEl.className = `job-status status-${latest.status}`;
 
-                        // Fetch steps
                         const stepsRes = await fetch(latest.jobs_url, { headers: { 'Authorization': `token ${token}` } });
                         const stepsData = await stepsRes.json();
                         const job = stepsData.jobs[0];
 
                         let stepText = `Run ID: ${latest.id}<br>`;
                         if (job && job.steps) {
-                            const activeStep = job.steps.find(s => s.status === 'in_progress') || job.steps.reverse().find(s => s.status === 'completed');
+                            const activeStep = job.steps.find(s => s.status === 'in_progress') || job.steps.slice().reverse().find(s => s.status === 'completed');
                             if (activeStep) stepText += `<strong>Step:</strong> ${activeStep.name}`;
                         }
                         document.getElementById('jobId').innerHTML = stepText;
 
                         if (latest.status === 'completed') {
                             loadManifest();
-                            return; // Stop polling
+                            return;
                         }
                     }
                 } catch (e) { console.error('Monitor error:', e); }
