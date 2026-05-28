@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as fs from 'fs';
+import * as path from 'path';
 import { spawnSync } from 'child_process';
 
 export interface AIBridgeConfig {
@@ -17,17 +18,35 @@ export class AIBridge {
     /**
      * Remakes a stem using a local MusicGen model (if available) or a 3rd party API.
      */
-    async remakeWithAI(stemPath: string, prompt: string): Promise<string> {
+    async remakeWithAI(stemPath: string, prompt: string, useNeuralOverhaul: boolean = false): Promise<string> {
         console.log(`[AIBridge] Orchestrating Neural Texture Mapping for ${stemPath}...`);
         console.log(`[AIBridge] Prompt: ${prompt}`);
 
-        // Placeholder for real AI integration logic
-        // In a real scenario, this would upload the file to Udio/Suno or call a local model.
+        if (useNeuralOverhaul) {
+            console.log(`[AIBridge] Launching Neural Overhaul (Headless CDP Mode)...`);
+            let automationPath = path.join(__dirname, "../../hymnmania_src/services/udio_automation.py");
+            if (!fs.existsSync(automationPath)) {
+                automationPath = path.join(process.cwd(), "hymnmania_src/services/udio_automation.py");
+            }
 
+            const result = spawnSync("python3", [automationPath, stemPath, prompt]);
+            if (result.status === 0) {
+                const data = JSON.parse(result.stdout.toString());
+                if (data.success) {
+                    console.log(`[AIBridge] Neural Overhaul successful: ${data.output_path}`);
+                    return data.output_path;
+                } else {
+                    console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
+                }
+            } else {
+                console.error(`[AIBridge] Automation service crashed: ${result.stderr.toString()}`);
+            }
+        }
+
+        // Fallback to simulation/mock if overhaul is disabled or fails
         const mockResult = stemPath.replace('.wav', '_ai_remake.wav');
         console.log(`[AIBridge] AI remake simulation: ${mockResult}`);
 
-        // Just copy the file for now as a placeholder
         if (fs.existsSync(stemPath)) {
             fs.copyFileSync(stemPath, mockResult);
         } else {

@@ -160,5 +160,34 @@
     "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T16:02:17.785Z",
     "updatedAt": "2026-05-27T16:02:17.785Z"
+  },
+  {
+    "title": "Untitled (Psytrance Remix)",
+    "genre": "Psytrance",
+    "bpm": 145,
+    "key": "F major",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI",
+    "album": "Omni-Archive",
+    "streamingUrls": {
+      "YouTube": "https://youtube.com/watch?v=mock_hl392w"
+    },
+    "inputMidi": "Archive-final_verify-1.0.0-2026-05-27.mid",
+    "styleModelVersion": "1.0.0",
+    "technical": {
+      "duration": 64.85913832199546,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-Untitled_(Psytrance_Remix)-1.0.0-2026-05-27.mid",
+      "video": "Archive-Untitled_(Psytrance_Remix)-1.0.0-2026-05-27.mp4",
+      "stems": "Archive-Untitled_(Psytrance_Remix)-1.0.0-2026-05-27-stems.zip"
+    },
+    "fileName": "Published-Untitled_(Psytrance_Remix)-1.0.0-2026-05-27.wav",
+    "publishedAt": "2026-05-27T22:32:44.248Z",
+    "updatedAt": "2026-05-27T22:32:45.251Z"
   }
 ]
