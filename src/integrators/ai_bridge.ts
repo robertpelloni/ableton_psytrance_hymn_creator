@@ -24,9 +24,9 @@ export class AIBridge {
 
         if (useNeuralOverhaul) {
             console.log(`[AIBridge] Launching Neural Overhaul (Headless CDP Mode)...`);
-            let automationPath = path.join(__dirname, "../../hymnmania_src/services/udio_automation.py");
+            let automationPath = path.join(__dirname, "udio_automation.py");
             if (!fs.existsSync(automationPath)) {
-                automationPath = path.join(process.cwd(), "hymnmania_src/services/udio_automation.py");
+                automationPath = path.join(process.cwd(), "src/integrators/udio_automation.py");
             }
 
             const outputPath = stemPath.replace(".wav", "_neural_overhaul.wav");

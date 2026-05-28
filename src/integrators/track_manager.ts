@@ -21,6 +21,8 @@ export interface TrackMetadata {
     technical?: any;
     streamingUrls?: { [key: string]: string };
     remoteUrl?: string;
+    publishedAt?: string;
+    updatedAt?: string;
     inputMidi?: string;
     styleModelVersion?: string;
     artifacts?: {

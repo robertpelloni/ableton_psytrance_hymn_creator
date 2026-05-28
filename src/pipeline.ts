@@ -8,6 +8,7 @@ import { RenderingModule } from "./rendering/renderer";
 import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
 import { VersionManager } from "./analysis/version_manager";
+import { PromptEngine } from "./integrators/prompt_engine";
 import * as fs from "fs";
 import * as path from "path";
 import * as glob from "glob";
@@ -64,13 +65,6 @@ export class PsyMonoPipeline {
             console.log(`Applying mood profile: ${options.mood}`);
             psyConfig = MoodMapper.applyMood(psyConfig, options.mood);
             targetBpm = psyConfig.targetBpm;
-
-            const addon = MoodMapper.getPromptAddon(options.mood);
-            if (aiPrompt) {
-                aiPrompt += `, ${addon}`;
-            } else {
-                aiPrompt = addon;
-            }
         }
 
         if (!fs.existsSync(outputDir)) {
@@ -82,6 +76,11 @@ export class PsyMonoPipeline {
         // 1. Analysis
         console.log(`Step 1: Extracting DNA from ${path.basename(inputMidi)}...`);
         const dna = MidiParser.parse(inputMidi);
+
+        // Generate dynamic AI prompt if not explicitly provided
+        if (!aiPrompt) {
+            aiPrompt = PromptEngine.generate(dna, genre, options.mood);
+        }
 
         // 2. Algorithmic Sequencing
         let finalMidiPath = path.join(outputDir, "structure.mid");
@@ -308,9 +307,6 @@ if (require.main === module) {
             bassVelocity: 0.7,
             leadVelocity: 0.8,
             kickVelocity: 0.9
-        },
-        aiPrompt: genre === "house" ?
-            "Deep House, 124 BPM, soulful, smooth textures, professional club master" :
-            "Modern Full-On Psytrance, 145 BPM, driving, psychedelic sound design, festival grade master"
+        }
     }).catch(console.error);
 }
