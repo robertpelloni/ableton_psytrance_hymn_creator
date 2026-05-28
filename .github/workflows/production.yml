@@ -135,8 +135,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add pipeline/output/latest public/published/ public/registry/ public/models/
-          git commit -m "Auto-publish: New track generation & model update [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
+          git add pipeline/output/latest public/published/ public/registry/ public/models/ VERSION.md
+          git commit -m "Auto-publish: New track generation, model update & version bump [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Upload Pages Artifact

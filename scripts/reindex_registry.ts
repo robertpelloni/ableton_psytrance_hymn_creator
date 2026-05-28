@@ -12,22 +12,37 @@ async function reindexRegistry() {
         return;
     }
 
-    const sidecars = fs.readdirSync(registryDir).filter(f => f.endsWith(".json") && f.startsWith("Archive-"));
     const tracks: any[] = [];
 
-    for (const sidecar of sidecars) {
-        try {
-            const data = JSON.parse(fs.readFileSync(path.join(registryDir, sidecar), "utf-8"));
-            // Ensure essential fields exist
-            const fileName = data.fileName || data.originalFileName;
-            if (data.title && fileName) {
-                tracks.push({ ...data, fileName });
-                console.log(`Indexed: ${data.title} (${fileName})`);
+    function walk(dir: string) {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            if (fs.statSync(fullPath).isDirectory()) {
+                walk(fullPath);
+            } else if (file.endsWith(".json") && file.startsWith("Archive-")) {
+                try {
+                    const data = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
+                    const fileName = data.fileName || data.originalFileName;
+                    if (data.title && fileName) {
+                        // Restore critical metadata fields from sidecar
+                        const track = {
+                            ...data,
+                            fileName,
+                            publishedAt: data.publishedAt || new Date(fs.statSync(fullPath).birthtime).toISOString(),
+                            updatedAt: data.updatedAt || new Date(fs.statSync(fullPath).mtime).toISOString()
+                        };
+                        tracks.push(track);
+                        console.log(`Indexed: ${data.title} (${fileName})`);
+                    }
+                } catch (e) {
+                    console.error(`Failed to parse sidecar ${file}:`, e);
+                }
             }
-        } catch (e) {
-            console.error(`Failed to parse sidecar ${sidecar}:`, e);
         }
     }
+
+    walk(registryDir);
 
     // Sort by publication date or filename
     tracks.sort((a, b) => {

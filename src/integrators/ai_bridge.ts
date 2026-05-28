@@ -29,12 +29,13 @@ export class AIBridge {
                 automationPath = path.join(process.cwd(), "hymnmania_src/services/udio_automation.py");
             }
 
-            const result = spawnSync("python3", [automationPath, stemPath, prompt]);
+            const outputPath = stemPath.replace(".wav", "_neural_overhaul.wav");
+            const result = spawnSync("python3", [automationPath, stemPath, prompt, outputPath]);
             if (result.status === 0) {
                 const data = JSON.parse(result.stdout.toString());
                 if (data.success) {
-                    console.log(`[AIBridge] Neural Overhaul successful: ${data.output_path}`);
-                    return data.output_path;
+                    console.log(`[AIBridge] Neural Overhaul successful: ${data.output}`);
+                    return data.output;
                 } else {
                     console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
                 }

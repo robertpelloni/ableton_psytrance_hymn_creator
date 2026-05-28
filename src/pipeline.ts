@@ -7,6 +7,7 @@ import { TrackManager } from "./integrators/track_manager";
 import { RenderingModule } from "./rendering/renderer";
 import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
+import { VersionManager } from "./analysis/version_manager";
 import * as fs from "fs";
 import * as path from "path";
 import * as glob from "glob";
@@ -181,19 +182,23 @@ export class PsyMonoPipeline {
 
         // 5. Automated Metadata Tagging & Publishing
         console.log(`Step 5: Tagging and Publishing...`);
+
+        // Bump version for new production
+        const currentVersion = VersionManager.incrementBuild();
+
         const trackManager = new TrackManager();
         const metadata = {
             title: dna.title,
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: fs.readFileSync("VERSION.md", "utf-8").trim(),
+            version: currentVersion,
             mood: options.mood,
             artist: "Hymnmania AI",
             album: "Omni-Archive",
             streamingUrls: {} as { [key: string]: string },
             inputMidi: path.basename(inputMidi),
-            styleModelVersion: psyConfig.styleModel?.version || fs.readFileSync("VERSION.md", "utf-8").trim()
+            styleModelVersion: psyConfig.styleModel?.version || currentVersion
         };
 
         // 6. Video Generation

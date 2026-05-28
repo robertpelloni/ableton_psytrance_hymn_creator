@@ -18,28 +18,43 @@ async function verifyIntegrity() {
     const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
     let errors = 0;
 
+    // Create a set of all files in registry recursively
+    const registryFiles = new Set<string>();
+    function walk(dir: string) {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            if (fs.statSync(fullPath).isDirectory()) {
+                walk(fullPath);
+            } else {
+                registryFiles.add(path.relative(registryDir, fullPath));
+            }
+        }
+    }
+    walk(registryDir);
+
     for (const track of manifest) {
         const title = track.title || "Untitled";
         const sidecarBase = track.fileName.replace(/^Published-/, "Archive-").replace(/\.wav$/, "");
-        const sidecarPath = path.join(registryDir, sidecarBase + ".json");
-        const wavPath = path.join(registryDir, sidecarBase + ".wav");
 
-        if (!fs.existsSync(sidecarPath)) {
-            console.error(`[Error] Missing sidecar for ${title}: ${sidecarPath}`);
+        // Find sidecar in the set
+        const sidecarFile = Array.from(registryFiles).find(f => f.endsWith(sidecarBase + ".json"));
+        const wavFile = Array.from(registryFiles).find(f => f.endsWith(sidecarBase + ".wav"));
+
+        if (!sidecarFile) {
+            console.error(`[Error] Missing sidecar for ${title}: ${sidecarBase}.json`);
             errors++;
         }
 
-        if (!fs.existsSync(wavPath)) {
-            // Some might not have wav if they are purely MIDI or archived differently
-            console.warn(`[Warn] Missing registry WAV for ${title}: ${wavPath}`);
+        if (!wavFile) {
+            console.warn(`[Warn] Missing registry WAV for ${title}: ${sidecarBase}.wav`);
         }
 
         if (track.artifacts) {
             for (const [key, artifactFile] of Object.entries(track.artifacts)) {
-                if (typeof artifactFile === 'string' && key !== "stems") { // skip stems as it's a simulated zip
-                    const artifactPath = path.join(registryDir, artifactFile);
-                    if (!fs.existsSync(artifactPath)) {
-                        console.warn(`[Warn] Missing artifact for ${title}: ${key} -> ${artifactPath}`);
+                if (typeof artifactFile === 'string' && key !== "stems") {
+                    if (!registryFiles.has(artifactFile)) {
+                        console.warn(`[Warn] Missing artifact for ${title}: ${key} -> ${artifactFile}`);
                     }
                 }
             }
