@@ -14,10 +14,8 @@
       "channels": 2,
       "format": "WAVE"
     },
-    "fileName": "Published-Untitled-0.9.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T05:29:38.495Z",
-    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-0.9.0-2026-05-27.wav",
-    "updatedAt": "2026-05-27T07:51:05.704Z"
+    "originalFileName": "Published-Untitled-0.9.0-2026-05-27.wav",
+    "fileName": "Published-Untitled-0.9.0-2026-05-27.wav"
   },
   {
     "title": "Untitled",
@@ -39,34 +37,8 @@
       "channels": 2,
       "format": "WAVE"
     },
-    "fileName": "Published-Untitled-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T05:54:26.220Z",
-    "updatedAt": "2026-05-27T07:51:06.207Z",
-    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled-1.0.0-2026-05-27.wav"
-  },
-  {
-    "title": "publish_test",
-    "genre": "Unknown",
-    "bpm": 0,
-    "key": "Unknown",
-    "version": "1.0.0",
-    "artist": "Hymnmania AI Archive",
-    "technical": {
-      "duration": 125.6867120181406,
-      "bitrate": 1411200,
-      "sample_rate": 44100,
-      "channels": 2,
-      "format": "WAVE"
-    },
-    "artifacts": {
-      "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
-      "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
-      "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip"
-    },
-    "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T12:02:15.604Z",
-    "updatedAt": "2026-05-27T12:02:15.604Z"
+    "originalFileName": "Published-Untitled-1.0.0-2026-05-27.wav",
+    "fileName": "Published-Untitled-1.0.0-2026-05-27.wav"
   },
   {
     "title": "final_verify",
@@ -88,9 +60,8 @@
       "cover": "Archive-final_verify-1.0.0-2026-05-27-cover.png",
       "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip"
     },
-    "fileName": "Published-final_verify-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:07.220Z",
-    "updatedAt": "2026-05-27T16:02:07.220Z"
+    "originalFileName": "Published-final_verify-1.0.0-2026-05-27.wav",
+    "fileName": "Published-final_verify-1.0.0-2026-05-27.wav"
   },
   {
     "title": "house_feedback_test",
@@ -111,9 +82,8 @@
       "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
       "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
     },
-    "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:10.713Z",
-    "updatedAt": "2026-05-27T16:02:10.713Z"
+    "originalFileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav"
   },
   {
     "title": "model_test",
@@ -133,9 +103,31 @@
       "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
       "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip"
     },
-    "fileName": "Published-model_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:13.914Z",
-    "updatedAt": "2026-05-27T16:02:13.914Z"
+    "originalFileName": "Published-model_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-model_test-1.0.0-2026-05-27.wav"
+  },
+  {
+    "title": "publish_test",
+    "genre": "Unknown",
+    "bpm": 0,
+    "key": "Unknown",
+    "version": "1.0.0",
+    "artist": "Hymnmania AI Archive",
+    "technical": {
+      "duration": 125.6867120181406,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
+      "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
+      "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
+      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip"
+    },
+    "originalFileName": "Published-publish_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-publish_test-1.0.0-2026-05-27.wav"
   },
   {
     "title": "quality_gate_test",
@@ -157,8 +149,7 @@
       "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
       "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip"
     },
-    "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
-    "publishedAt": "2026-05-27T16:02:17.785Z",
-    "updatedAt": "2026-05-27T16:02:17.785Z"
+    "originalFileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
+    "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav"
   }
 ]

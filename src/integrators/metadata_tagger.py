@@ -23,9 +23,12 @@ def tag_audio(file_path, metadata):
         tags.add(TCON(encoding=3, text=metadata.get('genre', 'Psytrance')))
         tags.add(TBPM(encoding=3, text=str(metadata.get('bpm', '145'))))
 
-        # Custom tags for Key and Version
+        # Custom tags for Key, Version, Mood, and Lineage
         tags.add(TXXX(encoding=3, desc='Musical Key', text=metadata.get('key', 'Unknown')))
-        tags.add(TXXX(encoding=3, desc='Pipeline Version', text=metadata.get('version', '0.5.0')))
+        tags.add(TXXX(encoding=3, desc='Pipeline Version', text=metadata.get('version', '1.4.0')))
+        tags.add(TXXX(encoding=3, desc='Mood', text=metadata.get('mood', 'Default')))
+        tags.add(TXXX(encoding=3, desc='Input MIDI', text=metadata.get('inputMidi', 'Unknown')))
+        tags.add(TXXX(encoding=3, desc='Style Model Version', text=metadata.get('styleModelVersion', '1.0.0')))
 
         audio.save()
         return {"success": True, "file": file_path}
