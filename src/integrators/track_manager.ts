@@ -109,10 +109,19 @@ export class TrackManager {
             }
             if (artifacts.stemsDir && fs.existsSync(artifacts.stemsDir)) {
                 const stemsName = `${archiveBase}-stems.zip`;
+
+                // Tag individual stems before tracking
+                const stems = fs.readdirSync(artifacts.stemsDir).filter(f => f.endsWith(".wav"));
+                for (const stem of stems) {
+                    const stemPath = path.join(artifacts.stemsDir, stem);
+                    const stemMetadata = { ...metadata, title: `${metadata.title} - ${stem.replace(".wav", "")} (Stem)` };
+                    spawnSync("python3", [taggerPath, stemPath, JSON.stringify(stemMetadata)]);
+                }
+
                 // Simple zip simulation for now, or just move the dir if we want
                 // For simplicity in this env, we'll just track that stems existed
                 // In production, we'd use 'archiver' or 'adm-zip'
-                console.log(`Artifact stemsDir found at ${artifacts.stemsDir} - tracking in manifest.`);
+                console.log(`Artifact stemsDir found at ${artifacts.stemsDir} - tagged ${stems.length} stems.`);
                 metadata.artifacts.stems = stemsName;
             }
         }
