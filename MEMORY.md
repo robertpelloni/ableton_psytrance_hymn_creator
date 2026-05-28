@@ -1,19 +1,19 @@
 # MEMORY
 
 ## Versioning
-- **Version 1.0.0**: Marks the completion of the core autonomous pipeline. The system is now a self-contained, self-improving musical production unit.
+- **Version 1.5.0**: Introduction of the "Psy-Mono" pipeline. Features Euclidean gating, rolling bass variants, and automated vocal harmonic alignment.
+- **Version 1.0.0**: Marks the completion of the core autonomous pipeline.
 
 ## Architectural Observations
-- The project is transitioning from a manual DAW-based workflow to a programmatic "Psy-Mono" pipeline.
-- It uses a hybrid approach: TypeScript for orchestration and MIDI manipulation, and Python for advanced audio processing (librosa, demucs).
-- The pipeline is modular: Analysis -> Sequencer -> Rendering -> Integration.
+- Transitioned to a "Psy-Mono" pipeline: Algorithmic structure (Phase 2) -> Neural Texture Mapping (Phase 3).
+- Uses TypeScript for orchestration and MIDI manipulation, and Python for advanced DSP (librosa, demucs, mido).
+- House production uses a deterministic structural quantizer for rigid grid-locking.
 
 ## Codebase Traits
-- **Strict Quantization**: 145 BPM for Psytrance, 124 BPM for House.
-- **Euclidean Gating**: Used for transforming sustained hymn melodies into rhythmic leads.
-- **Rolling Bass**: Classic psytrance 3-note gallop pattern.
+- **Psytrance**: Strict 145 BPM, 16th-note rolling bass (K-B-B-B), Euclidean gated leads.
+- **House**: Strict 124 BPM, 16th-note quantization, automated 4/4 kick, syncopated off-beat bass.
+- **Vocal Remix**: Automatic BPM detection, ratio-based time-stretching, and semitone-aware pitch shifting.
 
 ## Design Preferences
-- TypeScript for type-safe orchestration.
-- Python for DSP and AI model interaction.
-- Headless execution for cloud deployments.
+- Modular Domain-Driven Design: Analysis, Sequencer, Rendering, Integrators.
+- Headless execution for cloud-scale autonomous production.

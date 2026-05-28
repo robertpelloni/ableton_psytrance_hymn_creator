@@ -14,6 +14,7 @@
 - [ ] **MusicGen Local Inference Layer**.
 - [ ] **Neural Mastering Engine** (Matchering/Mel-Roformer).
 - [x] **Automated Prompt Engineering** (Mood & DNA-driven).
+- [x] **Psy-Mono Pipeline**: Hybrid algorithmic + neural sound design workflow.
 
 ## Phase 3: Content Delivery & Global Scale
 - [ ] Automated music video generation (Audio-reactive).

@@ -8,3 +8,6 @@
 - [x] Implement automated ID3 tagging and manifest registry.
 - [x] Create interactive Web UI with live job monitoring.
 - [x] Develop dynamic AI Prompt Engine (Mood & DNA aware).
+- [x] Implement House Structural Quantizer (124 BPM, off-beat bass shifter).
+- [x] Implement Euclidean Gating for Psytrance Leads.
+- [x] Enhance Vocal Remix Pipeline with harmonic grid-locking.
