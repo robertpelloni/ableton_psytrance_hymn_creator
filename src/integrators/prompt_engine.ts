@@ -26,6 +26,10 @@ export class PromptEngine {
             }
         }
 
+        // Add version and lineage metadata for tracking
+        const lineageInfo = `lineage: ${dna.title}, system v1.4.0`;
+        basePrompt += `, [${lineageInfo}]`;
+
         return basePrompt;
     }
 }

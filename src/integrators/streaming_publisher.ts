@@ -44,4 +44,25 @@ This track was autonomously generated from a traditional hymn MIDI using algorit
             externalUrl: `https://youtube.com/watch?v=mock_${Math.random().toString(36).substring(7)}`
         };
     }
+
+    /**
+     * Publishes audio to Soundcloud (Simulation/Stub).
+     */
+    static async publishToSoundcloud(audioPath: string, metadata: TrackMetadata): Promise<PublishingResult> {
+        console.log(`Publishing to Soundcloud: ${metadata.title}`);
+
+        if (!fs.existsSync(audioPath)) {
+            return { success: false, platform: "Soundcloud", error: "Audio file not found" };
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        console.log(`[Soundcloud API Mock] Uploading ${audioPath}...`);
+
+        return {
+            success: true,
+            platform: "Soundcloud",
+            externalUrl: `https://soundcloud.com/hymnmania/mock_${Math.random().toString(36).substring(7)}`
+        };
+    }
 }

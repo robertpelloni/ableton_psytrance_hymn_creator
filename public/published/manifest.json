@@ -184,5 +184,36 @@
     "fileName": "Published-canary-1.0.0-2026-05-28.wav",
     "publishedAt": "2026-05-28T09:41:39.665Z",
     "updatedAt": "2026-05-28T09:41:39.665Z"
+  },
+  {
+    "title": "Untitled (Psytrance Remix)",
+    "genre": "Psytrance",
+    "bpm": 150,
+    "key": "F major",
+    "version": "1.4.2",
+    "mood": "energetic",
+    "artist": "Hymnmania AI",
+    "album": "Omni-Archive",
+    "streamingUrls": {
+      "YouTube": "https://youtube.com/watch?v=mock_y3i3w",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_o4fj3"
+    },
+    "inputMidi": "Emmanuel.mid",
+    "styleModelVersion": "1.0.0",
+    "technical": {
+      "duration": 18.083990929705216,
+      "bitrate": 1411200,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "WAVE"
+    },
+    "artifacts": {
+      "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
+      "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4",
+      "stems": "Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28-stems.zip"
+    },
+    "fileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
+    "publishedAt": "2026-05-28T10:32:09.153Z",
+    "updatedAt": "2026-05-28T10:32:10.958Z"
   }
 ]

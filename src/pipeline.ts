@@ -223,15 +223,23 @@ export class PsyMonoPipeline {
         const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata, artifacts);
 
         // 8. Streaming Upload
-        console.log(`Step 8: Streaming Upload...`);
+        console.log(`Step 8: Multi-Platform Streaming Upload...`);
         try {
             if (videoPath) {
                 const ytResult = await StreamingPublisher.publishToYouTube(videoPath, metadata);
                 if (ytResult.success && ytResult.externalUrl) {
                     metadata.streamingUrls["YouTube"] = ytResult.externalUrl;
-                    // Update manifest with new metadata (including streaming URLs)
-                    await trackManager.updateMetadata(path.basename(publishedAudioPath), { streamingUrls: metadata.streamingUrls });
                 }
+            }
+
+            const scResult = await StreamingPublisher.publishToSoundcloud(publishedAudioPath, metadata);
+            if (scResult.success && scResult.externalUrl) {
+                metadata.streamingUrls["Soundcloud"] = scResult.externalUrl;
+            }
+
+            if (Object.keys(metadata.streamingUrls).length > 0) {
+                // Update manifest with new metadata (including all streaming URLs)
+                await trackManager.updateMetadata(path.basename(publishedAudioPath), { streamingUrls: metadata.streamingUrls });
             }
         } catch (e) {
             console.error("Streaming upload failed:", e);
