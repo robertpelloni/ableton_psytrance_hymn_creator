@@ -187,13 +187,13 @@ export class PsyMonoPipeline {
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: "1.0.0",
+            version: fs.readFileSync("VERSION.md", "utf-8").trim(),
             mood: options.mood,
             artist: "Hymnmania AI",
             album: "Omni-Archive",
             streamingUrls: {} as { [key: string]: string },
             inputMidi: path.basename(inputMidi),
-            styleModelVersion: psyConfig.styleModel?.version || "1.0.0"
+            styleModelVersion: psyConfig.styleModel?.version || fs.readFileSync("VERSION.md", "utf-8").trim()
         };
 
         // 6. Video Generation

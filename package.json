@@ -22,6 +22,7 @@
     "build": "tsc",
     "repo:sanitize": "ts-node scripts/repository_sanitizer.ts",
     "repo:sync": "ts-node scripts/track_repository_sync.ts",
-    "sync": "npm run repo:sanitize && npm run repo:sync"
+    "sync": "npm run repo:sanitize && npm run repo:sync",
+    "verify": "ts-node scripts/canary_run.ts"
   }
 }

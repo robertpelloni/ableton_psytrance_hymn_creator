@@ -17,6 +17,7 @@ export interface PsyConfig {
     kickVelocity: number;
     gallopVariant: "classic" | "triplet" | "rolling";
     styleModel?: StyleModel;
+    durationLimit?: number; // Optional limit in seconds
 }
 
 export const DEFAULT_PSY_CONFIG: PsyConfig = {
@@ -60,7 +61,11 @@ export class PsyGenerator {
         leadTrack.channel = 2;
 
         const lastMelodyNote = dna.melody[dna.melody.length - 1];
-        const duration = lastMelodyNote ? lastMelodyNote.time + lastMelodyNote.duration + 2 : 60;
+        let duration = lastMelodyNote ? lastMelodyNote.time + lastMelodyNote.duration + 2 : 60;
+
+        if (config.durationLimit && config.durationLimit < duration) {
+            duration = config.durationLimit;
+        }
 
         // Generate Kick
         for (let t = 0; t < duration; t += 60 / targetBpm) {
