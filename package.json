@@ -26,6 +26,7 @@
     "verify": "ts-node scripts/canary_run.ts",
     "reindex": "ts-node scripts/reindex_registry.ts",
     "verify-integrity": "ts-node scripts/verify_integrity.ts",
-    "install-hooks": "ts-node scripts/install_git_hooks.ts"
+    "install-hooks": "ts-node scripts/install_git_hooks.ts",
+    "deploy": "npm run sync && ts-node scripts/sync_remote.ts && ts-node scripts/publish_remote.ts"
   }
 }

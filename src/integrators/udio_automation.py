@@ -9,7 +9,8 @@ def run_automation(input_wav, prompt, output_wav):
     In this baseline, we simulate a successful 'neural overhaul'
     by copying the input to the output.
     """
-    print(f"Neural Overhaul Request: {prompt}")
+    # Log to stderr to avoid polluting stdout for JSON parsing
+    print(f"Neural Overhaul Request: {prompt}", file=sys.stderr)
     shutil.copy(input_wav, output_wav)
     return {"success": True, "output": output_wav}
 
