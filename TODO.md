@@ -13,3 +13,4 @@
 - [x] Enhance Vocal Remix Pipeline with harmonic grid-locking.
 - [x] Implement Section 2: Repository Sanitization Protocol.
 - [x] Implement Section 6: Autonomous Vault Sync & Git Automation.
+- [x] Implement REST API for remote generation triggering.

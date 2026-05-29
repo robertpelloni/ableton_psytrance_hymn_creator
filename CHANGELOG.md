@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.7.0] - 2026-05-31
+- **REST API for Remote Orchestration.**
+- Implemented `src/server.ts` with `/generate` and `/status` endpoints.
+- Added support for asynchronous generation triggering via HTTP.
+- Integrated pipeline control into a standalone Express server.
+
 ## [1.6.2] - 2026-05-30
 - **Local MusicGen Inference Layer.**
 - Integrated local neural sound design via `src/integrators/musicgen_service.py`.
