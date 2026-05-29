@@ -15,13 +15,22 @@ export class VideoGenerator {
             imagePath = this.createFallbackImage(path.dirname(outputPath));
         }
 
+        // Use FFmpeg complex filter for audio-reactive visuals (waveform + vectorscope)
         const result = spawnSync("ffmpeg", [
             "-y",
             "-loop", "1",
             "-i", imagePath,
             "-i", audioPath,
+            "-filter_complex",
+            "[1:a]showwaves=s=1280x200:mode=line:colors=cyan|blue[v_wave];" +
+            "[1:a]avectorscope=s=300x300:zoom=1.5:rc=0:gc=200:bc=255[v_scope];" +
+            "[0:v][v_wave]overlay=0:H-h[v_tmp];" +
+            "[v_tmp][v_scope]overlay=W-w-20:20[v_final]",
+            "-map", "[v_final]",
+            "-map", "1:a",
             "-c:v", "libx264",
-            "-tune", "stillimage",
+            "-preset", "fast",
+            "-crf", "22",
             "-c:a", "aac",
             "-b:a", "192k",
             "-pix_fmt", "yuv420p",
