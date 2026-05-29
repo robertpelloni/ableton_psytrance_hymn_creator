@@ -8,7 +8,10 @@
     "mood": "energetic",
     "artist": "Hymnmania AI",
     "album": "Omni-Archive",
-    "streamingUrls": {},
+    "streamingUrls": {
+      "YouTube": "https://youtube.com/watch?v=mock_ounzyp",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_y2x61"
+    },
     "inputMidi": "Emmanuel.mid",
     "styleModelVersion": "1.0.0",
     "technical": {
@@ -27,7 +30,7 @@
     },
     "originalFileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
     "publishedAt": "2026-05-28T10:32:09.152Z",
-    "updatedAt": "2026-05-29T12:28:24.229Z",
+    "updatedAt": "2026-05-29T19:17:52.200Z",
     "fileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
     "searchTokens": "untitled (psytrance remix) psytrance energetic f major 1.4.2 hymnmania ai emmanuel.mid",
     "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav"
@@ -57,10 +60,14 @@
     },
     "originalFileName": "Published-canary-1.0.0-2026-05-28.wav",
     "publishedAt": "2026-05-28T09:41:39.664Z",
-    "updatedAt": "2026-05-29T12:28:26.236Z",
+    "updatedAt": "2026-05-29T19:17:54.008Z",
     "fileName": "Published-canary-1.0.0-2026-05-28.wav",
     "searchTokens": "canary unknown unknown 1.0.0 hymnmania ai archive",
-    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-canary-1.0.0-2026-05-28.wav"
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-canary-1.0.0-2026-05-28.wav",
+    "streamingUrls": {
+      "YouTube": "https://youtube.com/watch?v=mock_vjkxl",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_1pw5g"
+    }
   },
   {
     "title": "house_feedback_test",

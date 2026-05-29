@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.7.1] - 2026-06-01
+- **Automated Streaming Publishing.**
+- Implemented `scripts/publish_streaming.ts` for catch-up publishing.
+- Added support for automated YouTube and Soundcloud sync.
+- Integrated publishing workflow into the centralized manifest management.
+
 ## [1.7.0] - 2026-05-31
 - **REST API for Remote Orchestration.**
 - Implemented `src/server.ts` with `/generate` and `/status` endpoints.
