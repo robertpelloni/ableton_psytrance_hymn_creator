@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 async function reindexRegistry() {
-    console.log("--- Starting Registry Re-indexing (Search Tokens Enhanced) ---");
+    console.log("--- Starting Registry Re-indexing ---");
     const registryDir = "public/registry";
     const publishedDir = "public/published";
     const manifestPath = path.join(publishedDir, "manifest.json");
@@ -15,7 +15,6 @@ async function reindexRegistry() {
     const tracks: any[] = [];
 
     function walk(dir: string) {
-        if (!fs.existsSync(dir)) return;
         const files = fs.readdirSync(dir);
         for (const file of files) {
             const fullPath = path.join(dir, file);
@@ -33,19 +32,6 @@ async function reindexRegistry() {
                             publishedAt: data.publishedAt || new Date(fs.statSync(fullPath).birthtime).toISOString(),
                             updatedAt: data.updatedAt || new Date(fs.statSync(fullPath).mtime).toISOString()
                         };
-
-                        // Compute search tokens for manifest optimization
-                        const tokens = [
-                            track.title,
-                            track.genre,
-                            track.mood,
-                            track.key,
-                            track.version,
-                            track.artist,
-                            track.inputMidi
-                        ].filter(Boolean).map(s => s.toLowerCase());
-                        track.searchTokens = tokens.join(" ");
-
                         tracks.push(track);
                         console.log(`Indexed: ${data.title} (${fileName})`);
                     }
@@ -58,7 +44,7 @@ async function reindexRegistry() {
 
     walk(registryDir);
 
-    // Sort by publication date
+    // Sort by publication date or filename
     tracks.sort((a, b) => {
         const dateA = new Date(a.publishedAt || 0).getTime();
         const dateB = new Date(b.publishedAt || 0).getTime();

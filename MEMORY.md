@@ -1,19 +1,19 @@
 # MEMORY
 
 ## Versioning
-- **Version 1.5.0**: Introduction of the "Psy-Mono" pipeline. Features Euclidean gating, rolling bass variants, and automated vocal harmonic alignment.
-- **Version 1.0.0**: Marks the completion of the core autonomous pipeline.
+- **Version 1.6.0**: Unified TypeScript architecture. Implemented audio-reactive video generation. Ported House Structural Quantizer to TypeScript.
+- **Version 1.5.0**: Introduction of the "Psy-Mono" pipeline. Features Euclidean gating and rolling bass variants.
 
 ## Architectural Observations
-- Transitioned to a "Psy-Mono" pipeline: Algorithmic structure (Phase 2) -> Neural Texture Mapping (Phase 3).
-- Uses TypeScript for orchestration and MIDI manipulation, and Python for advanced DSP (librosa, demucs, mido).
-- House production uses a deterministic structural quantizer for rigid grid-locking.
+- The project has successfully unified its core music generation logic into TypeScript (\`PsyGenerator\` and \`HouseGenerator\`).
+- Visual generation has moved from static images to dynamic audio-reactive visuals using FFmpeg complex filters.
+- Orchestration is centralized in \`scripts/autonomous_production.ts\` for simple end-to-end execution.
 
 ## Codebase Traits
-- **Psytrance**: Strict 145 BPM, 16th-note rolling bass (K-B-B-B), Euclidean gated leads.
-- **House**: Strict 124 BPM, 16th-note quantization, automated 4/4 kick, syncopated off-beat bass.
-- **Vocal Remix**: Automatic BPM detection, ratio-based time-stretching, and semitone-aware pitch shifting.
+- **Unified Pipeline**: TypeScript-first MIDI manipulation and orchestration.
+- **FFmpeg Visualization**: showwaves and avectorscope for dynamic video output.
+- **Robustness**: Quality gates and automated archiving are standard in every production run.
 
 ## Design Preferences
 - Modular Domain-Driven Design: Analysis, Sequencer, Rendering, Integrators.
-- Headless execution for cloud-scale autonomous production.
+- Simplified "one-command" autonomous entry points.
