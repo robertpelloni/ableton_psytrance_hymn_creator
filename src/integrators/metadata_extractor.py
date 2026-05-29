@@ -29,10 +29,20 @@ def extract_metadata(file_path):
                 else:
                     tags[key] = str(value)
 
+        # Explicitly extract custom tags if present in ID3v2 usertext (TXXX)
+        custom_tags = {}
+        if hasattr(metadata, 'tags') and 'usertext' in metadata.tags:
+            for item in metadata.tags['usertext']:
+                if hasattr(item, 'description') and hasattr(item, 'text'):
+                    desc = item.description
+                    val = item.text[0] if isinstance(item.text, list) else item.text
+                    custom_tags[desc] = val
+
         return {
             "success": True,
             "technical": technical,
             "tags": tags,
+            "custom_tags": custom_tags,
             "file_size": os.path.getsize(file_path)
         }
     except Exception as e:

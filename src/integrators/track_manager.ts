@@ -24,6 +24,7 @@ export interface TrackMetadata {
     publishedAt?: string;
     updatedAt?: string;
     inputMidi?: string;
+    mood?: string;
     styleModelVersion?: string;
     artifacts?: {
         midi?: string;
@@ -31,6 +32,7 @@ export interface TrackMetadata {
         video?: string;
         cover?: string;
     };
+    searchTokens?: string;
 }
 
 export class TrackManager {
@@ -56,7 +58,7 @@ export class TrackManager {
         const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
         const safeTitle = metadata.title.replace(/\s+/g, "_");
 
-        // 1. Tag the file
+        // 1. Tag the audio file
         let taggerPath = path.join(__dirname, "metadata_tagger.py");
         if (!fs.existsSync(taggerPath)) {
             taggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
@@ -69,14 +71,14 @@ export class TrackManager {
             console.log(`Tagged: ${sourcePath}`);
         }
 
-        // 2. Versioned Move
+        // 2. Versioned Move for published audio
         const fileName = `Published-${safeTitle}-${metadata.version}-${timestamp}${path.extname(sourcePath)}`;
         const destinationPath = path.join(this.publishedDir, fileName);
 
         fs.copyFileSync(sourcePath, destinationPath);
         console.log(`Published track to: ${destinationPath}`);
 
-        // 3. Extract final verified metadata
+        // 3. Extract final verified metadata for manifest
         let extractorPath = path.join(__dirname, "metadata_extractor.py");
         if (!fs.existsSync(extractorPath)) {
             extractorPath = path.join(process.cwd(), "src/integrators/metadata_extractor.py");
@@ -119,26 +121,17 @@ export class TrackManager {
                 metadata.artifacts.cover = path.join(datePath, coverName);
             }
             if (artifacts.stemsDir && fs.existsSync(artifacts.stemsDir)) {
-                const stemsName = `${archiveBase}-stems.zip`;
+                const stemsZipName = `${archiveBase}-stems.zip`;
+                const stemsZipPath = path.join(finalRegistryDir, stemsZipName);
 
-                // Tag individual stems before tracking
-                let localTaggerPath = path.join(__dirname, "metadata_tagger.py");
-                if (!fs.existsSync(localTaggerPath)) {
-                    localTaggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
+                console.log(`Packaging stems ZIP...`);
+                // Use native zip command for reliability in this env
+                const zipResult = spawnSync("zip", ["-r", "-j", stemsZipPath, artifacts.stemsDir]);
+                if (zipResult.status === 0) {
+                    metadata.artifacts.stems = path.join(datePath, stemsZipName);
+                } else {
+                    console.error(`Zip failed: ${zipResult.stderr.toString()}`);
                 }
-
-                const stems = fs.readdirSync(artifacts.stemsDir).filter(f => f.endsWith(".wav"));
-                for (const stem of stems) {
-                    const stemPath = path.join(artifacts.stemsDir, stem);
-                    const stemMetadata = { ...metadata, title: `${metadata.title} - ${stem.replace(".wav", "")} (Stem)` };
-                    spawnSync("python3", [localTaggerPath, stemPath, JSON.stringify(stemMetadata)]);
-                }
-
-                // Simple zip simulation for now, or just move the dir if we want
-                // For simplicity in this env, we'll just track that stems existed
-                // In production, we'd use 'archiver' or 'adm-zip'
-                console.log(`Artifact stemsDir found at ${artifacts.stemsDir} - tagged ${stems.length} stems.`);
-                metadata.artifacts.stems = stemsName;
             }
         }
 
@@ -148,7 +141,18 @@ export class TrackManager {
 
         fs.copyFileSync(destinationPath, archivePath);
 
-        // Enhance metadata for sidecar to preserve lineage and timestamps
+        // Compute search tokens for sidecar and manifest
+        const tokens = [
+            metadata.title,
+            metadata.genre,
+            metadata.mood,
+            metadata.key,
+            metadata.version,
+            metadata.artist,
+            metadata.inputMidi
+        ].filter(Boolean).map(s => s!.toLowerCase());
+        metadata.searchTokens = tokens.join(" ");
+
         const sidecarMetadata = {
             ...metadata,
             originalFileName: fileName,
@@ -190,7 +194,6 @@ export class TrackManager {
             manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
         }
 
-        // Check if track already exists (update instead of push)
         const existingIndex = manifest.findIndex(t => t.fileName === fileName);
         const entry = {
             ...(existingIndex >= 0 ? manifest[existingIndex] : {}),
