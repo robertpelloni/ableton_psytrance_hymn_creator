@@ -9,3 +9,6 @@ music21
 mutagen
 pedalboard
 audio-metadata
+audiocraft
+torch
+transformers

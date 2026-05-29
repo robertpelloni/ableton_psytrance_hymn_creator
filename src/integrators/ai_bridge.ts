@@ -23,24 +23,28 @@ export class AIBridge {
         console.log(`[AIBridge] Prompt: ${prompt}`);
 
         if (useNeuralOverhaul) {
-            console.log(`[AIBridge] Launching Neural Overhaul (Headless CDP Mode)...`);
-            let automationPath = path.join(__dirname, "udio_automation.py");
+            console.log(`[AIBridge] Launching Neural Overhaul (Local MusicGen Mode)...`);
+            let automationPath = path.join(__dirname, "musicgen_service.py");
             if (!fs.existsSync(automationPath)) {
-                automationPath = path.join(process.cwd(), "src/integrators/udio_automation.py");
+                automationPath = path.join(process.cwd(), "src/integrators/musicgen_service.py");
             }
 
             const outputPath = stemPath.replace(".wav", "_neural_overhaul.wav");
             const result = spawnSync("python3", [automationPath, stemPath, prompt, outputPath]);
             if (result.status === 0) {
-                const data = JSON.parse(result.stdout.toString());
-                if (data.success) {
-                    console.log(`[AIBridge] Neural Overhaul successful: ${data.output}`);
-                    return data.output;
-                } else {
-                    console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
+                try {
+                    const data = JSON.parse(result.stdout.toString());
+                    if (data.success) {
+                        console.log(`[AIBridge] Neural Overhaul successful: ${data.output}`);
+                        return data.output;
+                    } else {
+                        console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
+                    }
+                } catch (e) {
+                    console.error(`[AIBridge] Failed to parse MusicGen response: ${result.stdout.toString()}`);
                 }
             } else {
-                console.error(`[AIBridge] Automation service crashed: ${result.stderr.toString()}`);
+                console.error(`[AIBridge] Local MusicGen service crashed: ${result.stderr.toString()}`);
             }
         }
 

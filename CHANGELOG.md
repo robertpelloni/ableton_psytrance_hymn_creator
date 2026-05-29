@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.6.2] - 2026-05-30
+- **Local MusicGen Inference Layer.**
+- Integrated local neural sound design via `src/integrators/musicgen_service.py`.
+- Updated `requirements.txt` with local neural generation dependencies.
+- Enhanced `AIBridge` to support local high-fidelity texture mapping.
+
 ## [1.6.1] - 2026-05-29
 - **Autonomous Vault Sync & Repo Sanitization Protocol.**
 - Implemented Section 2 and Section 6 protocols via `scripts/autonomous_vault_sync.ts`.
