@@ -11,3 +11,5 @@
 - [x] Implement House Structural Quantizer (124 BPM, off-beat bass shifter).
 - [x] Implement Euclidean Gating for Psytrance Leads.
 - [x] Enhance Vocal Remix Pipeline with harmonic grid-locking.
+- [x] Implement Section 2: Repository Sanitization Protocol.
+- [x] Implement Section 6: Autonomous Vault Sync & Git Automation.

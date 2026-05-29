@@ -21,13 +21,16 @@
     "artifacts": {
       "midi": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
       "video": "2026/05/28/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4",
-      "stems": "Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28-stems.zip"
+      "stems": "Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.mp4"
     },
     "originalFileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
     "publishedAt": "2026-05-28T10:32:09.152Z",
-    "updatedAt": "2026-05-28T10:32:09.152Z",
+    "updatedAt": "2026-05-29T12:28:24.229Z",
     "fileName": "Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav",
-    "searchTokens": "untitled (psytrance remix) psytrance energetic f major 1.4.2 hymnmania ai emmanuel.mid"
+    "searchTokens": "untitled (psytrance remix) psytrance energetic f major 1.4.2 hymnmania ai emmanuel.mid",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-Untitled_(Psytrance_Remix)-1.4.2-2026-05-28.wav"
   },
   {
     "title": "canary",
@@ -47,13 +50,17 @@
       "midi": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mid",
       "video": "2026/05/28/Archive-canary-1.0.0-2026-05-28.mp4",
       "cover": "2026/05/28/Archive-canary-1.0.0-2026-05-28-cover.png",
-      "stems": "Archive-canary-1.0.0-2026-05-28-stems.zip"
+      "stems": "Archive-canary-1.0.0-2026-05-28-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28.mid",
+      "videoRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28.mp4",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-canary-1.0.0-2026-05-28-cover.png"
     },
     "originalFileName": "Published-canary-1.0.0-2026-05-28.wav",
     "publishedAt": "2026-05-28T09:41:39.664Z",
-    "updatedAt": "2026-05-28T09:41:39.664Z",
+    "updatedAt": "2026-05-29T12:28:26.236Z",
     "fileName": "Published-canary-1.0.0-2026-05-28.wav",
-    "searchTokens": "canary unknown unknown 1.0.0 hymnmania ai archive"
+    "searchTokens": "canary unknown unknown 1.0.0 hymnmania ai archive",
+    "remoteUrl": "https://storage.googleapis.com/hymnmania-archive/Published-canary-1.0.0-2026-05-28.wav"
   },
   {
     "title": "house_feedback_test",
@@ -72,12 +79,14 @@
     "artifacts": {
       "midi": "Archive-house_feedback_test-1.0.0-2026-05-27.mid",
       "video": "Archive-house_feedback_test-1.0.0-2026-05-27.mp4",
-      "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
+      "cover": "Archive-house_feedback_test-1.0.0-2026-05-27-cover.png",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-house_feedback_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-house_feedback_test-1.0.0-2026-05-27-cover.png"
     },
     "originalFileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
     "fileName": "Published-house_feedback_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T21:49:13.726Z",
-    "updatedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-29T12:28:27.240Z",
     "searchTokens": "house_feedback_test unknown unknown 1.0.0 hymnmania ai archive"
   },
   {
@@ -96,12 +105,13 @@
     },
     "artifacts": {
       "midi": "Archive-model_test-1.0.0-2026-05-27.mid",
-      "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip"
+      "stems": "Archive-model_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-model_test-1.0.0-2026-05-27.mid"
     },
     "originalFileName": "Published-model_test-1.0.0-2026-05-27.wav",
     "fileName": "Published-model_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T21:49:13.726Z",
-    "updatedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-29T12:28:27.743Z",
     "searchTokens": "model_test unknown unknown 1.0.0 hymnmania ai archive"
   },
   {
@@ -122,12 +132,14 @@
       "midi": "Archive-publish_test-1.0.0-2026-05-27.mid",
       "video": "Archive-publish_test-1.0.0-2026-05-27.mp4",
       "cover": "Archive-publish_test-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip"
+      "stems": "Archive-publish_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-publish_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-publish_test-1.0.0-2026-05-27-cover.png"
     },
     "originalFileName": "Published-publish_test-1.0.0-2026-05-27.wav",
     "fileName": "Published-publish_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T21:49:13.726Z",
-    "updatedAt": "2026-05-27T21:49:13.726Z",
+    "updatedAt": "2026-05-29T12:28:28.748Z",
     "searchTokens": "publish_test unknown unknown 1.0.0 hymnmania ai archive"
   },
   {
@@ -148,12 +160,14 @@
       "midi": "Archive-quality_gate_test-1.0.0-2026-05-27.mid",
       "video": "Archive-quality_gate_test-1.0.0-2026-05-27.mp4",
       "cover": "Archive-quality_gate_test-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip"
+      "stems": "Archive-quality_gate_test-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-quality_gate_test-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-quality_gate_test-1.0.0-2026-05-27-cover.png"
     },
     "originalFileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
     "fileName": "Published-quality_gate_test-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T21:49:13.726Z",
-    "updatedAt": "2026-05-27T21:49:13.730Z",
+    "updatedAt": "2026-05-29T12:28:29.752Z",
     "searchTokens": "quality_gate_test unknown unknown 1.0.0 hymnmania ai archive"
   },
   {
@@ -221,12 +235,14 @@
       "midi": "Archive-final_verify-1.0.0-2026-05-27.mid",
       "video": "Archive-final_verify-1.0.0-2026-05-27.mp4",
       "cover": "Archive-final_verify-1.0.0-2026-05-27-cover.png",
-      "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip"
+      "stems": "Archive-final_verify-1.0.0-2026-05-27-stems.zip",
+      "midiRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-final_verify-1.0.0-2026-05-27.mid",
+      "coverRemoteUrl": "https://storage.googleapis.com/hymnmania-archive/Archive-final_verify-1.0.0-2026-05-27-cover.png"
     },
     "originalFileName": "Published-final_verify-1.0.0-2026-05-27.wav",
     "fileName": "Published-final_verify-1.0.0-2026-05-27.wav",
     "publishedAt": "2026-05-27T21:49:13.722Z",
-    "updatedAt": "2026-05-27T21:49:13.722Z",
+    "updatedAt": "2026-05-29T12:28:30.755Z",
     "searchTokens": "final_verify unknown unknown 1.0.0 hymnmania ai archive"
   }
 ]

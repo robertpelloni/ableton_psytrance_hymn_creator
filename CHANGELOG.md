@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.6.1] - 2026-05-29
+- **Autonomous Vault Sync & Repo Sanitization Protocol.**
+- Implemented Section 2 and Section 6 protocols via `scripts/autonomous_vault_sync.ts`.
+- Enhanced `scripts/repository_sanitizer.ts` with explicit Upstream Sync and Submodule Cleanup.
+- Automated git commits for vault state synchronization.
+
 ## [1.6.0] - 2026-05-28
 - **Unified TypeScript Architecture & Audio-Reactive Visuals.**
 - Ported \`HouseStructuralQuantizer\` from Python to TypeScript (\`src/sequencer/house_generator.ts\`).
