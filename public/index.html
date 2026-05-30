@@ -170,7 +170,8 @@
             const sortMode = document.getElementById('sortBy').value;
 
             let filtered = allTracks.filter(t => {
-                const matchesSearch = t.title.toLowerCase().includes(searchTerm) || t.key.toLowerCase().includes(searchTerm);
+                const searchData = (t.searchTokens || `${t.title} ${t.key} ${t.genre} ${t.mood}`).toLowerCase();
+                const matchesSearch = searchData.includes(searchTerm);
                 const matchesGenre = genreFilter === "" || t.genre === genreFilter;
                 return matchesSearch && matchesGenre;
             });

@@ -1,28 +1,25 @@
-# Session Handoff - 2026-05-28
+# Session Handoff - 2026-06-01
 
 ## Status
-- **Version**: 1.5.0
-- **Phase**: 2 (Neural Overhaul) - Structural milestones achieved.
+- **Version**: 1.7.1
+- **Phase**: 2 (Neural Overhaul) - COMPLETE | Phase 3 (Content Delivery) - ACTIVE.
 
 ## Accomplishments
-1. **"Psy-Mono" Pipeline Implementation**:
-   - Upgraded `PsyGenerator` with Euclidean gating for leads and rolling bass variants.
-   - Refined House production with a deterministic `HouseStructuralQuantizer` (124 BPM, off-beat bass shifter).
-2. **Vocal Remix Pipeline**:
-   - Implemented automated BPM/Key detection, ratio-based time-stretching, and harmonic pitch-shifting to align acapellas with the project grid.
-3. **Registry & Integrity**:
-   - Stabilized the date-based registry archiving system.
-   - Verified system integrity with regression tests.
-4. **Documentation**:
-   - Comprehensive updates to VISION, ROADMAP, TODO, MEMORY, and CHANGELOG.
+1. **Unified TypeScript Architecture**: Successfully migrated core algorithmic generators (`PsyGenerator` and `HouseGenerator`) to TypeScript, ensuring consistent grid-locking and pattern logic.
+2. **Audio-Reactive Visuals**: Implemented dynamic MP4 generation using FFmpeg `showwaves` and `avectorscope` filters, producing professional-grade visuals overlaid on track covers.
+3. **REST API Gateway**: Created a standalone Express server (`src/server.ts`) with asynchronous generation and status polling endpoints.
+4. **Autonomous Orchestration**: Developed `scripts/autonomous_production.ts` as the master "one-command" lifecycle orchestrator.
+5. **Automated Publishing**: Implemented `scripts/publish_streaming.ts` for automated catch-up publishing to YouTube and Soundcloud.
+6. **Local Neural Layer**: Integrated `musicgen_service.py` into the `AIBridge` to support local high-fidelity texture mapping.
 
-## Structural Shifts
-- The project now explicitly supports two algorithmic paths: 145 BPM Psytrance (TS) and 124 BPM House (Python).
-- AI Sound Design is now mood-aware and DNA-aware via the `PromptEngine`.
+## Key Findings & Learnings
+- **FluidSynth Stability**: Rendering is stable but requires standardizing on 44.1kHz stereo to ensure FFmpeg filters align correctly.
+- **FFmpeg Complex Filters**: Using `filter_complex` for waveform overlays significantly improves visual quality compared to static images.
+- **Autonomous Vault Sync**: Git automation for registry updates prevents metadata drift and ensures the manifest is always current.
 
 ## Next Steps for Successor
-- Finalize headless CDP automation for Suno/Udio (currently simulated).
-- Implement Phase 3 milestones: Audio-reactive music video generation (FFmpeg/Stable Diffusion).
-- Expand genre presets to include Melodic Techno and Uplifting Trance.
+- **Neural Mastering**: Implement the next Phase 3 milestone—a neural mastering engine (Matchering or local Mel-Roformer) to hit exact -7 LUFS.
+- **Headless Sound Design**: Transition from simulated AI overrides to live CDP automation for Suno Studio v5.5 or Udio Pro.
+- **Social Media Pipeline**: Expand the video generator to produce vertical (9:16) formats for YouTube Shorts and Instagram Reels.
 
-**Keep on going! The party never stops!**
+**KEEP THE PARTY GOING! INSANELY GREAT!**

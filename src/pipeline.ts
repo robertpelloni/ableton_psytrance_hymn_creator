@@ -11,7 +11,7 @@ import { VersionManager } from "./analysis/version_manager";
 import { PromptEngine } from "./integrators/prompt_engine";
 import * as fs from "fs";
 import * as path from "path";
-import * as glob from "glob";
+import { globSync } from "glob";
 import { spawnSync } from "child_process";
 
 export interface PipelineOptions {
@@ -35,7 +35,7 @@ export class PsyMonoPipeline {
     }
 
     private getRandomMidi(): string {
-        const files = glob.sync("hymnmania_src/**/*.mid");
+        const files = globSync("hymnmania_src/**/*.mid", { posix: true });
         if (files.length === 0) throw new Error("No MIDI files found in hymnmania_src");
         return files[Math.floor(Math.random() * files.length)];
     }
@@ -136,6 +136,17 @@ export class PsyMonoPipeline {
         if (vacuumResult.status !== 0) {
             console.warn(`Sonic Vacuum failed: ${vacuumResult.stderr.toString()}. Using raw audio.`);
             fs.copyFileSync(rawAudioPath, finalAudioPath);
+        }
+
+        // 2e. Neural Mastering Layer
+        console.log(`Step 2e: Applying Neural Mastering Engine (-7 LUFS)...`);
+        let masteringPath = path.join(__dirname, "../pipeline/processing/mastering_engine.py");
+        if (!fs.existsSync(masteringPath)) {
+            masteringPath = path.join(process.cwd(), "pipeline/processing/mastering_engine.py");
+        }
+        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, finalAudioPath, "-7.0"]);
+        if (masterResult.status !== 0) {
+            console.error(`Mastering failed: ${masterResult.stderr.toString()}`);
         }
 
         // 3. Optional Vocal Processing

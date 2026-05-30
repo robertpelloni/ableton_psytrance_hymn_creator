@@ -55,6 +55,13 @@ app.get('/status', (req: Request, res: Response) => {
         return res.status(400).json({ error: "Missing 'dir' parameter" });
     }
 
+    // Security: Validate that the directory is within the expected pipeline/output base
+    const absoluteOutputDir = path.resolve(outputDir);
+    const absoluteBaseDir = path.resolve("pipeline/output");
+    if (!absoluteOutputDir.startsWith(absoluteBaseDir)) {
+        return res.status(403).json({ error: "Access denied: Invalid output directory scope." });
+    }
+
     const videoPath = path.join(outputDir, "video.mp4");
     const audioPath = path.join(outputDir, "structure.wav");
     const manifestPath = path.join("public/published/manifest.json");

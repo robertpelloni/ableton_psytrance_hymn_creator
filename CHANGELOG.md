@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.8.0] - 2026-06-02
+- **Neural-Adjacent Mastering & Protocol Finalization.**
+- Implemented `pipeline/processing/mastering_engine.py` using dual-pass FFmpeg loudnorm.
+- Targeted exact -7 LUFS for peak-time production quality.
+- Finalized Section 2 Repository Sanitization Protocol with automated Git merging.
+- Optimized Web UI search performance using pre-computed search tokens.
+- Fixed `glob` import compatibility for Node.js 20+ environments.
+
 ## [1.7.1] - 2026-06-01
 - **Automated Streaming Publishing.**
 - Implemented `scripts/publish_streaming.ts` for catch-up publishing.
