@@ -1,0 +1,4 @@
+[submodule "hymnmania_src"]
+	path = hymnmania_src
+	url = https://github.com/robertpelloni/hymnmania.git
+	branch = main
