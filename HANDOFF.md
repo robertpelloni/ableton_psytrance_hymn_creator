@@ -1,32 +1,25 @@
-# HANDOFF
+# Session Handoff - 2026-06-01
 
-## Session Summary
-- **Foundation Establishment**: Developed algorithmic sequencers for House (124 BPM) and Psytrance (145 BPM).
-- **Advanced Analysis**: Integrated `music21` for chord progression detection and `audio-metadata` for technical extraction.
-- **Audio Production**: Integrated FluidSynth and Pedalboard for high-fidelity rendering and DSP enhancement.
-- **Publishing & Registry**: Implemented a professional publishing lifecycle with metadata tagging (`mutagen`), versioned archives (`registry/`), and manifest tracking.
-- **Vocal Remix Pipeline**: Robust integration of Demucs stem separation and harmonic grid-locking.
-- **Autonomous Lifecycle**: Built a GitHub Actions workflow for scheduled daily production and UI deployment.
-- **Control Layer**: Developed a modern web UI with real-time job monitoring and continuous mode toggles.
-- **Governance**: Established a comprehensive documentation suite (v1.0.0).
-- **Style Modeling**: Implemented a MIDI Training Engine that builds style models from input corpora.
-- **Style-Aware Generation**: Upgraded PsyGenerator to utilize learned style models for melodic variations.
-- **Advanced Retrieval UI**: Enhanced the Web UI with search, filtering, and multi-criteria sorting for published tracks.
+## Status
+- **Version**: 1.7.1
+- **Phase**: 2 (Neural Overhaul) - COMPLETE | Phase 3 (Content Delivery) - ACTIVE.
 
-## Major Structural Shifts
-- Evolved from basic root-note detection to full chord progression analysis using `music21`.
-- Transitioned to an "Autonomous Label" model with a centralized `registry/` and technical metadata sidecars.
-- Implemented `[skip ci]` logic and path-based exclusion to prevent recursive workflow triggers.
+## Accomplishments
+1. **Unified TypeScript Architecture**: Successfully migrated core algorithmic generators (`PsyGenerator` and `HouseGenerator`) to TypeScript, ensuring consistent grid-locking and pattern logic.
+2. **Audio-Reactive Visuals**: Implemented dynamic MP4 generation using FFmpeg `showwaves` and `avectorscope` filters, producing professional-grade visuals overlaid on track covers.
+3. **REST API Gateway**: Created a standalone Express server (`src/server.ts`) with asynchronous generation and status polling endpoints.
+4. **Autonomous Orchestration**: Developed `scripts/autonomous_production.ts` as the master "one-command" lifecycle orchestrator.
+5. **Automated Publishing**: Implemented `scripts/publish_streaming.ts` for automated catch-up publishing to YouTube and Soundcloud.
+6. **Local Neural Layer**: Integrated `musicgen_service.py` into the `AIBridge` to support local high-fidelity texture mapping.
 
-## Critical Technical Details
-- **audio-metadata**: Used to verify technical properties (bitrate, duration) of published tracks.
-- **mutagen**: Ensures generated audio is professionally tagged with ID3/Vorbis metadata.
-- **FluidSynth & Soundfonts**: Essential for autonomous high-quality rendering in headless environments.
-- **Absolute Timeline Quantization**: Maintains rhythmic stability across complex MIDI transformations.
+## Key Findings & Learnings
+- **FluidSynth Stability**: Rendering is stable but requires standardizing on 44.1kHz stereo to ensure FFmpeg filters align correctly.
+- **FFmpeg Complex Filters**: Using `filter_complex` for waveform overlays significantly improves visual quality compared to static images.
+- **Autonomous Vault Sync**: Git automation for registry updates prevents metadata drift and ensures the manifest is always current.
 
-## Successor Instructions
-1. **Neural Overhaul**: Implement the real CDP (Chrome DevTools Protocol) browser hooks for Suno/Udio in `src/integrators/ai_bridge.ts`.
-2. **MusicGen Inference**: Integrate Meta's MusicGen for high-speed offline sound design.
-3. **Neural Mastering**: Integrate Matchering to hit professional -7 LUFS standards.
-4. **Style Refinement**: Scale the style training corpus to include more diverse genres.
-5. **UI Evolution**: Connect the frontend to S3 or Git LFS for scalable asset discovery.
+## Next Steps for Successor
+- **Neural Mastering**: Implement the next Phase 3 milestone—a neural mastering engine (Matchering or local Mel-Roformer) to hit exact -7 LUFS.
+- **Headless Sound Design**: Transition from simulated AI overrides to live CDP automation for Suno Studio v5.5 or Udio Pro.
+- **Social Media Pipeline**: Expand the video generator to produce vertical (9:16) formats for YouTube Shorts and Instagram Reels.
+
+**KEEP THE PARTY GOING! INSANELY GREAT!**

@@ -1,19 +1,25 @@
 # MEMORY
 
 ## Versioning
-- **Version 1.0.0**: Marks the completion of the core autonomous pipeline. The system is now a self-contained, self-improving musical production unit.
+- **Version 1.7.1**: Automated Streaming Publishing. Catch-up sync for YouTube/Soundcloud.
+- **Version 1.7.0**: REST API for remote orchestration. Asynchronous production triggering.
+- **Version 1.6.2**: Local MusicGen inference layer. High-fidelity neural texture mapping.
+- **Version 1.6.1**: Autonomous Vault Sync & Repo Sanitization Protocol.
+- **Version 1.6.0**: Unified TypeScript architecture. Implemented audio-reactive video generation. Ported House Structural Quantizer to TypeScript.
 
 ## Architectural Observations
-- The project is transitioning from a manual DAW-based workflow to a programmatic "Psy-Mono" pipeline.
-- It uses a hybrid approach: TypeScript for orchestration and MIDI manipulation, and Python for advanced audio processing (librosa, demucs).
-- The pipeline is modular: Analysis -> Sequencer -> Rendering -> Integration.
+- The project has successfully unified its core music generation logic into TypeScript (`PsyGenerator` and `HouseGenerator`).
+- Visual generation has moved from static images to dynamic audio-reactive visuals using FFmpeg complex filters.
+- Orchestration is centralized in `scripts/autonomous_production.ts` for simple end-to-end execution.
+- REST API provides a programmatic gateway for remote production management.
 
 ## Codebase Traits
-- **Strict Quantization**: 145 BPM for Psytrance, 124 BPM for House.
-- **Euclidean Gating**: Used for transforming sustained hymn melodies into rhythmic leads.
-- **Rolling Bass**: Classic psytrance 3-note gallop pattern.
+- **Unified Pipeline**: TypeScript-first MIDI manipulation and orchestration.
+- **FFmpeg Visualization**: showwaves and avectorscope for dynamic video output.
+- **REST API**: Express-based server for asynchronous job triggering.
+- **Robustness**: Quality gates, automated archiving, and vault synchronization are standard.
 
 ## Design Preferences
-- TypeScript for type-safe orchestration.
-- Python for DSP and AI model interaction.
-- Headless execution for cloud deployments.
+- Modular Domain-Driven Design: Analysis, Sequencer, Rendering, Integrators.
+- Simplified "one-command" autonomous entry points.
+- Continuous Autonomous Execution: Automated git commits for versioning and registry updates.

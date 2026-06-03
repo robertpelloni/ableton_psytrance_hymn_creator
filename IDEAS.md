@@ -1,12 +1,12 @@
 # IDEAS
 
 ## Feature Expansions
-- **Auto-Video Generation**: Integrate with tools like Gan.ai or HeyGen to generate music videos.
-- **Live Streaming**: A 24/7 "Psy-Hymn" radio station on YouTube/Twitch.
-- **Genre Expansion**: Add presets for Melodic Techno, Uplifting Trance, and Hardstyle.
-- **VST Integration**: Control DAW-less VSTs via headless engines like Kushview Element or CLAP.
+- **Auto-Video Generation**: Integrate with FFmpeg + Stable Diffusion for audio-reactive visuals.
+- **Markov-Chain Harmony**: Use the harmonic analyzer to generate evolving chord progressions based on hymn DNA.
+- **Multi-Genre Expansion**: Presets for Melodic Techno, Uplifting Trance, and Hardstyle.
+- **Real-Time Streaming**: Automated 24/7 radio station deployment.
 
 ## Refactoring
-- Port the Python house quantizer to TypeScript for a unified codebase.
-- Implement a more robust harmonic analysis engine using `music21`.
-- Add support for MusicXML inputs for better melodic extraction.
+- Implement a unified "Musical State Machine" to track arrangement lifecycle.
+- Port the Python `HouseStructuralQuantizer` to TypeScript for total unification.
+- Enhance the AI Bridge with direct Suno/Udio API integrations once stable.

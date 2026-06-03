@@ -21,7 +21,12 @@ async function deploy() {
         lastUpdate: new Date().toISOString(),
         totalTracks: trackCount,
         totalDurationSeconds: totalDuration,
-        averageBpm: manifest.reduce((acc: number, t: any) => acc + t.bpm, 0) / trackCount
+        averageBpm: manifest.reduce((acc: number, t: any) => acc + t.bpm, 0) / trackCount,
+        registryStats: {
+            midiCount: manifest.filter((t: any) => t.artifacts?.midi).length,
+            videoCount: manifest.filter((t: any) => t.artifacts?.video).length,
+            syncedCount: manifest.filter((t: any) => t.remoteUrl).length
+        }
     };
 
     console.log(`Stats: ${trackCount} tracks, ${Math.round(totalDuration / 60)} minutes total.`);

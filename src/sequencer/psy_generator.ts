@@ -17,6 +17,7 @@ export interface PsyConfig {
     kickVelocity: number;
     gallopVariant: "classic" | "triplet" | "rolling";
     styleModel?: StyleModel;
+    durationLimit?: number; // Optional limit in seconds
 }
 
 export const DEFAULT_PSY_CONFIG: PsyConfig = {
@@ -60,9 +61,13 @@ export class PsyGenerator {
         leadTrack.channel = 2;
 
         const lastMelodyNote = dna.melody[dna.melody.length - 1];
-        const duration = lastMelodyNote ? lastMelodyNote.time + lastMelodyNote.duration + 2 : 60;
+        let duration = lastMelodyNote ? lastMelodyNote.time + lastMelodyNote.duration + 2 : 60;
 
-        // Generate Kick
+        if (config.durationLimit && config.durationLimit < duration) {
+            duration = config.durationLimit;
+        }
+
+        // Generate Kick: Relentless, looping kick drum on every single quarter-note interval
         for (let t = 0; t < duration; t += 60 / targetBpm) {
             kickTrack.addNote({
                 midi: 36,
@@ -74,7 +79,7 @@ export class PsyGenerator {
 
         const sixteenth = 60 / targetBpm / 4;
 
-        // Generate Bass
+        // Generate Bass: Rolling 16th-note patterns
         for (let i = 0; i < duration / sixteenth; i++) {
             const time = i * sixteenth;
             const barIndex = Math.floor(i / 16);
@@ -82,11 +87,11 @@ export class PsyGenerator {
 
             let shouldPlayBass = false;
             if (gallopVariant === "classic") {
-                shouldPlayBass = slotInBeat !== 0; // K-B-B-B
+                shouldPlayBass = slotInBeat !== 0; // K-B-B-B (Classic Gallop)
             } else if (gallopVariant === "triplet") {
-                shouldPlayBass = slotInBeat === 2 || slotInBeat === 3; // K-X-B-B
+                shouldPlayBass = slotInBeat === 2 || slotInBeat === 3; // K-X-B-B (Triplet feel)
             } else if (gallopVariant === "rolling") {
-                shouldPlayBass = slotInBeat === 1 || slotInBeat === 3; // K-B-X-B
+                shouldPlayBass = slotInBeat === 1 || slotInBeat === 3; // K-B-X-B (Rolling)
             }
 
             if (shouldPlayBass) {
@@ -107,7 +112,7 @@ export class PsyGenerator {
                     rootNote = activeHarmony ? (activeHarmony.note % 12) + 36 : 36;
                 }
 
-                // Octave jumps
+                // Octave jumps: Inject on specific slots for driving velocity
                 if (slotInBeat === 3 && octaveJumpBarFrequency > 0) {
                     if (barIndex % (5 - octaveJumpBarFrequency) === 0) {
                         rootNote += 12;
@@ -123,7 +128,7 @@ export class PsyGenerator {
             }
         }
 
-        // Euclidean Arp Generation
+        // Euclidean Gating Method for Lead Melodies
         const getEuclideanPattern = (pulses: number, steps: number) => {
             let pattern = new Array(steps).fill(0);
             let count = 0;
@@ -142,10 +147,11 @@ export class PsyGenerator {
         let lastNote = 60;
         for (let i = 0; i < duration / sixteenth; i++) {
             const time = i * sixteenth;
+            // Only play if the Euclidean gate is open
             if (euclideanPattern[i % euclideanPattern.length] === 1) {
                 const originalTimeInQuarterNotes = (time * targetBpm) / 60;
-                const activeChord = dna.chords.find(c => c.time <= originalTimeInQuarterNotes && c.time + c.duration >= originalTimeInQuarterNotes);
 
+                // Track original hymn's melodic note
                 const originalTime = time * (dna.bpm / targetBpm);
                 const activeMelody = dna.melody.find(m => m.time <= originalTime && m.time + m.duration >= originalTime)
                                    || dna.melody.find(m => m.time <= originalTime)
@@ -154,7 +160,7 @@ export class PsyGenerator {
                 if (activeMelody) {
                     let noteToPlay = activeMelody.note;
 
-                    // If style model is available, inject stylistic variations
+                    // If style model is available, inject stylistic variations (Markov-chain style)
                     if (styleModel && styleModel.melody) {
                         const root = noteToPlay % 12;
                         const transitions = styleModel.melody[root.toString()];
@@ -162,10 +168,8 @@ export class PsyGenerator {
                             const intervalStr = this.weightedRandom(transitions);
                             if (intervalStr) {
                                 const interval = parseInt(intervalStr);
-                                // Inject variation: 30% chance to use stylistic interval instead of raw melody
                                 if (Math.random() < 0.3) {
                                     noteToPlay = lastNote + interval;
-                                    // Keep it in a reasonable range
                                     while (noteToPlay < 48) noteToPlay += 12;
                                     while (noteToPlay > 84) noteToPlay -= 12;
                                 }

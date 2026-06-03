@@ -18,6 +18,9 @@ on:
         description: 'Target genre (psytrance or house)'
         required: true
         default: 'psytrance'
+      mood:
+        description: 'Target mood (uplifting, dark, energetic, solemn, mystical)'
+        required: false
       continuous:
         description: 'Enable continuous mode (random input selection)'
         type: boolean
@@ -35,6 +38,11 @@ on:
         description: 'Gallop Variant (classic, triplet, rolling)'
         required: false
         default: 'classic'
+      use_ai:
+        description: 'Use AI Sound Design (Udio/Suno Integration)'
+        type: boolean
+        required: false
+        default: false
       run_training:
         description: 'Run style model training before generation'
         type: boolean
@@ -83,10 +91,12 @@ jobs:
         run: |
           INPUT_MIDI="${{ github.event.inputs.input_midi }}"
           GENRE="${{ github.event.inputs.genre || 'psytrance' }}"
+          MOOD="${{ github.event.inputs.mood }}"
           CONTINUOUS="${{ github.event.inputs.continuous || (github.event_name == 'schedule' && 'true' || 'false') }}"
           DENSITY="${{ github.event.inputs.density || '5' }}"
           OCTAVES="${{ github.event.inputs.octaves || '2' }}"
           VARIANT="${{ github.event.inputs.variant || 'classic' }}"
+          USE_AI="${{ github.event.inputs.use_ai || 'false' }}"
 
           ARGS=""
           if [ "$CONTINUOUS" = "true" ]; then
@@ -102,8 +112,18 @@ jobs:
             VOCAL_ARG="--vocal ${{ github.event.inputs.vocal_track }}"
           fi
 
+          MOOD_ARG=""
+          if [ ! -z "$MOOD" ]; then
+            MOOD_ARG="--mood $MOOD"
+          fi
+
+          AI_ARG=""
+          if [ "$USE_AI" = "true" ]; then
+            AI_ARG="--use-ai"
+          fi
+
           # This command now includes the Quality Gate internally
-          npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE" --density "$DENSITY" --octaves "$OCTAVES" --variant "$VARIANT"
+          npx ts-node src/pipeline.ts $ARGS pipeline/output/latest $VOCAL_ARG --genre "$GENRE" $MOOD_ARG --density "$DENSITY" --octaves "$OCTAVES" --variant "$VARIANT" $AI_ARG
 
       - name: Sync to Remote Storage
         run: npx ts-node scripts/sync_remote.ts
@@ -115,8 +135,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add pipeline/output/latest public/published/ public/registry/ public/models/
-          git commit -m "Auto-publish: New track generation & model update [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
+          git add pipeline/output/latest public/published/ public/registry/ public/models/ VERSION.md
+          git commit -m "Auto-publish: New track generation, model update & version bump [$(date +'%Y-%m-%d %H:%M')] [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Upload Pages Artifact

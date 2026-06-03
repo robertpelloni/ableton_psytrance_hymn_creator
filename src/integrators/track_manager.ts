@@ -21,7 +21,10 @@ export interface TrackMetadata {
     technical?: any;
     streamingUrls?: { [key: string]: string };
     remoteUrl?: string;
+    publishedAt?: string;
+    updatedAt?: string;
     inputMidi?: string;
+    mood?: string;
     styleModelVersion?: string;
     artifacts?: {
         midi?: string;
@@ -29,6 +32,7 @@ export interface TrackMetadata {
         video?: string;
         cover?: string;
     };
+    searchTokens?: string;
 }
 
 export class TrackManager {
@@ -54,7 +58,7 @@ export class TrackManager {
         const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
         const safeTitle = metadata.title.replace(/\s+/g, "_");
 
-        // 1. Tag the file
+        // 1. Tag the audio file
         let taggerPath = path.join(__dirname, "metadata_tagger.py");
         if (!fs.existsSync(taggerPath)) {
             taggerPath = path.join(process.cwd(), "src/integrators/metadata_tagger.py");
@@ -67,14 +71,14 @@ export class TrackManager {
             console.log(`Tagged: ${sourcePath}`);
         }
 
-        // 2. Versioned Move
+        // 2. Versioned Move for published audio
         const fileName = `Published-${safeTitle}-${metadata.version}-${timestamp}${path.extname(sourcePath)}`;
         const destinationPath = path.join(this.publishedDir, fileName);
 
         fs.copyFileSync(sourcePath, destinationPath);
         console.log(`Published track to: ${destinationPath}`);
 
-        // 3. Extract final verified metadata
+        // 3. Extract final verified metadata for manifest
         let extractorPath = path.join(__dirname, "metadata_extractor.py");
         if (!fs.existsSync(extractorPath)) {
             extractorPath = path.join(process.cwd(), "src/integrators/metadata_extractor.py");
@@ -87,42 +91,76 @@ export class TrackManager {
             }
         }
 
-        // 4. Archive Artifacts
+        // 4. Archive Artifacts with date-based folder structure
+        const now = new Date();
+        const datePath = path.join(
+            now.getUTCFullYear().toString(),
+            (now.getUTCMonth() + 1).toString().padStart(2, '0'),
+            now.getUTCDate().toString().padStart(2, '0')
+        );
+        const finalRegistryDir = path.join(this.registryDir, datePath);
+        if (!fs.existsSync(finalRegistryDir)) fs.mkdirSync(finalRegistryDir, { recursive: true });
+
         const archiveBase = `Archive-${safeTitle}-${metadata.version}-${timestamp}`;
         metadata.artifacts = {};
 
         if (artifacts) {
             if (artifacts.midi && fs.existsSync(artifacts.midi)) {
                 const midiName = `${archiveBase}.mid`;
-                fs.copyFileSync(artifacts.midi, path.join(this.registryDir, midiName));
-                metadata.artifacts.midi = midiName;
+                fs.copyFileSync(artifacts.midi, path.join(finalRegistryDir, midiName));
+                metadata.artifacts.midi = path.join(datePath, midiName);
             }
             if (artifacts.video && fs.existsSync(artifacts.video)) {
                 const videoName = `${archiveBase}.mp4`;
-                fs.copyFileSync(artifacts.video, path.join(this.registryDir, videoName));
-                metadata.artifacts.video = videoName;
+                fs.copyFileSync(artifacts.video, path.join(finalRegistryDir, videoName));
+                metadata.artifacts.video = path.join(datePath, videoName);
             }
             if (artifacts.cover && fs.existsSync(artifacts.cover)) {
                 const coverName = `${archiveBase}-cover${path.extname(artifacts.cover)}`;
-                fs.copyFileSync(artifacts.cover, path.join(this.registryDir, coverName));
-                metadata.artifacts.cover = coverName;
+                fs.copyFileSync(artifacts.cover, path.join(finalRegistryDir, coverName));
+                metadata.artifacts.cover = path.join(datePath, coverName);
             }
             if (artifacts.stemsDir && fs.existsSync(artifacts.stemsDir)) {
-                const stemsName = `${archiveBase}-stems.zip`;
-                // Simple zip simulation for now, or just move the dir if we want
-                // For simplicity in this env, we'll just track that stems existed
-                // In production, we'd use 'archiver' or 'adm-zip'
-                console.log(`Artifact stemsDir found at ${artifacts.stemsDir} - tracking in manifest.`);
-                metadata.artifacts.stems = stemsName;
+                const stemsZipName = `${archiveBase}-stems.zip`;
+                const stemsZipPath = path.join(finalRegistryDir, stemsZipName);
+
+                console.log(`Packaging stems ZIP...`);
+                // Use native zip command for reliability in this env
+                const zipResult = spawnSync("zip", ["-r", "-j", stemsZipPath, artifacts.stemsDir]);
+                if (zipResult.status === 0) {
+                    metadata.artifacts.stems = path.join(datePath, stemsZipName);
+                } else {
+                    console.error(`Zip failed: ${zipResult.stderr.toString()}`);
+                }
             }
         }
 
         // 5. Archive Main Track to Registry with sidecar
-        const archivePath = path.join(this.registryDir, archiveBase + path.extname(sourcePath));
-        const sidecarPath = path.join(this.registryDir, archiveBase + ".json");
+        const archivePath = path.join(finalRegistryDir, archiveBase + path.extname(sourcePath));
+        const sidecarPath = path.join(finalRegistryDir, archiveBase + ".json");
 
         fs.copyFileSync(destinationPath, archivePath);
-        fs.writeFileSync(sidecarPath, JSON.stringify({ ...metadata, originalFileName: fileName }, null, 2));
+
+        // Compute search tokens for sidecar and manifest
+        const tokens = [
+            metadata.title,
+            metadata.genre,
+            metadata.mood,
+            metadata.key,
+            metadata.version,
+            metadata.artist,
+            metadata.inputMidi
+        ].filter(Boolean).map(s => s!.toLowerCase());
+        metadata.searchTokens = tokens.join(" ");
+
+        const sidecarMetadata = {
+            ...metadata,
+            originalFileName: fileName,
+            publishedAt: metadata.publishedAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        fs.writeFileSync(sidecarPath, JSON.stringify(sidecarMetadata, null, 2));
         console.log(`Archived to registry: ${archivePath}`);
 
         // 6. Update manifest
@@ -156,9 +194,9 @@ export class TrackManager {
             manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
         }
 
-        // Check if track already exists (update instead of push)
         const existingIndex = manifest.findIndex(t => t.fileName === fileName);
         const entry = {
+            ...(existingIndex >= 0 ? manifest[existingIndex] : {}),
             ...metadata,
             fileName,
             publishedAt: existingIndex >= 0 ? manifest[existingIndex].publishedAt : new Date().toISOString(),

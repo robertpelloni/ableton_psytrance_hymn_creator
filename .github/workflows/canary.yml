@@ -1,0 +1,40 @@
+name: Canary Verification
+
+on:
+  push:
+    branches-ignore: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fluidsynth fluid-soundfont-gm librubberband-dev
+
+      - name: Install Node Dependencies
+        run: npm install
+
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt demucs
+
+      - name: Run Canary Production Verification
+        run: npm run verify

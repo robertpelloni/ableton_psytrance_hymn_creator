@@ -3,7 +3,7 @@
 ## Environment Setup
 1. **Node.js**: Requires Node.js 18+.
 2. **Python**: Requires Python 3.10+ with `pip`.
-3. **FFmpeg**: Required for audio processing and time-stretching.
+3. **FFmpeg**: Required for audio processing, time-stretching, and video generation.
 4. **External Tools**: `yt-dlp` for audio downloading.
 
 ## Installation
@@ -15,10 +15,22 @@ pip install -r requirements.txt
 ## Configuration
 - `LALAL_API_KEY`: Required if using LALAL.AI for stem separation.
 - `UDIO_TOKEN` / `SUNO_COOKIE`: Required for AI sound design integrations.
+- `PORT`: Port for the REST API (default: 3000).
 
 ## Execution
+### Master Autonomous Cycle
+```bash
+npx ts-node scripts/autonomous_production.ts
+```
+
+### Standalone Production Pipeline
 ```bash
 ts-node src/pipeline.ts <input_midi> <output_dir>
+```
+
+### REST API Server
+```bash
+npm run server
 ```
 
 ## UI Real-Time Integration

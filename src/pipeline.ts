@@ -1,14 +1,17 @@
 import { MidiParser } from "./analysis/midi_parser";
 import { PsyGenerator, PsyConfig, DEFAULT_PSY_CONFIG } from "./sequencer/psy_generator";
+import { MoodMapper, Mood } from "./sequencer/mood_mapper";
 import { VocalProcessor } from "./integrators/vocal_processor";
 import { AIBridge } from "./integrators/ai_bridge";
 import { TrackManager } from "./integrators/track_manager";
 import { RenderingModule } from "./rendering/renderer";
 import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
+import { VersionManager } from "./analysis/version_manager";
+import { PromptEngine } from "./integrators/prompt_engine";
 import * as fs from "fs";
 import * as path from "path";
-import * as glob from "glob";
+import { globSync } from "glob";
 import { spawnSync } from "child_process";
 
 export interface PipelineOptions {
@@ -31,7 +34,7 @@ export class PsyMonoPipeline {
     }
 
     private getRandomMidi(): string {
-        const files = glob.sync("hymnmania_src/**/*.mid");
+        const files = globSync("hymnmania_src/**/*.mid", { posix: true });
         if (files.length === 0) throw new Error("No MIDI files found in hymnmania_src");
         return files[Math.floor(Math.random() * files.length)];
     }
@@ -56,6 +59,13 @@ export class PsyMonoPipeline {
             inputMidi = this.getRandomMidi();
         }
 
+        // Apply Mood modifications if provided
+        if (options.mood) {
+            console.log(`Applying mood profile: ${options.mood}`);
+            psyConfig = MoodMapper.applyMood(psyConfig, options.mood);
+            targetBpm = psyConfig.targetBpm;
+        }
+
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
@@ -65,6 +75,11 @@ export class PsyMonoPipeline {
         // 1. Analysis
         console.log(`Step 1: Extracting DNA from ${path.basename(inputMidi)}...`);
         const dna = MidiParser.parse(inputMidi);
+
+        // Generate dynamic AI prompt if not explicitly provided
+        if (!aiPrompt) {
+            aiPrompt = PromptEngine.generate(dna, genre, options.mood);
+        }
 
         // 2. Algorithmic Sequencing
         let finalMidiPath = path.join(outputDir, "structure.mid");
@@ -122,6 +137,17 @@ export class PsyMonoPipeline {
             fs.copyFileSync(rawAudioPath, finalAudioPath);
         }
 
+        // 2e. Neural Mastering Layer
+        console.log(`Step 2e: Applying Neural Mastering Engine (-7 LUFS)...`);
+        let masteringPath = path.join(__dirname, "../pipeline/processing/mastering_engine.py");
+        if (!fs.existsSync(masteringPath)) {
+            masteringPath = path.join(process.cwd(), "pipeline/processing/mastering_engine.py");
+        }
+        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, finalAudioPath, "-7.0"]);
+        if (masterResult.status !== 0) {
+            console.error(`Mastering failed: ${masterResult.stderr.toString()}`);
+        }
+
         // 3. Optional Vocal Processing
         if (vocalTrack) {
             console.log(`Step 3: Processing vocal track ${vocalTrack}...`);
@@ -165,18 +191,23 @@ export class PsyMonoPipeline {
 
         // 5. Automated Metadata Tagging & Publishing
         console.log(`Step 5: Tagging and Publishing...`);
+
+        // Bump version for new production
+        const currentVersion = VersionManager.incrementBuild();
+
         const trackManager = new TrackManager();
         const metadata = {
             title: dna.title,
             genre: genre === "psytrance" ? "Psytrance" : "House",
             bpm: targetBpm,
             key: dna.key,
-            version: "1.0.0",
+            version: currentVersion,
+            mood: options.mood,
             artist: "Hymnmania AI",
             album: "Omni-Archive",
             streamingUrls: {} as { [key: string]: string },
             inputMidi: path.basename(inputMidi),
-            styleModelVersion: psyConfig.styleModel?.version || "1.0.0"
+            styleModelVersion: psyConfig.styleModel?.version || currentVersion
         };
 
         // 6. Video Generation
@@ -202,15 +233,23 @@ export class PsyMonoPipeline {
         const publishedAudioPath = await trackManager.publish(aiAudioPath, metadata, artifacts);
 
         // 8. Streaming Upload
-        console.log(`Step 8: Streaming Upload...`);
+        console.log(`Step 8: Multi-Platform Streaming Upload...`);
         try {
             if (videoPath) {
                 const ytResult = await StreamingPublisher.publishToYouTube(videoPath, metadata);
                 if (ytResult.success && ytResult.externalUrl) {
                     metadata.streamingUrls["YouTube"] = ytResult.externalUrl;
-                    // Update manifest with new metadata (including streaming URLs)
-                    await trackManager.updateMetadata(path.basename(publishedAudioPath), { streamingUrls: metadata.streamingUrls });
                 }
+            }
+
+            const scResult = await StreamingPublisher.publishToSoundcloud(publishedAudioPath, metadata);
+            if (scResult.success && scResult.externalUrl) {
+                metadata.streamingUrls["Soundcloud"] = scResult.externalUrl;
+            }
+
+            if (Object.keys(metadata.streamingUrls).length > 0) {
+                // Update manifest with new metadata (including all streaming URLs)
+                await trackManager.updateMetadata(path.basename(publishedAudioPath), { streamingUrls: metadata.streamingUrls });
             }
         } catch (e) {
             console.error("Streaming upload failed:", e);
@@ -281,9 +320,6 @@ if (require.main === module) {
             bassVelocity: 0.7,
             leadVelocity: 0.8,
             kickVelocity: 0.9
-        },
-        aiPrompt: genre === "house" ?
-            "Deep House, 124 BPM, soulful, smooth textures, professional club master" :
-            "Modern Full-On Psytrance, 145 BPM, driving, psychedelic sound design, festival grade master"
+        }
     }).catch(console.error);
 }
