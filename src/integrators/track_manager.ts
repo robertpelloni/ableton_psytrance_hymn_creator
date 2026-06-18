@@ -6,6 +6,7 @@ export interface TrackArtifacts {
     midi?: string;
     stemsDir?: string;
     video?: string;
+    videoVertical?: string;
     cover?: string;
 }
 
@@ -30,6 +31,7 @@ export interface TrackMetadata {
         midi?: string;
         stems?: string;
         video?: string;
+        videoVertical?: string;
         cover?: string;
     };
     searchTokens?: string;
@@ -114,6 +116,11 @@ export class TrackManager {
                 const videoName = `${archiveBase}.mp4`;
                 fs.copyFileSync(artifacts.video, path.join(finalRegistryDir, videoName));
                 metadata.artifacts.video = path.join(datePath, videoName);
+            }
+            if (artifacts.videoVertical && fs.existsSync(artifacts.videoVertical)) {
+                const videoVerticalName = `${archiveBase}_vertical.mp4`;
+                fs.copyFileSync(artifacts.videoVertical, path.join(finalRegistryDir, videoVerticalName));
+                metadata.artifacts.videoVertical = path.join(datePath, videoVerticalName);
             }
             if (artifacts.cover && fs.existsSync(artifacts.cover)) {
                 const coverName = `${archiveBase}-cover${path.extname(artifacts.cover)}`;

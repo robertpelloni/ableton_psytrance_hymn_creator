@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.9.0] - 2026-06-03
+- **Vertical Video Generation for Social Media.**
+- Implemented `generateVertical` in `src/rendering/video_generator.ts` for 9:16 aspect ratio video generation suitable for YouTube Shorts and Instagram Reels.
+- Updated `PsyMonoPipeline` to output an additional vertical video alongside the standard 16:9 format.
+- Modified `TrackManager` and web UI to properly archive, link, and display the new `video_vertical.mp4` artifacts.
+
 ## [1.8.0] - 2026-06-02
 - **Neural-Adjacent Mastering & Protocol Finalization.**
 - Implemented `pipeline/processing/mastering_engine.py` using dual-pass FFmpeg loudnorm.

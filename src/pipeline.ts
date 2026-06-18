@@ -22,6 +22,7 @@ export interface PipelineOptions {
     targetBpm?: number;
     aiPrompt?: string;
     genre?: "psytrance" | "house";
+    mood?: Mood;
     continuous?: boolean;
     useAi?: boolean;
 }
@@ -213,7 +214,8 @@ export class PsyMonoPipeline {
         // 6. Video Generation
         console.log(`Step 6: Video Generation...`);
         let videoPath: string | undefined;
-        let coverPath: string | undefined = path.join("public/assets", "default_cover.png");
+        let videoVerticalPath: string | undefined;
+        let coverPath: string = path.join("public/assets", "default_cover.png");
         try {
             videoPath = path.join(outputDir, "video.mp4");
             VideoGenerator.generate(aiAudioPath, coverPath, videoPath);
@@ -222,11 +224,20 @@ export class PsyMonoPipeline {
             videoPath = undefined;
         }
 
+        try {
+            videoVerticalPath = path.join(outputDir, "video_vertical.mp4");
+            VideoGenerator.generateVertical(aiAudioPath, coverPath, videoVerticalPath);
+        } catch (e) {
+            console.error("Vertical video generation failed:", e);
+            videoVerticalPath = undefined;
+        }
+
         // 7. Publishing & Archiving
         console.log(`Step 7: Publishing & Archiving artifacts...`);
         const artifacts = {
             midi: finalMidiPath,
             video: videoPath,
+            videoVertical: videoVerticalPath,
             cover: coverPath,
             stemsDir: path.join(outputDir, "stems")
         };
