@@ -352,74 +352,20 @@
     "artist": "Hymnmania AI",
     "album": "Omni-Archive",
     "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_bu13r9",
-      "Soundcloud": "https://soundcloud.com/hymnmania/mock_5ym7xo"
+      "YouTube": "https://youtube.com/watch?v=mock_amu48g",
+      "Soundcloud": "https://soundcloud.com/hymnmania/mock_r0vi2b"
     },
     "inputMidi": "Emmanuel.mid",
     "styleModelVersion": "1.0.0",
     "artifacts": {
-      "midi": "2026/06/18/Archive-Untitled-1.9.2-2026-06-18.mid",
-      "video": "2026/06/18/Archive-Untitled-1.9.2-2026-06-18.mp4",
-      "videoVertical": "2026/06/18/Archive-Untitled-1.9.2-2026-06-18_vertical.mp4",
-      "stems": "2026/06/18/Archive-Untitled-1.9.2-2026-06-18-stems.zip"
+      "midi": "2026/06/19/Archive-Untitled-1.9.2-2026-06-19.mid",
+      "video": "2026/06/19/Archive-Untitled-1.9.2-2026-06-19.mp4",
+      "videoVertical": "2026/06/19/Archive-Untitled-1.9.2-2026-06-19_vertical.mp4",
+      "stems": "2026/06/19/Archive-Untitled-1.9.2-2026-06-19-stems.zip"
     },
     "searchTokens": "untitled psytrance energetic c major 1.9.2 hymnmania ai emmanuel.mid",
-    "fileName": "Published-Untitled-1.9.2-2026-06-18.wav",
-    "publishedAt": "2026-06-18T21:51:18.258Z",
-    "updatedAt": "2026-06-18T21:51:20.063Z"
-  },
-  {
-    "title": "Untitled",
-    "genre": "Psytrance",
-    "bpm": 150,
-    "key": "C major",
-    "version": "1.9.3",
-    "mood": "energetic",
-    "artist": "Hymnmania AI",
-    "album": "Omni-Archive",
-    "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_ow6a3t",
-      "Soundcloud": "https://soundcloud.com/hymnmania/mock_po9k0c"
-    },
-    "inputMidi": "Emmanuel.mid",
-    "styleModelVersion": "1.0.0",
-    "artifacts": {
-      "midi": "2026/06/18/Archive-Untitled-1.9.3-2026-06-18.mid",
-      "video": "2026/06/18/Archive-Untitled-1.9.3-2026-06-18.mp4",
-      "videoVertical": "2026/06/18/Archive-Untitled-1.9.3-2026-06-18_vertical.mp4",
-      "cover": "2026/06/18/Archive-Untitled-1.9.3-2026-06-18-cover.png",
-      "stems": "2026/06/18/Archive-Untitled-1.9.3-2026-06-18-stems.zip"
-    },
-    "searchTokens": "untitled psytrance energetic c major 1.9.3 hymnmania ai emmanuel.mid",
-    "fileName": "Published-Untitled-1.9.3-2026-06-18.wav",
-    "publishedAt": "2026-06-18T21:59:35.647Z",
-    "updatedAt": "2026-06-18T21:59:37.451Z"
-  },
-  {
-    "title": "Untitled",
-    "genre": "Psytrance",
-    "bpm": 150,
-    "key": "C major",
-    "version": "1.9.4",
-    "mood": "energetic",
-    "artist": "Hymnmania AI",
-    "album": "Omni-Archive",
-    "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_4galiu",
-      "Soundcloud": "https://soundcloud.com/hymnmania/mock_w8vg73"
-    },
-    "inputMidi": "Emmanuel.mid",
-    "styleModelVersion": "1.0.0",
-    "artifacts": {
-      "midi": "2026/06/19/Archive-Untitled-1.9.4-2026-06-19.mid",
-      "video": "2026/06/19/Archive-Untitled-1.9.4-2026-06-19.mp4",
-      "videoVertical": "2026/06/19/Archive-Untitled-1.9.4-2026-06-19_vertical.mp4",
-      "cover": "2026/06/19/Archive-Untitled-1.9.4-2026-06-19-cover.png",
-      "stems": "2026/06/19/Archive-Untitled-1.9.4-2026-06-19-stems.zip"
-    },
-    "searchTokens": "untitled psytrance energetic c major 1.9.4 hymnmania ai emmanuel.mid",
-    "fileName": "Published-Untitled-1.9.4-2026-06-19.wav",
-    "publishedAt": "2026-06-19T03:56:34.857Z",
-    "updatedAt": "2026-06-19T03:56:36.663Z"
+    "fileName": "Published-Untitled-1.9.2-2026-06-19.wav",
+    "publishedAt": "2026-06-19T13:08:54.416Z",
+    "updatedAt": "2026-06-19T13:08:56.221Z"
   }
 ]
