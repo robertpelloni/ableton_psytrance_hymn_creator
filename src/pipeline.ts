@@ -144,9 +144,12 @@ export class PsyMonoPipeline {
         if (!fs.existsSync(masteringPath)) {
             masteringPath = path.join(process.cwd(), "pipeline/processing/mastering_engine.py");
         }
-        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, finalAudioPath, "-7.0"]);
+        const tempMasteredPath = finalMidiPath.replace('.mid', '_mastered.wav');
+        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, tempMasteredPath, "-7.0"]);
         if (masterResult.status !== 0) {
             console.error(`Mastering failed: ${masterResult.stderr.toString()}`);
+        } else {
+            fs.renameSync(tempMasteredPath, finalAudioPath);
         }
 
         // 3. Optional Vocal Processing
