@@ -1,0 +1,23 @@
+{
+  "title": "Untitled",
+  "genre": "Psytrance",
+  "bpm": 150,
+  "key": "C major",
+  "version": "1.10.1",
+  "mood": "energetic",
+  "artist": "Hymnmania AI",
+  "album": "Omni-Archive",
+  "streamingUrls": {},
+  "inputMidi": "Emmanuel.mid",
+  "styleModelVersion": "1.0.0",
+  "artifacts": {
+    "midi": "2026/06/19/Archive-Untitled-1.10.1-2026-06-19.mid",
+    "video": "2026/06/19/Archive-Untitled-1.10.1-2026-06-19.mp4",
+    "videoVertical": "2026/06/19/Archive-Untitled-1.10.1-2026-06-19_vertical.mp4",
+    "stems": "2026/06/19/Archive-Untitled-1.10.1-2026-06-19-stems.zip"
+  },
+  "searchTokens": "untitled psytrance energetic c major 1.10.1 hymnmania ai emmanuel.mid",
+  "originalFileName": "Published-Untitled-1.10.1-2026-06-19.wav",
+  "publishedAt": "2026-06-19T23:09:28.292Z",
+  "updatedAt": "2026-06-19T23:09:28.292Z"
+}

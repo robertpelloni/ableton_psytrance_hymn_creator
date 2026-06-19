@@ -1,10 +1,11 @@
 # Session Handoff - 2026-06-03
 
 ## Status
-- **Version**: 1.9.0
+- **Version**: 1.10.0
 - **Phase**: 2 (Neural Overhaul) - COMPLETE | Phase 3 (Content Delivery) - ACTIVE.
 
 ## Accomplishments
+1. **Expanded Genre Presets**: Added support for Peak Time Techno, Uplifting Trance, and Raw Hardstyle to the PromptEngine, Server, Pipeline, and UI.
 1. **Vertical Video Generation**: Implemented a 9:16 vertical video output using FFmpeg in `src/rendering/video_generator.ts` with scaled waveforms and avectorscope elements for YouTube Shorts and Instagram Reels.
 2. **Pipeline Dual-Video Output**: Modified `src/pipeline.ts` to output `video_vertical.mp4` simultaneously with the standard 16:9 video, seamlessly updating the artifacts tracking logic.
 3. **Registry and UI Sync**: Updated `TrackManager` and `public/index.html` to archive the vertical videos into the standard vault structure and present links to users when searching tracks.

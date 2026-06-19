@@ -3,7 +3,7 @@
 - [ ] Implement CDP-based browser automation for Suno/Udio (currently mocked).
 - [x] Integrate local MusicGen inference for fast prototyping.
 - [x] Implement automated mastering layer to hit exact -7 LUFS (via FFmpeg loudnorm).
-- [ ] Expand genre presets (Techno, Trance, Hardstyle).
+- [x] Expand genre presets (Techno, Trance, Hardstyle).
 - [x] Develop audio-reactive visual generation (FFmpeg showwaves/vectorscope).
 - [x] Implement automated ID3 tagging and manifest registry.
 - [x] Create interactive Web UI with live job monitoring.

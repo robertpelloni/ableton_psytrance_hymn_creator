@@ -20,7 +20,11 @@ app.post('/generate', async (req: Request, res: Response) => {
         inputMidi: req.body.inputMidi,
         outputDir: req.body.outputDir || path.join('pipeline/output', `run-${Date.now()}`),
         genre: req.body.genre || 'psytrance',
-        targetBpm: req.body.bpm ? parseInt(req.body.bpm) : (req.body.genre === 'house' ? 124 : 145),
+        targetBpm: req.body.bpm ? parseInt(req.body.bpm) :
+            (req.body.genre === 'house' ? 124 :
+             req.body.genre === 'techno' ? 130 :
+             req.body.genre === 'trance' ? 138 :
+             req.body.genre === 'hardstyle' ? 150 : 145),
         vocalTrack: req.body.vocalTrack,
         useAi: req.body.useAi || false,
         mood: req.body.mood,

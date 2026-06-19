@@ -8,7 +8,7 @@ import { RenderingModule } from "./rendering/renderer";
 import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
 import { VersionManager } from "./analysis/version_manager";
-import { PromptEngine } from "./integrators/prompt_engine";
+import { PromptEngine, SupportedGenre } from "./integrators/prompt_engine";
 import * as fs from "fs";
 import * as path from "path";
 import { globSync } from "glob";
@@ -21,7 +21,7 @@ export interface PipelineOptions {
     vocalTrack?: string;
     targetBpm?: number;
     aiPrompt?: string;
-    genre?: "psytrance" | "house";
+    genre?: SupportedGenre;
     mood?: Mood;
     continuous?: boolean;
     useAi?: boolean;
@@ -200,9 +200,10 @@ export class PsyMonoPipeline {
         const currentVersion = VersionManager.incrementBuild();
 
         const trackManager = new TrackManager();
+        const genreCapitalized = genre.charAt(0).toUpperCase() + genre.slice(1);
         const metadata = {
             title: dna.title,
-            genre: genre === "psytrance" ? "Psytrance" : "House",
+            genre: genreCapitalized,
             bpm: targetBpm,
             key: dna.key,
             version: currentVersion,
