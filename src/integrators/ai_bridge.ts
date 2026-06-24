@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
 import { spawnSync } from 'child_process';
+import { HeadlessSuno } from './headless_suno';
 
 export interface AIBridgeConfig {
     udioToken?: string;
@@ -23,23 +24,14 @@ export class AIBridge {
         console.log(`[AIBridge] Prompt: ${prompt}`);
 
         if (useNeuralOverhaul) {
-            console.log(`[AIBridge] Launching Neural Overhaul (Headless CDP Mode)...`);
-            let automationPath = path.join(__dirname, "../../hymnmania_src/services/udio_automation.py");
-            if (!fs.existsSync(automationPath)) {
-                automationPath = path.join(process.cwd(), "hymnmania_src/services/udio_automation.py");
-            }
-
-            const result = spawnSync("python3", [automationPath, stemPath, prompt]);
-            if (result.status === 0) {
-                const data = JSON.parse(result.stdout.toString());
-                if (data.success) {
-                    console.log(`[AIBridge] Neural Overhaul successful: ${data.output_path}`);
-                    return data.output_path;
-                } else {
-                    console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
-                }
-            } else {
-                console.error(`[AIBridge] Automation service crashed: ${result.stderr.toString()}`);
+            console.log(`[AIBridge] Launching Neural Overhaul (Headless CDP Mode via Playwright)...`);
+            try {
+                const outputDir = path.dirname(stemPath);
+                const outputPath = await HeadlessSuno.generate(stemPath, prompt, outputDir);
+                return outputPath;
+            } catch (error) {
+                console.error(`[AIBridge] CDP Automation crashed:`, error);
+                // Fallthrough to mock on failure
             }
         }
 
