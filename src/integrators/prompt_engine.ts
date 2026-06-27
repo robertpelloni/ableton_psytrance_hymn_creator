@@ -1,15 +1,23 @@
 import { HymnDNA } from "../analysis/midi_parser";
 import { Mood, MoodMapper } from "../sequencer/mood_mapper";
 
+export type SupportedGenre = "psytrance" | "house" | "techno" | "trance" | "hardstyle";
+
 export class PromptEngine {
     /**
      * Generates a descriptive AI sound design prompt based on the musical DNA and target genre/mood.
      */
-    static generate(dna: HymnDNA, genre: "psytrance" | "house", mood?: Mood): string {
+    static generate(dna: HymnDNA, genre: SupportedGenre, mood?: Mood): string {
         let basePrompt = "";
 
         if (genre === "psytrance") {
             basePrompt = "Modern Full-On Psytrance, 145 BPM, driving, psychedelic sound design, festival grade master, Access Virus TI style leads, FM lasers";
+        } else if (genre === "techno") {
+            basePrompt = "Peak Time Techno, 130 BPM, dark, driving, industrial rumble kick, hypnotic synth lines, warehouse reverb, massive sub bass";
+        } else if (genre === "trance") {
+            basePrompt = "Uplifting Trance, 138 BPM, emotional, euphoric, supersaw chords, rolling bassline, ethereal atmospheres, stadium festival master";
+        } else if (genre === "hardstyle") {
+            basePrompt = "Raw Hardstyle, 150 BPM, aggressive, distorted reverse bass, euphoric screech, epic orchestral break, massive festival energy";
         } else {
             basePrompt = "Deep House, 124 BPM, soulful, smooth textures, professional club master, warm analog chords, rhythmic deep house groove";
         }

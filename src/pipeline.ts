@@ -8,7 +8,7 @@ import { RenderingModule } from "./rendering/renderer";
 import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
 import { VersionManager } from "./analysis/version_manager";
-import { PromptEngine } from "./integrators/prompt_engine";
+import { PromptEngine, SupportedGenre } from "./integrators/prompt_engine";
 import * as fs from "fs";
 import * as path from "path";
 import { globSync } from "glob";
@@ -21,7 +21,8 @@ export interface PipelineOptions {
     vocalTrack?: string;
     targetBpm?: number;
     aiPrompt?: string;
-    genre?: "psytrance" | "house";
+    genre?: SupportedGenre;
+    mood?: Mood;
     continuous?: boolean;
     useAi?: boolean;
 }
@@ -143,9 +144,12 @@ export class PsyMonoPipeline {
         if (!fs.existsSync(masteringPath)) {
             masteringPath = path.join(process.cwd(), "pipeline/processing/mastering_engine.py");
         }
-        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, finalAudioPath, "-7.0"]);
+        const tempMasteredPath = finalMidiPath.replace('.mid', '_mastered.wav');
+        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, tempMasteredPath, "-7.0"]);
         if (masterResult.status !== 0) {
             console.error(`Mastering failed: ${masterResult.stderr.toString()}`);
+        } else {
+            fs.renameSync(tempMasteredPath, finalAudioPath);
         }
 
         // 3. Optional Vocal Processing
@@ -196,9 +200,10 @@ export class PsyMonoPipeline {
         const currentVersion = VersionManager.incrementBuild();
 
         const trackManager = new TrackManager();
+        const genreCapitalized = genre.charAt(0).toUpperCase() + genre.slice(1);
         const metadata = {
             title: dna.title,
-            genre: genre === "psytrance" ? "Psytrance" : "House",
+            genre: genreCapitalized,
             bpm: targetBpm,
             key: dna.key,
             version: currentVersion,
@@ -213,7 +218,8 @@ export class PsyMonoPipeline {
         // 6. Video Generation
         console.log(`Step 6: Video Generation...`);
         let videoPath: string | undefined;
-        let coverPath: string | undefined = path.join("public/assets", "default_cover.png");
+        let videoVerticalPath: string | undefined;
+        let coverPath: string = path.join("public/assets", "default_cover.png");
         try {
             videoPath = path.join(outputDir, "video.mp4");
             VideoGenerator.generate(aiAudioPath, coverPath, videoPath);
@@ -222,11 +228,20 @@ export class PsyMonoPipeline {
             videoPath = undefined;
         }
 
+        try {
+            videoVerticalPath = path.join(outputDir, "video_vertical.mp4");
+            VideoGenerator.generateVertical(aiAudioPath, coverPath, videoVerticalPath);
+        } catch (e) {
+            console.error("Vertical video generation failed:", e);
+            videoVerticalPath = undefined;
+        }
+
         // 7. Publishing & Archiving
         console.log(`Step 7: Publishing & Archiving artifacts...`);
         const artifacts = {
             midi: finalMidiPath,
             video: videoPath,
+            videoVertical: videoVerticalPath,
             cover: coverPath,
             stemsDir: path.join(outputDir, "stems")
         };

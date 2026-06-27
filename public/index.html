@@ -50,6 +50,9 @@
             <select id="genreSelect">
                 <option value="psytrance">Full-On Psytrance (145 BPM)</option>
                 <option value="house">Deep House (124 BPM)</option>
+                <option value="techno">Peak Time Techno (130 BPM)</option>
+                <option value="trance">Uplifting Trance (138 BPM)</option>
+                <option value="hardstyle">Raw Hardstyle (150 BPM)</option>
             </select>
         </div>
 
@@ -134,6 +137,9 @@
                         <option value="">All Genres</option>
                         <option value="Psytrance">Psytrance</option>
                         <option value="House">House</option>
+                        <option value="Techno">Techno</option>
+                        <option value="Trance">Trance</option>
+                        <option value="Hardstyle">Hardstyle</option>
                     </select>
                     <select id="sortBy" style="width: 120px; padding: 5px;">
                         <option value="newest">Newest</option>
@@ -204,6 +210,7 @@
                 if (track.artifacts) {
                     if (track.artifacts.midi) artifactLinks += `<a href="registry/${track.artifacts.midi}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎹 MIDI</a>`;
                     if (track.artifacts.video) artifactLinks += `<a href="registry/${track.artifacts.video}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">🎬 Video</a>`;
+                    if (track.artifacts.videoVertical) artifactLinks += `<a href="registry/${track.artifacts.videoVertical}" target="_blank" style="margin-left: 10px; font-size: 11px; color: #00d2ff;">📱 Vertical Video</a>`;
                     if (track.artifacts.stems) artifactLinks += `<span style="margin-left: 10px; font-size: 11px; color: #aaa;">📦 Stems</span>`;
                 }
 

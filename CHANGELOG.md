@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [1.10.0] - 2026-06-19
+- **Expanded Genre Presets (Techno, Trance, Hardstyle).**
+- Added support for Peak Time Techno (130 BPM), Uplifting Trance (138 BPM), and Raw Hardstyle (150 BPM).
+- Updated `PromptEngine` to generate specific AI sound design prompts for each new genre.
+- Updated `PipelineOptions` and `PsyMonoPipeline` to support the new `SupportedGenre` typing and appropriately set uppercase names in track metadata.
+- Updated the REST API server to assign correct default BPMs based on the selected genre.
+- Updated the Web UI dropdowns to include the newly added genres.
+
+## [1.9.0] - 2026-06-03
+- **Vertical Video Generation for Social Media.**
+- Implemented `generateVertical` in `src/rendering/video_generator.ts` for 9:16 aspect ratio video generation suitable for YouTube Shorts and Instagram Reels.
+- Updated `PsyMonoPipeline` to output an additional vertical video alongside the standard 16:9 format.
+- Modified `TrackManager` and web UI to properly archive, link, and display the new `video_vertical.mp4` artifacts.
+
 ## [1.8.0] - 2026-06-02
 - **Neural-Adjacent Mastering & Protocol Finalization.**
 - Implemented `pipeline/processing/mastering_engine.py` using dual-pass FFmpeg loudnorm.
