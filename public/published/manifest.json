@@ -393,30 +393,5 @@
     "fileName": "Published-Untitled-1.10.1-2026-06-19.wav",
     "publishedAt": "2026-06-19T23:09:28.293Z",
     "updatedAt": "2026-06-19T23:09:30.098Z"
-  },
-  {
-    "title": "Untitled (Psytrance Remix)",
-    "genre": "Psytrance",
-    "bpm": 150,
-    "key": "C major",
-    "version": "1.10.2",
-    "artist": "Hymnmania AI",
-    "album": "Omni-Archive",
-    "streamingUrls": {
-      "YouTube": "https://youtube.com/watch?v=mock_lvt92",
-      "Soundcloud": "https://soundcloud.com/hymnmania/mock_nkda3e"
-    },
-    "inputMidi": "canary_verification.mid",
-    "styleModelVersion": "1.0.0",
-    "artifacts": {
-      "midi": "2026/06/24/Archive-Untitled_(Psytrance_Remix)-1.10.2-2026-06-24.mid",
-      "video": "2026/06/24/Archive-Untitled_(Psytrance_Remix)-1.10.2-2026-06-24.mp4",
-      "videoVertical": "2026/06/24/Archive-Untitled_(Psytrance_Remix)-1.10.2-2026-06-24_vertical.mp4",
-      "stems": "2026/06/24/Archive-Untitled_(Psytrance_Remix)-1.10.2-2026-06-24-stems.zip"
-    },
-    "searchTokens": "untitled (psytrance remix) psytrance c major 1.10.2 hymnmania ai canary_verification.mid",
-    "fileName": "Published-Untitled_(Psytrance_Remix)-1.10.2-2026-06-24.wav",
-    "publishedAt": "2026-06-24T00:23:25.676Z",
-    "updatedAt": "2026-06-24T00:23:27.483Z"
   }
 ]
