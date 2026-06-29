@@ -168,7 +168,10 @@ export class PsyMonoPipeline {
         let aiAudioPath = finalAudioPath;
         if (aiPrompt) {
             console.log(`Step 4: Orchestrating AI Sound Design Overhaul...`);
-            const aiBridge = new AIBridge({});
+            const aiBridge = new AIBridge({
+                sunoCookie: process.env.SUNO_COOKIE,
+                udioToken: process.env.UDIO_TOKEN
+            });
             aiAudioPath = await aiBridge.remakeWithAI(finalAudioPath, aiPrompt, options.useAi);
             console.log(`AI Overhaul complete: ${aiAudioPath}`);
         }

@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Implement CDP-based browser automation for Suno/Udio (currently mocked).
+- [x] Implement CDP-based browser automation for Suno/Udio (currently mocked).
 - [x] Integrate local MusicGen inference for fast prototyping.
 - [x] Implement automated mastering layer to hit exact -7 LUFS (via FFmpeg loudnorm).
 - [x] Expand genre presets (Techno, Trance, Hardstyle).
