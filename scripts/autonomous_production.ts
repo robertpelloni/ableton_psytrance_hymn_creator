@@ -24,7 +24,7 @@ async function orchestrateProduction() {
     const genre = Math.random() > 0.5 ? "psytrance" : "house";
     const bpm = genre === "house" ? 124 : 145;
 
-    spawnSync("npx", ["ts-node", "src/pipeline.ts", "--continuous", outputDir, "--genre", genre, "--bpm", bpm.toString()], { stdio: "inherit" });
+    spawnSync("npx", ["ts-node", "src/pipeline.ts", "public/registry/canary_verification.mid", outputDir, "--genre", genre, "--bpm", bpm.toString()], { stdio: "inherit" });
 
     // 3. Vault Sync & Archiving (Section 2 & 6)
     console.log("\n[3/5] Executing Vault Sync & Archiving Protocol...");
