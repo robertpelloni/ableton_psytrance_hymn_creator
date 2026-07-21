@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import { PsyMonoPipeline, PipelineOptions } from './pipeline';
 import * as path from 'path';
 import * as fs from 'fs';
+import { MasteringService } from './services/mastering/mastering_service';
+import radioRouter from './streaming/radio_server';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -52,6 +54,37 @@ app.post('/generate', async (req: Request, res: Response) => {
     });
 });
 
+// POST /api/v1/master - Triggers the standalone neural mastering engine
+app.post('/api/v1/master', async (req: Request, res: Response) => {
+    if (process.env.MASTERING_ENABLED === 'false') {
+        return res.status(503).json({ error: "Mastering Engine is disabled." });
+    }
+
+    console.log(`[API] Received mastering request:`, req.body);
+    const { audioUrl, profile } = req.body;
+
+    if (!audioUrl) {
+        return res.status(400).json({ error: "Missing required parameter 'audioUrl'." });
+    }
+
+    const targetProfile = profile || 'psytrance';
+
+    try {
+        const masteredPath = await MasteringService.process(audioUrl, targetProfile);
+        res.status(200).json({
+            success: true,
+            message: "Neural Mastering Complete",
+            masteredAudioPath: masteredPath
+        });
+    } catch (err: any) {
+        console.error(`[API] Mastering request failed:`, err);
+        res.status(500).json({
+            success: false,
+            error: err.message || "Internal server error during mastering process."
+        });
+    }
+});
+
 // GET /status - Simple polling endpoint for job status
 app.get('/status', (req: Request, res: Response) => {
     const outputDir = req.query.dir as string;
@@ -89,8 +122,15 @@ app.get('/status', (req: Request, res: Response) => {
     });
 });
 
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Mount the live radio stream
+app.use('/radio', radioRouter);
+
 app.listen(port, () => {
     console.log(`[API] Hymnmania Pipeline API listening at http://localhost:${port}`);
+    console.log(`[API] Radio Stream available at http://localhost:${port}/radio`);
 });
 
 export default app;

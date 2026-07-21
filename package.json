@@ -1,6 +1,6 @@
 {
   "name": "hymnmania-pipeline",
-  "version": "1.0.0",
+  "version": "1.18.4",
   "description": "Automated hymn to psytrance/house pipeline",
   "main": "src/pipeline.ts",
   "dependencies": {

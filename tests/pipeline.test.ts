@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 describe("Psytrance Pipeline Tests", () => {
-    const testMidi = "hymnmania_src/hymn_remaker/test_input/Emmanuel.mid";
+    const testMidi = "public/registry/canary_verification.mid";
 
     test("MidiParser should extract DNA from hymn MIDI", () => {
         const dna = MidiParser.parse(testMidi);
