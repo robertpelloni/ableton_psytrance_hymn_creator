@@ -12,3 +12,4 @@ audio-metadata
 audiocraft
 torch
 transformers
+matchering

@@ -2,17 +2,35 @@ import sys
 import os
 import subprocess
 import json
+import matchering as mg
 
 def master_audio(input_path, output_path, target_lufs=-7.0):
     """
-    Apply final mastering using FFmpeg's loudnorm filter.
-    Targeting -7 LUFS as specified in the roadmap for peak production.
+    Apply neural mastering using Matchering (EQ/dynamics match),
+    followed by FFmpeg's dual-pass loudnorm to guarantee exact LUFS.
     """
-    print(f"Mastering: {input_path} -> {output_path} (Target: {target_lufs} LUFS)")
+    reference_path = "./public/registry/2026/05/28/Archive-canary-1.0.0-2026-05-28.wav"
+    matchering_output = input_path.replace(".wav", "_matched.wav")
+
+    print(f"Step 1: Matchering EQ & Dynamics...")
+    print(f"  Target: {input_path}")
+    print(f"  Reference: {reference_path}")
+
+    try:
+        mg.process(
+            target=input_path,
+            reference=reference_path,
+            results=[mg.pcm16(matchering_output)]
+        )
+    except Exception as e:
+        print(f"Matchering failed, skipping to loudnorm. Error: {e}")
+        matchering_output = input_path
+
+    print(f"Step 2: FFmpeg Dual-Pass Loudnorm (Target: {target_lufs} LUFS)")
 
     # 1. First pass for analysis
     analysis_cmd = [
-        "ffmpeg", "-i", input_path,
+        "ffmpeg", "-i", matchering_output,
         "-af", f"loudnorm=I={target_lufs}:TP=-1.0:LRA=11:print_format=json",
         "-f", "null", "-"
     ]
@@ -29,7 +47,7 @@ def master_audio(input_path, output_path, target_lufs=-7.0):
 
         if json_start == -1:
             print("Loudnorm analysis failed, using single pass.")
-            cmd = ["ffmpeg", "-y", "-i", input_path, "-af", f"loudnorm=I={target_lufs}:TP=-1.0:LRA=11", output_path]
+            cmd = ["ffmpeg", "-y", "-i", matchering_output, "-af", f"loudnorm=I={target_lufs}:TP=-1.0:LRA=11", output_path]
         else:
             stats = json.loads('\n'.join(lines[json_start:]))
             # 2. Second pass for high-fidelity normalization
@@ -39,9 +57,13 @@ def master_audio(input_path, output_path, target_lufs=-7.0):
                 f"measured_LRA={stats['input_lra']}:measured_thresh={stats['input_thresh']}:"
                 f"offset={stats['target_offset']}"
             )
-            cmd = ["ffmpeg", "-y", "-i", input_path, "-af", loudnorm_filter, output_path]
+            cmd = ["ffmpeg", "-y", "-i", matchering_output, "-af", loudnorm_filter, output_path]
 
         subprocess.run(cmd, check=True)
+
+        if matchering_output != input_path and os.path.exists(matchering_output):
+            os.remove(matchering_output)
+
         return True
     except Exception as e:
         print(f"Mastering failed: {e}")

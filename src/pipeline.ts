@@ -9,6 +9,7 @@ import { VideoGenerator } from "./rendering/video_generator";
 import { StreamingPublisher } from "./integrators/streaming_publisher";
 import { VersionManager } from "./analysis/version_manager";
 import { PromptEngine, SupportedGenre } from "./integrators/prompt_engine";
+import { MasteringService } from "./services/mastering/mastering_service";
 import * as fs from "fs";
 import * as path from "path";
 import { globSync } from "glob";
@@ -138,20 +139,6 @@ export class PsyMonoPipeline {
             fs.copyFileSync(rawAudioPath, finalAudioPath);
         }
 
-        // 2e. Neural Mastering Layer
-        console.log(`Step 2e: Applying Neural Mastering Engine (-7 LUFS)...`);
-        let masteringPath = path.join(__dirname, "../pipeline/processing/mastering_engine.py");
-        if (!fs.existsSync(masteringPath)) {
-            masteringPath = path.join(process.cwd(), "pipeline/processing/mastering_engine.py");
-        }
-        const tempMasteredPath = finalMidiPath.replace('.mid', '_mastered.wav');
-        const masterResult = spawnSync("python3", [masteringPath, finalAudioPath, tempMasteredPath, "-7.0"]);
-        if (masterResult.status !== 0) {
-            console.error(`Mastering failed: ${masterResult.stderr.toString()}`);
-        } else {
-            fs.renameSync(tempMasteredPath, finalAudioPath);
-        }
-
         // 3. Optional Vocal Processing
         if (vocalTrack) {
             console.log(`Step 3: Processing vocal track ${vocalTrack}...`);
@@ -194,6 +181,18 @@ export class PsyMonoPipeline {
                 }
                 throw new Error(`Quality Gate Failed: ${report.errors.join(", ")}`);
             }
+        }
+
+        // 4c. Neural Mastering Layer
+        if (process.env.MASTERING_ENABLED !== 'false') {
+            console.log(`Step 4c: Applying Neural Mastering Service...`);
+            try {
+                aiAudioPath = await MasteringService.process(aiAudioPath, genre);
+            } catch (e) {
+                console.warn(`Neural Mastering failed, proceeding with raw mix:`, e);
+            }
+        } else {
+            console.log(`Step 4c: Neural Mastering Service bypassed (MASTERING_ENABLED=false).`);
         }
 
         // 5. Automated Metadata Tagging & Publishing
