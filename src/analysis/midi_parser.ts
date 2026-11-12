@@ -77,8 +77,12 @@ export class MidiParser {
         if (!fs.existsSync(analyzerPath)) {
             analyzerPath = path.join(process.cwd(), "src/analysis/harmonic_analyzer.py");
         }
-        const result = spawnSync("python3", [analyzerPath, filePath]);
-        if (result.status === 0) {
+        const pyCmd = process.platform === "win32" ? "python" : "python3";
+        let result = spawnSync(pyCmd, [analyzerPath, filePath]);
+        if (result.error) {
+            result = spawnSync(pyCmd === "python" ? "python3" : "python", [analyzerPath, filePath]);
+        }
+        if (result.status === 0 && result.stdout) {
             try {
                 const analysis = JSON.parse(result.stdout.toString());
                 if (!analysis.error) {
@@ -92,7 +96,8 @@ export class MidiParser {
                 console.error("Failed to parse harmonic analysis result:", e);
             }
         } else {
-            console.error("Harmonic analyzer failed:", result.stderr.toString());
+            const errMsg = result.stderr ? result.stderr.toString() : (result.error?.message || "python unavailable");
+            console.error("Harmonic analyzer failed:", errMsg);
         }
 
         return dna;

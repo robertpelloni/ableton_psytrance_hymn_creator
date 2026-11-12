@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## [1.18.5] - 2026-11-12
+- **Repository Synchronization & Alternate CDP Bridge Retention.**
+- Fast-forwarded `main` with `origin/main` (`0268265`), preserving `update = none` on `hymnmania_src` to prevent recursive submodule clone cycles.
+- Retained `src/integrators/headless_suno.ts` (`HeadlessSuno`) from the Phase 3 CDP branch (`7188cb6`) as an optional secondary fallback in `AIBridge` alongside the primary `udio_automation.py` execution path.
+- Removed stale merge artifacts (`src/pipeline.ts.patch`, `src/pipeline.ts.rej`) already integrated into `src/pipeline.ts`.
+- Synchronized version `1.18.5` across `VERSION.md`, `package.json`, `CHANGELOG.md`, and `HANDOFF.md`.
+
+## [1.18.4] - 2026-07-21
+- **Neural Mastering, Radio Streaming & Dashboard Overhaul.**
+- Added `src/services/mastering/mastering_service.ts` and `mastering_engine.py` (-7 LUFS dual-pass loudnorm + Matchering).
+- Added Icecast/Shoutcast streaming server (`src/streaming/radio_server.ts`) and single-page dashboard overhaul.
+
 ## [1.10.0] - 2026-06-19
 - **Expanded Genre Presets (Techno, Trance, Hardstyle).**
 - Added support for Peak Time Techno (130 BPM), Uplifting Trance (138 BPM), and Raw Hardstyle (150 BPM).

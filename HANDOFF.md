@@ -1,27 +1,20 @@
-# Session Handoff - 2026-06-03
+# Session Handoff - 2026-11-12
 
 ## Status
-- **Version**: 1.10.0
-- **Phase**: 2 (Neural Overhaul) - COMPLETE | Phase 3 (Content Delivery) - ACTIVE.
+- **Version**: 1.18.5
+- **Phase**: 2 (Neural Overhaul) - COMPLETE | Phase 3 (Content Delivery & Global Scale) - ACTIVE.
+- **Branch State**: `main` reconciled with `origin/main` (`0268265`); all remote feature branches (`feat/vertical-video-generation-3432640621787520051`, `jules-12359894311656669020-972f5851`, `jules-6626364804574846888-8b827c28`) verified as merged ancestors of `main`.
 
-## Accomplishments
-1. **Expanded Genre Presets**: Added support for Peak Time Techno, Uplifting Trance, and Raw Hardstyle to the PromptEngine, Server, Pipeline, and UI.
-1. **Vertical Video Generation**: Implemented a 9:16 vertical video output using FFmpeg in `src/rendering/video_generator.ts` with scaled waveforms and avectorscope elements for YouTube Shorts and Instagram Reels.
-2. **Pipeline Dual-Video Output**: Modified `src/pipeline.ts` to output `video_vertical.mp4` simultaneously with the standard 16:9 video, seamlessly updating the artifacts tracking logic.
-3. **Registry and UI Sync**: Updated `TrackManager` and `public/index.html` to archive the vertical videos into the standard vault structure and present links to users when searching tracks.
-4. **Neural-Adjacent Mastering**: (Completed in 1.8.0) Developed `mastering_engine.py` for exact -7 LUFS peak-time targeting.
-5. **REST API & Vault Protocol**: Rest endpoints running successfully; Autonomous sync procedures stable.
+## Accomplishments (1.18.5)
+1. **Submodule Cycle Sanitization**: Synced `.gitmodules` (`update = none` on `hymnmania_src`) and aligned `hymnmania_src` checkout to its pinned commit `cc236980`.
+2. **Dual-Implementation AI Bridge Retention**: Retained `src/integrators/headless_suno.ts` (`HeadlessSuno` CDP adapter with optional `SUNO_CDP_URL` support) alongside the primary `udio_automation.py` Python integration in `src/integrators/ai_bridge.ts`.
+3. **Artifact Cleanup**: Removed leftover `src/pipeline.ts.patch` and `src/pipeline.ts.rej` files whose hunks were already present in `src/pipeline.ts`.
+4. **Version & Docs Sync**: Updated `VERSION.md`, `package.json`, `CHANGELOG.md`, and `HANDOFF.md` to `1.18.5`.
 
-## Key Findings & Learnings
-- **FFmpeg Scale & Crop Filter**: By chaining `scale`, `crop`, and `boxblur`, we easily repurposed square cover art into a cinematic vertical background for the Shorts formats, overlaying a clean, unblurred square in the center.
-
-## Accomplishments (1.18.4)
-- **Neural Mastering Engine Execution**: Finalized the E2E verification of `MasteringService` using Python's `matchering` and FFmpeg. Successfully verified local and mocked API pipelines.
-- **Suno/Udio CDP Automation Execution**: Finalized testing and deployment of Playwright headless CDP automation. `HeadlessSuno` is now active and wired directly into the master `scripts/autonomous_production.ts` orchestrator when `--use-ai` is triggered.
-- **Vertical Video Generation E2E**: Validated that `video_vertical.mp4` successfully builds from generated CDP assets.
-- **Manifest Updates**: Verified that tracks publish successfully and correctly flag `aiOverhauled` and `neuralMastered` properties.
+## Previous Milestones (1.10.0 - 1.18.4)
+- **Expanded Genre Presets**: Peak Time Techno (130 BPM), Uplifting Trance (138 BPM), Raw Hardstyle (150 BPM).
+- **Vertical Video Generation**: 9:16 `video_vertical.mp4` output alongside 16:9 standard renders.
+- **Neural Mastering & Radio Server**: `src/services/mastering/mastering_service.ts` (-7 LUFS) and `src/streaming/radio_server.ts`.
 
 ## Next Steps for Successor
-- **Phase 3 Polish - Dashboard Overhaul**: Per user request, the dashboard UI in `public/index.html` needs to be significantly redesigned to condense all functionality and subpages into a single, highly-intuitive page with high-value features prioritized and descriptive tooltips.
-
-**KEEP THE PARTY GOING! INSANELY GREAT!**
+- Wire live Suno Studio / CDP port `9333` cover trigger updates into `HeadlessSuno` once Suno's updated Studio cover API payload is finalized in root `hymnmania`.

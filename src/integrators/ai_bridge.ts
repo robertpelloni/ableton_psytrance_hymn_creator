@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
 import { spawnSync } from 'child_process';
+import { HeadlessSuno } from './headless_suno';
 
 export interface AIBridgeConfig {
     udioToken?: string;
@@ -29,8 +30,12 @@ export class AIBridge {
                 automationPath = path.join(process.cwd(), "hymnmania_src/services/udio_automation.py");
             }
 
-            const result = spawnSync("python3", [automationPath, stemPath, prompt]);
-            if (result.status === 0) {
+            const pyCmd = process.platform === "win32" ? "python" : "python3";
+            let result = spawnSync(pyCmd, [automationPath, stemPath, prompt]);
+            if (result.error) {
+                result = spawnSync(pyCmd === "python" ? "python3" : "python", [automationPath, stemPath, prompt]);
+            }
+            if (result.status === 0 && result.stdout) {
                 const data = JSON.parse(result.stdout.toString());
                 if (data.success) {
                     console.log(`[AIBridge] Neural Overhaul successful: ${data.output_path}`);
@@ -39,7 +44,15 @@ export class AIBridge {
                     console.error(`[AIBridge] Neural Overhaul failed: ${data.error}`);
                 }
             } else {
-                console.error(`[AIBridge] Automation service crashed: ${result.stderr.toString()}`);
+                const errMsg = result.stderr ? result.stderr.toString() : (result.error?.message || "python unavailable");
+                console.error(`[AIBridge] Automation service crashed: ${errMsg}`);
+            }
+
+            try {
+                const outputDir = path.dirname(stemPath);
+                return await HeadlessSuno.generate(stemPath, prompt, outputDir);
+            } catch (cdpError) {
+                console.warn(`[AIBridge] Alternate HeadlessSuno adapter unavailable:`, cdpError);
             }
         }
 
